@@ -10,7 +10,7 @@
     <div class="px-4 py-2 -mx-3">
         <div class="mx-3">
             <span class="font-semibold text-emerald-500 dark:text-emerald-400">Success</span>
-            <p class="text-sm text-gray-600 dark:text-gray-800">{{$message}}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-800">{{session('success')}}</p>
         </div>
     </div>
 </div>
