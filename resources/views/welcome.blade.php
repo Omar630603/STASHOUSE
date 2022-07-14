@@ -66,4 +66,63 @@
             </div>
         </div>
     </div>
+
+    <section class="bg-white dark:bg-[#72358E]">
+        <div class="container px-6 py-10 mx-auto">
+            <h1 class="text-3xl font-bold text-center text-gray-800 capitalize lg:text-4xl dark:text-white">Layanan
+                Kami</h1>
+            <p class="max-w-2xl mx-auto my-6 text-center font-semibold text-gray-500 dark:text-gray-300">Temukan layanan
+                terbaik kami
+                disini
+            </p>
+            <div class="grid grid-cols-1 gap-6 mt-6 xl:mt-12 md:grid-cols-1 xl:grid-cols-3">
+                <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
+                    duration-200 transform cursor-pointer group hover:bg-[#3F1652] rounded-xl">
+                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                        src="{{ asset('storage/images/unitCategory/defaultSmall.svg') }}" alt="">
+                    <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Ukuran Kecil</h1>
+                    <p class="text-[#72358E] capitalize group-hover:text-gray-300">4m x 4m x 4m
+                    </p>
+                    <h2 class="mb-2 text-base font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Rp 15.000-Rp 17.000 / Hari</h2>
+                    <a href=""
+                        class="mt-auto bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
+                        Cek Daftar
+                    </a>
+                </div>
+                <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
+                    duration-200 transform cursor-pointer group hover:bg-[#3F1652] rounded-xl">
+                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                        src="{{ asset('storage/images/unitCategory/defaultMedium.svg') }}" alt="">
+                    <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Ukuran Medium</h1>
+                    <p class="text-[#72358E] capitalize group-hover:text-gray-300">8m x 8m x 8m
+                    </p>
+                    <h2 class="mb-2 text-base font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Rp 20.000-Rp 22.000 / Hari</h2>
+                    <a href=""
+                        class="mt-auto bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
+                        Cek Daftar
+                    </a>
+                </div>
+                <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
+                    duration-200 transform cursor-pointer group hover:bg-[#3F1652] rounded-xl">
+                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                        src="{{ asset('storage/images/unitCategory/defaultLarge.svg') }}" alt="">
+                    <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Ukuran Besar</h1>
+                    <p class="text-[#72358E] capitalize group-hover:text-gray-300">16m x 16m x 16m
+                    </p>
+                    <h2 class="mb-2 text-base font-semibold text-[#72358E] capitalize group-hover:text-white">
+                        Rp 25.000-Rp 27.000 / Hari</h2>
+                    <a href=""
+                        class="mt-auto bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
+                        Cek Daftar
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
 </x-guest-layout>
