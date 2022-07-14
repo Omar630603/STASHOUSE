@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="container px-6 py-16 mx-auto">
         <div class="lg:flex">
-            <div class="w-full lg:w-1/2 h-[500px] items-center flex">
+            <div class="lg:mt-[80px] w-full lg:w-1/2 items-center flex">
                 <div class="max-w-fit">
                     <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
                         Temukan
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="w-full lg:mt-0 lg:w-1/2 relative h-[500px]">
+            <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
                 <img class="lg:max-w-2xl absolute top-0 right-0 animate-floatX"
                     src="{{ asset('storage/images/stockImages/hero1-1.svg') }}" alt="">
                 <img class="lg:max-w-2xl absolute top-[250px] right-0 animate-floatY"
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-[#72358E]">
+    <div class="lg:mt-[130px] bg-white dark:bg-[#72358E]">
         <div class="container px-6 py-10 mx-auto">
             <h1 class="text-3xl font-bold text-center text-gray-800 capitalize lg:text-4xl dark:text-white">Layanan
                 Kami</h1>
@@ -128,18 +128,18 @@
 
     <div class="container px-6 py-16 mx-auto">
         <div class="lg:flex">
-            <div class="w-full lg:mt-0 lg:w-1/2 relative h-[500px]">
+            <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
                 <img class="lg:max-w-2xl absolute top-[100px] right-[100px] animate-floatY"
                     src="{{ asset('storage/images/stockImages/hero2-1.svg') }}" alt="">
                 <img class="lg:max-w-2xl absolute top-[100px] left-[100px] animate-floatY"
                     src="{{ asset('storage/images/stockImages/hero2-2.svg') }}" alt="">
-                <img class="lg:max-w-2xl absolute top-[250px] inset-x-[250px] animate-floatY"
+                <img class="lg:max-w-2xl absolute top-[250px] lg:inset-x-[250px] animate-floatY"
                     src="{{ asset('storage/images/stockImages/hero2-3.svg') }}" alt="">
                 <img class="lg:max-w-2xl absolute top-[250px] inset-x-0 drop-shadow-2xl"
                     src="{{ asset('storage/images/stockImages/hero2-4.svg') }}" alt="">
             </div>
 
-            <div class="w-full lg:w-1/2 h-[500px] items-center flex">
+            <div class="w-full lg:w-1/2 items-center flex">
                 <div class="max-w-fit">
                     <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
                         Mitra Kami</h1>
