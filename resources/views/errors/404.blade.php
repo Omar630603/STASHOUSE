@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <style>
+        html {
+            background-color: #72358E;
+        }
+    </style>
     <div class="h-screen w-full flex flex-col justify-center items-center bg-[#72358E]">
         <h1 class="text-9xl font-extrabold text-white tracking-widest">404</h1>
         <div class="bg-[#F8C35B] px-2 text-sm rounded rotate-12 absolute">
