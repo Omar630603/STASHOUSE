@@ -47,27 +47,27 @@
                     </div>
                     <div class="mt-9">
                         <a href=""
-                            class="bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
+                            class="bg-[#F8C35B] hover:drop-shadow-xl hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
                             Sewa Sekarang
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="w-full lg:mt-0 lg:w-1/2 relative">
+            <div class="w-full lg:mt-0 lg:w-1/2 relative h-[500px]">
                 <img class="lg:max-w-2xl absolute top-0 right-0 animate-floatX"
-                    src="{{ asset('storage/images/stockImages/hero1.svg') }}" alt="">
-                <img class="lg:max-w-2xl absolute top-[250px] right-0 animate-floatX"
-                    src="{{ asset('storage/images/stockImages/hero2.svg') }}" alt="">
-                <img class="lg:max-w-2xl absolute top-[250px] right-[300px] animate-floatY"
-                    src="{{ asset('storage/images/stockImages/hero3.svg') }}" alt="">
-                <img class="lg:max-w-2xl absolute top-[350px] right-[100px] z-[-1] animate-floatX"
-                    src="{{ asset('storage/images/stockImages/hero4.svg') }}" alt="">
+                    src="{{ asset('storage/images/stockImages/hero1-1.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[250px] right-0 animate-floatY"
+                    src="{{ asset('storage/images/stockImages/hero1-2.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[250px] right-[250px] animate-floatY"
+                    src="{{ asset('storage/images/stockImages/hero1-3.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[350px] right-0 z-[-1] animate-floatX"
+                    src="{{ asset('storage/images/stockImages/hero1-4.svg') }}" alt="">
             </div>
         </div>
     </div>
 
-    <section class="bg-white dark:bg-[#72358E]">
+    <div class="bg-white dark:bg-[#72358E]">
         <div class="container px-6 py-10 mx-auto">
             <h1 class="text-3xl font-bold text-center text-gray-800 capitalize lg:text-4xl dark:text-white">Layanan
                 Kami</h1>
@@ -124,5 +124,48 @@
 
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="container px-6 py-16 mx-auto">
+        <div class="lg:flex">
+            <div class="w-full lg:mt-0 lg:w-1/2 relative h-[500px]">
+                <img class="lg:max-w-2xl absolute top-[100px] right-[100px] animate-floatY"
+                    src="{{ asset('storage/images/stockImages/hero2-1.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[100px] left-[100px] animate-floatY"
+                    src="{{ asset('storage/images/stockImages/hero2-2.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[250px] inset-x-[250px] animate-floatY"
+                    src="{{ asset('storage/images/stockImages/hero2-3.svg') }}" alt="">
+                <img class="lg:max-w-2xl absolute top-[250px] inset-x-0 drop-shadow-2xl"
+                    src="{{ asset('storage/images/stockImages/hero2-4.svg') }}" alt="">
+            </div>
+
+            <div class="w-full lg:w-1/2 h-[500px] items-center flex">
+                <div class="max-w-fit">
+                    <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
+                        Mitra Kami</h1>
+                    <p class="mt-9 lg:text-2xl text-[#72358E] text-black">Gabung Jadi Mitra Kami Sekarang Juga</p>
+                    <div class="mt-5">
+                        <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
+                            <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
+                            <p class="pl-5 text-black text-lg">Bebas menentukan harga sewa unit penyimpanan</p>
+                        </div>
+                        <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
+                            <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
+                            <p class="pl-5 text-black text-lg">Dapat mengelola unit penyewaan dengan mudah</p>
+                        </div>
+                        <div class="border-solid border-l-[5px] border-[#F8C35B] flex relative">
+                            <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
+                            <p class="pl-5 text-black text-lg">Menjadi peluang untuk menambah penghasilan</p>
+                        </div>
+                    </div>
+                    <div class="mt-9">
+                        <a href=""
+                            class="hover:bg-[#FDFDFD] hover:drop-shadow-xl border-2 rounded-full border-[#72358E] text-[$72358E] font-bold py-4 px-10 rounded-full">
+                            Daftar Jadi Mitra Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-guest-layout>
