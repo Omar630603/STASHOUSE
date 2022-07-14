@@ -2,10 +2,15 @@
 
 @php
 $classes = ($active ?? false)
-? 'inline-flex items-center px-1 pt-1 border-b-2 border-[#3F1652] text-base font-bold font-medium leading-5
+? 'inline-flex self-center items-center py-2 px-5 border-solid rounded-full border-2 border-[#3F1652] text-base
+font-bold
+font-medium
 text-[#3F1652]
+bg-[#F8C35B]
 focus:outline-none focus:border-[#3F1652] transition duration-150 ease-in-out'
-: 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-[#846B8F]
+: 'inline-flex self-center items-center py-2 px-5 border-solid rounded-full border-2 border-[#3F1652] text-base
+font-bold
+text-[#846B8F]
 hover:text-[#3F1652] hover:border-[#846B8F] focus:outline-none focus:text-[#846B8F] focus:border-[#846B8F] transition
 duration-150 ease-in-out';
 @endphp

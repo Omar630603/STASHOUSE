@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryDriverController;
 use App\Http\Controllers\StorageOwnerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'beranda'])->name('home');
+Route::get('/daftarUnitPenyimpanan', [HomeController::class, 'daftarUnitPenyimpanan'])->name('daftarUnitPenyimpanan');
+Route::get('/tentangKami', [HomeController::class, 'tentangKami'])->name('tentangKami');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('dashboard/admin', [AdminController::class, 'index'])->name('dashboard.admin');
