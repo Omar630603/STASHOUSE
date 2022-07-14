@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('delivery_drivers', function (Blueprint $table) {
-            $table->unsignedBigInteger('delivery_company_id');
+            $table->unsignedBigInteger('delivery_company_id')->after('user_id');
             $table->foreign('delivery_company_id')->references('id')->on('delivery_companies')->onDelete('cascade')->onUpdate('cascade');
         });
     }
