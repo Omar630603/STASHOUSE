@@ -158,12 +158,76 @@
                             <p class="pl-5 text-black text-lg">Menjadi peluang untuk menambah penghasilan</p>
                         </div>
                     </div>
-                    <div class="mt-9">
+                    <div class="mt-12">
                         <a href=""
                             class="hover:bg-[#FDFDFD] hover:drop-shadow-xl border-2 rounded-full border-[#72358E] text-[$72358E] font-bold py-4 px-10 rounded-full">
                             Daftar Jadi Mitra Sekarang
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-[#FFFCF8]">
+        <div class="container px-6 py-16 mx-auto">
+            <div class="lg:flex">
+                <div class="lg:mt-[80px] w-full lg:w-1/2 items-center flex">
+                    <div class="max-w-fit">
+                        <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
+                            Delivery Service</h1>
+                        <p class="text-lg mt-3 lg:text-2xl text-[#3F1652]">Temukan kemudahakan dengan layanan Delivery
+                            Service
+                            Kami</p>
+                        <div class="mt-9 max-w-fit">
+                            <h1 class="text-base font-semibold text-black tracking-wide lg:text-xl font-bold">Kenapa
+                                Delivery Service?</h1>
+                            <div class="mt-6">
+                                <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
+                                    <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                    </div>
+                                    <p class="pl-5 text-black text-lg">Garansi keamanan pengantaran barang</p>
+                                </div>
+                                <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
+                                    <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                    </div>
+                                    <p class="pl-5 text-black text-lg">Dapat mengelola unit penyewaan dengan mudah</p>
+                                </div>
+                                <div class="border-solid border-l-[5px] border-[#F8C35B] flex relative">
+                                    <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                    </div>
+                                    <p class="pl-5 text-black text-lg">Bantuan untuk memindahkan barang-barang Anda</p>
+                                </div>
+                            </div>
+                            <h1 class="mt-12 text-base font-semibold text-black tracking-wide lg:text-xl font-bold">
+                                Mitra
+                                Delivery
+                                Servie Kami</h1>
+                            <div class="grid grid-cols-1 mt-2 gap-6 md:grid-cols-1 xl:grid-cols-3">
+                                <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
+                                    duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
+                                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                                        src="{{ asset('storage/images/deliveryCompany/jne.svg') }}" alt="">
+                                </div>
+                                <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
+                                    duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
+                                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                                        src="{{ asset('storage/images/deliveryCompany/sicepat.svg') }}" alt="">
+                                </div>
+                                <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
+                                    duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
+                                    <img class="object-fit w-40 h-40 drop-shadow-xl	"
+                                        src="{{ asset('storage/images/deliveryCompany/j&t.svg') }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
+                    <img class="max-w-0 lg:max-w-2xl absolute top-0 right-0 animate-floatX"
+                        src="{{ asset('storage/images/stockImages/hero3-1.svg') }}" alt="">
+                    <img class="max-w-0 lg:max-w-2xl absolute top-[200px] right-0 animate-floatY"
+                        src="{{ asset('storage/images/stockImages/hero3-2.svg') }}" alt="">
                 </div>
             </div>
         </div>
