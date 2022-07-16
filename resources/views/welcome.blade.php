@@ -232,4 +232,22 @@
             </div>
         </div>
     </div>
+    <div class="flex flex-col items-center h-[350px]">
+        <div class="p-8 text-center">
+            <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">Masih Bingung Dengan
+                STASHOUSE?</h1>
+            <p class="text-lg mt-3 lg:text-2xl text-black">Kamu dapat mengunduh panduan penggunaan untuk tahu lebih
+                banyak tentang STASHOUSE</p>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href=""
+                class="hover:bg-[#72358E] mx-2 lg:w-72 text-center bg-[#F8C35B] hover:drop-shadow-xl border-2 rounded-2xl text-[#3F1652] hover:text-white font-bold py-4 px-10">
+                Panduan Untuk Penyewa
+            </a>
+            <a href=""
+                class="hover:bg-[#F8C35B] mx-2 lg:w-72 text-center bg-[#72358E] hover:drop-shadow-xl border-2 rounded-2xl text-white hover:text-[#3F1652] font-bold py-4 px-10">
+                Panduan Untuk Mitra
+            </a>
+        </div>
+    </div>
 </x-guest-layout>
