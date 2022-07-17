@@ -82,11 +82,11 @@
             </x-responsive-nav-link>
             @else
             <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
-                {{ __('Login') }}
+                {{ __('Masuk') }}
             </x-responsive-nav-link>
             @if (Route::has('register'))
             <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
-                {{ __('Register') }}
+                {{ __('Daftar') }}
             </x-responsive-nav-link>
             @endif
             @endauth

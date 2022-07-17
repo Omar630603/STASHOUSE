@@ -30,7 +30,8 @@
 
                     <div>
                         <h3 class="text-gray-700 uppercase dark:text-white">Product</h3>
-                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Daftar
+                        <a href="{{ route('daftarUnitPenyimpanan') }}"
+                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Daftar
                             Unit Penyimpanan</a>
                     </div>
 

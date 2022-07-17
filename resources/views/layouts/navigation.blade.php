@@ -12,9 +12,27 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    @if (Auth::user()->role_id == \App\Models\Role::ADMIN)
+                    <!-- Admin Links-->
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.admin')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
+                    <!-- Customer Links-->
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.customer')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
+                    <!-- Storage Owner Links-->
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.storage_owner')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
+                    <!-- Delivery Driver Links-->
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.delivery_driver')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,9 +88,27 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            @if (Auth::user()->role_id == \App\Models\Role::ADMIN)
+            <!-- Admin Links-->
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.admin')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
+            <!-- Customer Links-->
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.customer')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
+            <!-- Storage Owner Links-->
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.storage_owner')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
+            <!-- Delivery Driver Links-->
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.delivery_driver')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
