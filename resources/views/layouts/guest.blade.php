@@ -21,10 +21,30 @@
 
     <body>
         @include('layouts.navigation-guest')
-        <div class="font-sans text-gray-900 antialiased">
+        <div class="font-sans min-h-screen text-gray-900 antialiased">
+            <div class="alert py-2">
+                <x-message-success />
+                <x-message-error />
+                <x-message-info />
+            </div>
             {{ $slot }}
         </div>
     </body>
+
     <x-footer />
+    <script>
+        $("document").ready(function(){
+            $(".alert").fadeTo(5000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+        });
+        function closeAlert(event){
+          let element = event.target;
+          while(element.nodeName !== "BUTTON"){
+            element = element.parentNode;
+          }
+          element.parentNode.parentNode.removeChild(element.parentNode);
+        }
+    </script>
 
 </html>

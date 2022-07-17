@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('image')->default('images/deliveryCompany/defualtImage.png');
+            $table->string('image')->default('images/deliveryCompany/defaultImage.png');
             $table->timestamps();
         });
     }

@@ -16,4 +16,9 @@ class Customer extends Model
         'ordered',
         'image',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

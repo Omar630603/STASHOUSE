@@ -17,7 +17,8 @@ class Unit extends Model
         'address',
         'private_key',
         'price_per_day',
-        'status',
+        'is_active',
+        'is_rented',
         'capacity',
     ];
 }

@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('phone');
+            $table->string('phone')->uniqid();
             $table->string('address');
             $table->string('vehicle_name');
             $table->string('vehicle_color');
             $table->string('vehicle_number')->unique();;
             $table->integer('price_per_km');
             $table->integer('deliveried')->default(0);
-            $table->string('image')->default('images/deliveryDriver/defualtImage.png');
+            $table->string('image')->default('images/deliveryDriver/defaultImage.png');
             $table->timestamps();
         });
     }

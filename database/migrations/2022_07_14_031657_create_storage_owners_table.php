@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('phone');
+            $table->string('phone')->uniqid();
             $table->string('city');
             $table->string('address');
             $table->integer('rented')->default(0);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_approved')->default(false);
             $table->boolean('is_trusted')->default(false);
-            $table->string('image')->default('images/storageOwner/defualtImage.png');
+            $table->string('image')->default('images/storageOwner/defaultImage.png');
             $table->timestamps();
         });
     }

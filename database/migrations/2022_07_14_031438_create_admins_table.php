@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('role');
             $table->string('password');
-            $table->string('image')->default('images/admin/defualtImage.png');
+            $table->string('image')->default('images/admin/defaultImage.png');
             $table->timestamps();
         });
     }

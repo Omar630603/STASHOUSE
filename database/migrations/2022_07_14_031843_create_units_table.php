@@ -19,12 +19,13 @@ return new class extends Migration
             $table->foreign('unit_category_id')->references('id')->on('unit_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('storage_owner_id');
             $table->foreign('storage_owner_id')->references('id')->on('storage_owners')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('name');
+            $table->string('name')->uniqid();
             $table->string('city');
             $table->string('address');
-            $table->string('private_key');
+            $table->string('private_key')->uniqid();
             $table->integer('price_per_day');
-            $table->boolean('status')->default(0);
+            $table->boolean('is_active')->default(false);
+            $table->boolean('is_rented')->default(false);
             $table->integer('capacity')->default(0);
             $table->timestamps();
         });

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryDriverController;
@@ -31,6 +30,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('dashboard/customer', [CustomerController::class, 'index'])->name('dashboard.customer');
+    Route::get('order/customer/choose_city', [CustomerController::class, 'chooceCity'])->name('order.customer.choose_city');
 });
 
 Route::middleware(['auth', 'storage_owner'])->group(function () {

@@ -3,8 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __("Storage Owner's Dashboard") }}
         </h2>
-        <x-message-success />
-        <x-message-error />
     </x-slot>
 
     <div class="py-12">

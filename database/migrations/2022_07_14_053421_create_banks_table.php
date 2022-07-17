@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image')->default('images/bank/defualtImage.png');
+            $table->string('image')->default('images/bank/defaultImage.png');
             $table->timestamps();
         });
     }

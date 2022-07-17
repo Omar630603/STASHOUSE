@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('dimensions');
             $table->string('description');
-            $table->string('image')->default('images/unitCategory/defualtImage.png');
+            $table->string('image')->default('images/unitCategory/defaultImage.png');
             $table->timestamps();
         });
     }

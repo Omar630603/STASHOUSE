@@ -28,11 +28,30 @@
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="bg-white min-h-screen">
+                <div class="alert py-1 px-6">
+                    <x-message-success />
+                    <x-message-error />
+                    <x-message-info />
+                </div>
                 {{ $slot }}
             </main>
         </div>
     </body>
     <x-footer />
+    <script>
+        $("document").ready(function(){
+            $(".alert").fadeTo(5000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+        });
+        function closeAlert(event){
+          let element = event.target;
+          while(element.nodeName !== "BUTTON"){
+            element = element.parentNode;
+          }
+          element.parentNode.parentNode.removeChild(element.parentNode);
+        }
+    </script>
 
 </html>
