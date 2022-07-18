@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="header"> </x-slot>
     <x-slot name="slot">
         <div class="container px-6 py-16 mx-auto">
             <div class="lg:flex">
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         <div class="mt-9">
-                            <a href="{{ route('order.customer.choose_city') }}"
+                            <a href="{{ route('choose_city') }}"
                                 class="bg-[#F8C35B] hover:drop-shadow-xl hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
                                 Sewa Sekarang
                             </a>

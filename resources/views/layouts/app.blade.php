@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="icon" href="{{ asset('../logo.png') }}">
     </head>
@@ -29,7 +32,7 @@
 
             <!-- Page Content -->
             <main class="bg-white min-h-screen">
-                <div class="alert py-1 px-6">
+                <div class="alertAuth px-6">
                     <x-message-success />
                     <x-message-error />
                     <x-message-info />
@@ -41,8 +44,8 @@
     <x-footer />
     <script>
         $("document").ready(function(){
-            $(".alert").fadeTo(5000, 500).slideUp(500, function(){
-                $(".alert").slideUp(500);
+            $(".alertAuth").fadeTo(5000, 500).slideUp(500, function(){
+                $(".alertAuth").slideUp(500);
             });
         });
         function closeAlert(event){

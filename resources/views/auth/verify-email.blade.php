@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="header"> </x-slot>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -11,9 +12,9 @@
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-            </div>
+        <div class="mb-4 font-medium text-sm text-green-600">
+            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        </div>
         @endif
 
         <div class="mt-4 flex items-center justify-between">

@@ -21,24 +21,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'beranda'])->name('home');
 Route::get('/daftarUnitPenyimpanan', [HomeController::class, 'daftarUnitPenyimpanan'])->name('daftarUnitPenyimpanan');
+Route::get('/choose_city', [HomeController::class, 'chooceCity'])->name('choose_city');
 Route::get('/tentangKami', [HomeController::class, 'tentangKami'])->name('tentangKami');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('dashboard/admin', [AdminController::class, 'index'])->name('dashboard.admin');
+    Route::get('/dashboard/admin', [AdminController::class, 'index'])->name('dashboard.admin');
 });
 
 Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('dashboard/customer', [CustomerController::class, 'index'])->name('dashboard.customer');
-    Route::get('order/customer/choose_city', [CustomerController::class, 'chooceCity'])->name('order.customer.choose_city');
+    Route::get('/dashboard/customer', [CustomerController::class, 'index'])->name('dashboard.customer');
 });
 
 Route::middleware(['auth', 'storage_owner'])->group(function () {
-    Route::get('dashboard/storage_owner', [StorageOwnerController::class, 'index'])->name('dashboard.storage_owner');
+    Route::get('/dashboard/storage_owner', [StorageOwnerController::class, 'index'])->name('dashboard.storage_owner');
 });
 
 Route::middleware(['auth', 'delivery_driver'])->group(function () {
-    Route::get('dashboard/delivery_driver', [DeliveryDriverController::class, 'index'])->name('dashboard.delivery_driver');
+    Route::get('/dashboard/delivery_driver', [DeliveryDriverController::class, 'index'])->name('dashboard.delivery_driver');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');

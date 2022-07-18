@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="header"> </x-slot>
     <style>
         html {
             background-color: #72358E;
@@ -17,6 +18,7 @@
                 <span class="relative block px-8 py-3 bg-[#3F1652] border border-current">
                     Go Back
                 </span>
+            </a>
         </button>
     </div>
 </x-guest-layout>

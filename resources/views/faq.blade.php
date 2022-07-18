@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="header"> </x-slot>
 
     <section class="bg-white">
         <div class="container px-6 py-12 mx-auto">

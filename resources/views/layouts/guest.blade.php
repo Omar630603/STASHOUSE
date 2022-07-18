@@ -21,8 +21,13 @@
 
     <body>
         @include('layouts.navigation-guest')
+        <header class="bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
         <div class="font-sans min-h-screen text-gray-900 antialiased">
-            <div class="alert py-2">
+            <div class="alert px-6">
                 <x-message-success />
                 <x-message-error />
                 <x-message-info />
