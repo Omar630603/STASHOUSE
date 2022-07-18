@@ -49,8 +49,23 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Role', 'role_id');
     }
 
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+
     public function customer()
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function storageOwner()
+    {
+        return $this->hasOne(StorageOwner::class);
+    }
+
+    public function deliveryDriver()
+    {
+        return $this->hasOne(DeliveryDriver::class);
     }
 }

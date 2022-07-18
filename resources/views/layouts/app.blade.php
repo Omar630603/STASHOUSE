@@ -35,6 +35,7 @@
                 <div class="alertAuth px-6">
                     <x-message-success />
                     <x-message-error />
+                    <x-message-warning />
                     <x-message-info />
                 </div>
                 {{ $slot }}

@@ -11,6 +11,7 @@ class StorageOwner extends Model
 
     protected $fillable = [
         'user_id',
+        'storage_name',
         'phone',
         'address',
         'rented',
@@ -18,4 +19,14 @@ class StorageOwner extends Model
         'is_trusted',
         'image',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
+    }
 }

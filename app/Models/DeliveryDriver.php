@@ -20,4 +20,9 @@ class DeliveryDriver extends Model
         'deliveried',
         'image',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

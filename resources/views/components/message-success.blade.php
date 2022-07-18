@@ -10,7 +10,7 @@
 
     <div class="px-4 py-2 -mx-3">
         <div class="mx-3">
-            <span class="font-semibold text-emerald-500 dark:text-emerald-400">Success</span>
+            <span class="font-semibold text-emerald-500 dark:text-emerald-400">{{ __('Success') }}</span>
             <p class="text-sm text-gray-600 dark:text-gray-800">{{ Session::get('success') }}</p>
         </div>
     </div>

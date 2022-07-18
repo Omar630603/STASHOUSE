@@ -21,4 +21,19 @@ class Unit extends Model
         'is_rented',
         'capacity',
     ];
+
+    public function unitCategory()
+    {
+        return $this->belongsTo(UnitCategory::class);
+    }
+
+    public function storageOwner()
+    {
+        return $this->belongsTo(StorageOwner::class, 'storage_owner_id');
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(UnitAsset::class);
+    }
 }

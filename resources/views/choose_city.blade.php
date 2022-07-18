@@ -49,14 +49,15 @@
             <div class="w-full rounded-lg border-4 border-solid border-[#72358E] p-4 relative">
                 <div class="absolute bottom-0 right-0 z-0 h-24 w-48 bg-[#72358E50]
                 rounded-tr-full rounded-tl-full"></div>
-                <form class="flex flex-col">
+                <form class="flex flex-col" action="{{ route('daftarUnitPenyimpanan') }}">
+                    @csrf
                     <div class="z-40">
                         <label for="countries" class="block mb-2 text-sm font-bold text-gray-900">Select your
-                            City</label>
+                            city</label>
                         <select id="cities"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             name="city">
-                            <option selected disabled>Milih Kota Anda</option>
+                            <option selected value="0">Milih Kota Anda</option>
                             @foreach ($cities as $item)
                             <option @if ($item->available_units <= 0) @disabled(true) @endif class="w-full"
                                     value="{{$item->city}}">{{$item->city}} -

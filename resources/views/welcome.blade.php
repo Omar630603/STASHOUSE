@@ -80,25 +80,30 @@
                 </p>
                 <div class="grid grid-cols-1 gap-6 mt-6 xl:mt-12 md:grid-cols-1 xl:grid-cols-3">
                     @foreach ($unitCategory as $item)
-                    <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
+                    <form id="chooseCategoryForm{{$item->id}}" action="{{ route('daftarUnitPenyimpanan') }}">
+                        @csrf
+                        <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
                     duration-200 transform cursor-pointer group hover:bg-[#3F1652] rounded-xl">
-                        <img class="object-fit w-40 h-40 drop-shadow-xl	" src="{{ asset('storage/'.$item->image) }}"
-                            alt="">
-                        <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
-                            {{$item->name}}
-                        </h1>
-                        <p class="text-[#72358E] capitalize group-hover:text-gray-300">{{$item->dimensions}}
-                        </p>
-                        <h2 class="mb-2 text-base font-semibold text-[#72358E] capitalize group-hover:text-white">
-                            {{$item->average_price}}
-                        </h2>
-                        <a href=""
-                            class="mt-auto bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
-                            Cek Daftar
-                        </a>
-                    </div>
+                            <img class="object-fit w-40 h-40 drop-shadow-xl	" src="{{ asset('storage/'.$item->image) }}"
+                                alt="">
+                            <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
+                                {{$item->name}}
+                            </h1>
+                            <p class="text-[#72358E] capitalize group-hover:text-gray-300">{{$item->dimensions}}
+                            </p>
+                            <h2 class="mb-2 text-base font-semibold text-[#72358E] capitalize group-hover:text-white">
+                                {{$item->average_price}}
+                            </h2>
+                            <input hidden type="text" name="unitCategory" value="{{$item->id}}">
+                            <a onclick="$('#chooseCategoryForm{{$item->id}}').submit();"
+                                class="mt-auto bg-[#F8C35B] hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
+                                Cek Daftar
+                            </a>
+                        </div>
+                    </form>
                     @endforeach
                 </div>
+
             </div>
         </div>
 

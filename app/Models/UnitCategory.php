@@ -15,4 +15,9 @@ class UnitCategory extends Model
         'description',
         'image',
     ];
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
+    }
 }

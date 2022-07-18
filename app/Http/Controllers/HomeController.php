@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use App\Models\UnitCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -25,18 +26,62 @@ class HomeController extends Controller
         }
         return view('welcome', compact('unitCategory'));
     }
-    public function daftarUnitPenyimpanan()
+
+    public function daftarUnitPenyimpanan(Request $request)
     {
-        return view('daftarUnitPenyimpanan');
+        $city_name = $request->city;
+        $cities = $this->getUintCitiesByCurrentCity($city_name);
+        $unitCategory_id = $request->unitCategory;
+        $categoryName = UnitCategory::find($unitCategory_id);
+        if (isset($categoryName)) {
+            $categoryName = $categoryName->name;
+        }
+        $units = Unit::where([
+            ['is_active', true],
+            ['is_rented', false],
+        ]);
+        $message = "";
+        if (isset($city_name) && isset($unitCategory_id)) {
+            $units = $units->where([
+                ['city', $city_name],
+                ['unit_category_id', $unitCategory_id],
+            ])->get();
+            if ($units->count() <= 0) {
+                $message = "No unit with category " . $categoryName . " are available in this city";
+            }
+        } else if (isset($city_name)) {
+            if ($city_name == 0) return redirect()->back()->with('warning', 'Please select a city');
+            $units = $units->where('city', $city_name,)->get();
+            if ($units->count() <= 0) {
+                $message = "No unit available in this city " . $city_name;
+            }
+        } else if (isset($unitCategory_id)) {
+            $units = $units->where('unit_category_id', $unitCategory_id)->get();
+            if ($units->count() <= 0) {
+                $message = "No unit available with category " . $categoryName;
+            }
+        } else {
+            $units = $units->get();
+            if ($units->count() <= 0) {
+                $message = "No unit available";
+            }
+        }
+        if ($message != "") {
+            Session::flash('info', $message);
+        }
+        return view('daftarUnitPenyimpanan', compact(
+            'units',
+            'city_name',
+            'cities',
+            'unitCategory_id',
+            'categoryName'
+        ));
     }
+
     public function chooceCity()
     {
-        $user_ip = getenv('REMOTE_ADDR');
-        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
-        $city = $geo["geoplugin_city"];
-        $cities = Unit::select('city')->distinct()
-            ->orderByRaw('FIELD(city, "' . $city . '") DESC')
-            ->get(['city']);
+        $currentCity = $this->getUserCity();
+        $cities = $this->getUintCitiesByCurrentCity($currentCity);
         foreach ($cities as $value) {
             $count_units = Unit::where([
                 ['city', $value->city],
@@ -49,7 +94,7 @@ class HomeController extends Controller
                 $value->available_units = 0;
             }
         }
-        if ($cities->count() > 0 && isset($city)) {
+        if ($cities->count() > 0 && isset($currentCity)) {
             $message = 'Cool, we found units near you';
             Session::flash('info', $message);
         }
@@ -58,12 +103,30 @@ class HomeController extends Controller
             compact('cities'),
         )->with('message', $message);
     }
+
     public function tentangKami()
     {
         return view('tentangKami');
     }
+
     public function faq()
     {
         return view('faq');
+    }
+
+    public function getUserCity()
+    {
+        $user_ip = getenv('REMOTE_ADDR');
+        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+        $city = $geo["geoplugin_city"];
+        return $city;
+    }
+
+    public function getUintCitiesByCurrentCity($currentCity)
+    {
+        $cities = Unit::select('city')->distinct()
+            ->orderByRaw('FIELD(city, "' . $currentCity . '") DESC')
+            ->get(['city']);
+        return $cities;
     }
 }

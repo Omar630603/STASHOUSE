@@ -13,4 +13,9 @@ class UnitAsset extends Model
         'unit_id',
         'image',
     ];
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 }
