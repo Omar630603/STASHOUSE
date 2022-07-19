@@ -186,13 +186,12 @@
                         <div class="w-full lg:ml-3 rounded-xl border-2">
                             @if (isset($selectedUnit))
                             <div class="px-5 py-6">
-
-                                <div class="lg:flex space-y-2 justify-between items-center mb-2">
+                                <div class="flex flex-wrap space-y-2 justify-between items-center mb-2">
                                     <h1 class="text-2xl font-bold text-black">
                                         {{$selectedUnit->storageOwner->storage_name}}
                                     </h1>
                                     <button
-                                        class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-base font-bold text-[#3F1652]] 
+                                        class="justify-self-end	self-end relative inline-flex items-center justify-center p-0.5 overflow-hidden text-base font-bold text-[#3F1652]] 
                                         rounded-full group bg-gradient-to-br from-[#E52878] to-[#F8C35B] hover:text-black">
                                         <span
                                             class="relative px-8 py-2.5 transition-all ease-in duration-75 bg-white rounded-full hover:text-gray-600">
@@ -241,6 +240,105 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="my-8">
+                                    <p>
+                                        {{$selectedUnit->description}}
+                                    </p>
+                                </div>
+                                <div class="my-4">
+                                    <span class="text-xl font-bold text-black">Detail Deskripsi</span>
+                                    @php
+                                    $ind = 1;
+                                    @endphp
+                                    <div class="mt-6">
+                                        @foreach(explode("\n", $selectedUnit->detail) as $detail)
+                                        <div class="flex gap-2 items-center">
+                                            <span>{{$ind++}}</span>
+                                            <li>{{$detail}}</li>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xl font-bold text-black">Galeri</span>
+                                    @if (count($selectedUnit->assets) > 0)
+                                    <div id="controls-carousel" class="relative mt-5" data-carousel="static">
+                                        <div id="carouselOffsett"
+                                            class="overflow-hidden crelative h-48 rounded-lg md:h-56">
+                                            @foreach ($selectedUnit->assets as $key => $asset)
+                                            <div class="duration-700 ease-in-out w-1/3" data-carousel-item{{$key==0
+                                                ? '="active"' : '' }}>
+                                                <img src="{{ asset('storage/' . $asset->image) }}"
+                                                    class="p-1 object-fit h-48 rounded-2xl md:h-56 absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2"
+                                                    alt="...">
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="button"
+                                            class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                            data-carousel-prev>
+                                            <span
+                                                class="inline-flex justify-center items-center w-10 h-10 rounded-full bg-[#F8C35B] group-hover:bg-[#D3961F] group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                                                <svg aria-hidden="true" class="w-6 h-6 text-white" fill="none"
+                                                    stroke="#3F1652" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                                </svg>
+                                                <span class="sr-only">Previous</span>
+                                            </span>
+                                        </button>
+                                        <button type="button"
+                                            class="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                            data-carousel-next>
+                                            <span
+                                                class="inline-flex justify-center items-center w-10 h-10 rounded-full bg-[#F8C35B] group-hover:bg-[#D3961F] group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                                                <svg aria-hidden="true" class="w-6 h-6 text-white" fill="none"
+                                                    stroke="#3F1652" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                                <span class="sr-only">Next</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    @else
+                                    <div class="flex flex-col justify-center items-center">
+                                        <img src="{{ asset('storage/images/stockImages/noUnitFound.svg') }}" alt="">
+                                        <span class="mt-5 text-gray-400 font-semibold text-lg text-center">Tidak
+                                            ada gambar</span>
+                                    </div>
+                                    @endif
+                                </div>
+                                <form class="mt-8">
+                                    <label for="default-search"
+                                        class="mb-2 text-sm font-medium text-gray-900 sr-only">Hubungi Penjual</label>
+                                    <div class="relative">
+                                        <div
+                                            class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect width="24" height="24" fill="url(#pattern0)" />
+                                                <defs>
+                                                    <pattern id="pattern0" patternContentUnits="objectBoundingBox"
+                                                        width="1" height="1">
+                                                        <use xlink:href="#image0_942_284"
+                                                            transform="scale(0.0416667)" />
+                                                    </pattern>
+                                                    <image id="image0_942_284" width="24" height="24"
+                                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABX0lEQVRIie3UP0scURSG8d9GE1iwWTBFNhYWgmBga4vtQlImVbqk1dJCwWo7C8HaIoXN2tqlCCbpki+QlKkEs+ISsFALUda12DMwGddx9k8j5MDAvfe8533uHGYO/+PfqGIFO+M0LeMdPuEKXayOavoIdXzEaZgmTwfPhzWuYQutlOE1vmM/9l8GNU36+iNz0wNsYi50Sf59EdN+fe3iRK8tdZRS+tl4k3NM3WU6gVdo4ixleoE9vMGTlH4Sz2LdCO1u3q2bbvd1CZU+2io2AgK/o+51HqCMbyFsY/4O3Uv8CggsRk1Lrwu5UcbXKDjGQipXwjouMzfdDv3WfeZ5kGl8jrNGSvsYf+O8VhSQhRzhT6z39X6yJN7G+c9BzPtBujjE04xmL3JrwwCykGO8SOUqep9wBzPDAvIgy4YcDUUhyWj4MA5AFtJWYDSMCrl3NIwDkjsaRoU0FRgNDz9uAPkYbMs+wjJbAAAAAElFTkSuQmCC" />
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <input type="search" id="default-search"
+                                            class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
+                                            placeholder="Hubungi Penjual" required>
+                                        <button type="submit"
+                                            class="text-white absolute right-2.5 bottom-2.5 bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">Kirim</button>
+                                    </div>
+                                </form>
                             </div>
                             @else
                             <div class="flex flex-col items-center align-center justify-items-center p-20">
@@ -266,6 +364,13 @@
                     $('#unitlist').animate({
                     scrollTop: selectedUnit.offset().top - selectedUnit.parent().offset().top
                     }, 1000);              
+                }
+                carouselOffsett = $("#carouselOffsett").children();
+                if (carouselOffsett.length > 0) {
+                    carouselOffsett.each(function(i, element) {
+                        $(element).attr('data-carousel-item', i);
+                        element.children[0].style.transform = "translateX(50%) translateY(-50%)";
+                    });
                 }
             });
         </script>
