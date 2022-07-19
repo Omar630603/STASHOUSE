@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliveryCompany;
 use App\Models\Unit;
 use App\Models\UnitCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -14,6 +14,7 @@ class HomeController extends Controller
     public function beranda()
     {
         $unitCategory = UnitCategory::all();
+        $deliveryCompanies = DeliveryCompany::all();
         foreach ($unitCategory as $key => $value) {
             $units = Unit::where('unit_category_id', $value->id)->pluck('price_per_day');
             // get the average price of the unit
@@ -24,15 +25,22 @@ class HomeController extends Controller
                 $value->average_price = "No available price Rp.0";
             }
         }
-        return view('welcome', compact('unitCategory'));
+        return view('welcome', compact('unitCategory', 'deliveryCompanies'));
     }
 
     public function daftarUnitPenyimpanan(Request $request)
     {
+        $selectedUnit = $request->unit_id;
+        $selectedUnit = Unit::where([
+            ['id', $selectedUnit],
+            ['is_active', true],
+            ['is_rented', false],
+        ])->first();
         $city_name = $request->city;
         $cities = $this->getUintCitiesByCurrentCity($city_name);
         $unitCategory_id = $request->unitCategory;
         $categoryName = UnitCategory::find($unitCategory_id);
+        $unitCategories = UnitCategory::all();
         if (isset($categoryName)) {
             $categoryName = $categoryName->name;
         }
@@ -41,27 +49,44 @@ class HomeController extends Controller
             ['is_rented', false],
         ]);
         $message = "";
-        if (isset($city_name) && isset($unitCategory_id)) {
+        if ($city_name == 'all' && $unitCategory_id == 'all') {
+            $units = $units->get();
+        }
+        if (isset($city_name) && isset($unitCategory_id) && $city_name != 'all' && $unitCategory_id != 'all') {
             $units = $units->where([
                 ['city', $city_name],
                 ['unit_category_id', $unitCategory_id],
             ])->get();
             if ($units->count() <= 0) {
-                $message = "No unit with category " . $categoryName . " are available in this city";
+                $message = "No unit with category " . $categoryName . " are available in " . $city_name . " city ";
             }
-        } else if (isset($city_name)) {
+        } else if (isset($city_name) && $city_name != 'all') {
             if ($city_name == 0) return redirect()->back()->with('warning', 'Please select a city');
             $units = $units->where('city', $city_name,)->get();
             if ($units->count() <= 0) {
-                $message = "No unit available in this city " . $city_name;
+                $message = "No unit available in " . $city_name . " city";
+                if ($unitCategory_id == 'all') {
+                    $message = $message . " with all categories";
+                }
             }
-        } else if (isset($unitCategory_id)) {
+        } else if (isset($unitCategory_id) && $unitCategory_id != 'all') {
             $units = $units->where('unit_category_id', $unitCategory_id)->get();
             if ($units->count() <= 0) {
                 $message = "No unit available with category " . $categoryName;
+                if ($city_name == 'all') {
+                    $message = $message . " in all cities";
+                }
             }
         } else {
-            $units = $units->get();
+            if ($city_name != 'all' && $unitCategory_id != 'all') {
+                $units = $units->get();
+            }
+            if ($city_name == 'all' && $unitCategory_id != 'all') {
+                $units = $units->get();
+            }
+            if ($city_name != 'all' && $unitCategory_id == 'all') {
+                $units = $units->get();
+            }
             if ($units->count() <= 0) {
                 $message = "No unit available";
             }
@@ -74,7 +99,9 @@ class HomeController extends Controller
             'city_name',
             'cities',
             'unitCategory_id',
-            'categoryName'
+            'categoryName',
+            'unitCategories',
+            'selectedUnit'
         ));
     }
 

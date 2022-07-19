@@ -13,16 +13,16 @@ class DashboardController extends Controller
         $role = Auth::user()->role_id;
         switch ($role) {
             case Role::ADMIN:
-                return redirect()->route('dashboard.admin');
+                return redirect()->route('admin.dashboard');
                 break;
             case Role::CUSTOMER:
-                return redirect()->route('dashboard.customer');
+                return redirect()->route('customer.dashboard');
                 break;
             case Role::STORAGE_OWNER:
-                return redirect()->route('dashboard.storage_owner');
+                return redirect()->route('storage_owner.dashboard');
                 break;
             case Role::DELIVERY_DRIVER:
-                return redirect()->route('dashboard.delivery_driver');
+                return redirect()->route('delivery_driver.dashboard');
                 break;
             default:
                 return redirect('/');

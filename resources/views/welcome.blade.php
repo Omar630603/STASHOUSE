@@ -187,21 +187,13 @@
                                     Delivery
                                     Servie Kami</h1>
                                 <div class="grid grid-cols-1 mt-2 gap-6 md:grid-cols-1 xl:grid-cols-3">
+                                    @foreach ($deliveryCompanies as $deliveryCompany)
                                     <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
                                     duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
                                         <img class="object-fit w-40 h-40 drop-shadow-xl	"
-                                            src="{{ asset('storage/images/deliveryCompany/jne.svg') }}" alt="">
+                                            src="{{ asset('storage/' . $deliveryCompany->image) }}" alt="">
                                     </div>
-                                    <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
-                                    duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
-                                        <img class="object-fit w-40 h-40 drop-shadow-xl	"
-                                            src="{{ asset('storage/images/deliveryCompany/sicepat.svg') }}" alt="">
-                                    </div>
-                                    <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
-                                    duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
-                                        <img class="object-fit w-40 h-40 drop-shadow-xl	"
-                                            src="{{ asset('storage/images/deliveryCompany/j&t.svg') }}" alt="">
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

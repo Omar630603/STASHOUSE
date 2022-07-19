@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(StorageOwnerSeeder::class);
         $this->call(UnitCategorySeeder::class);
         $this->call(UnitSeeder::class);
+        $this->call(DeliveryCompanySeeder::class);
+        $this->call(DeliveryDriverSeeder::class);
+        $this->call(StorageOwnerDeliveryDriverSeeder::class);
     }
 }

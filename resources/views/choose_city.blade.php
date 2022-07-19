@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-slot name="header">
-        <div class="bg-gray-100 rounder-lg my-4">
+        <div class="bg-gray-100 rounded-lg my-4">
             <div class="container flex items-center px-6 py-4 mx-auto overflow-y-auto whitespace-nowrap">
                 <a href="/" class="text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48"

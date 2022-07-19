@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('storage_owner_id')->references('id')->on('storage_owners')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('delivery_driver_id');
             $table->foreign('delivery_driver_id')->references('id')->on('delivery_drivers')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

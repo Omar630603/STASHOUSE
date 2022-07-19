@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryCompany extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'image',
+    ];
+
+    public function deliveries()
+    {
+        return $this->hasMany(DeliveryDriver::class);
+    }
 }

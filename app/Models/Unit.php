@@ -17,9 +17,15 @@ class Unit extends Model
         'address',
         'private_key',
         'price_per_day',
+        'description',
+        'detail',
         'is_active',
         'is_rented',
         'capacity',
+    ];
+
+    protected $hidden = [
+        'private_key',
     ];
 
     public function unitCategory()

@@ -29,4 +29,9 @@ class StorageOwner extends Model
     {
         return $this->hasMany(Unit::class);
     }
+
+    public function deliveryDrivers()
+    {
+        return $this->belongsToMany(DeliveryDriver::class, 'storage_owner_delivery_drivers');
+    }
 }

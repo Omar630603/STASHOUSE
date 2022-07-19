@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('private_key')->uniqid();
             $table->integer('price_per_day');
+            $table->string('description')->nullable();
+            $table->string('detail')->nullable();
             $table->boolean('is_active')->default(false);
             $table->boolean('is_rented')->default(false);
             $table->integer('capacity')->default(0);

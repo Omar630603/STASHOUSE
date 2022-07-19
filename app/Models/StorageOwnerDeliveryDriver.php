@@ -12,5 +12,6 @@ class StorageOwnerDeliveryDriver extends Model
     protected $fillable = [
         'storage_owner_id',
         'delivery_driver_id',
+        'status',
     ];
 }

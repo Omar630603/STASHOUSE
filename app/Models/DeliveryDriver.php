@@ -11,6 +11,8 @@ class DeliveryDriver extends Model
 
     protected $fillable = [
         'user_id',
+        'delivery_company_id',
+        'driver_name',
         'phone',
         'address',
         'vehicle_name',
@@ -19,10 +21,21 @@ class DeliveryDriver extends Model
         'price_per_km',
         'deliveried',
         'image',
+        'status',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function storageOwners()
+    {
+        return $this->belongsToMany(StorageOwner::class, 'storage_owner_delivery_drivers');
+    }
+
+    public function deliveryCompany()
+    {
+        return $this->belongsTo(DeliveryCompany::class);
     }
 }

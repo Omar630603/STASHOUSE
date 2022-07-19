@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 drop-shadow">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -14,22 +14,22 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if (Auth::user()->role_id == \App\Models\Role::ADMIN)
                     <!-- Admin Links-->
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.admin')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
                     <!-- Customer Links-->
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.customer')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
                     <!-- Storage Owner Links-->
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.storage_owner')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('storage_owner.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
                     <!-- Delivery Driver Links-->
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.delivery_driver')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('delivery_driver.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @endif
@@ -90,22 +90,22 @@
         <div class="pt-2 pb-3 space-y-1">
             @if (Auth::user()->role_id == \App\Models\Role::ADMIN)
             <!-- Admin Links-->
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.admin')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
             <!-- Customer Links-->
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.customer')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
             <!-- Storage Owner Links-->
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.storage_owner')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('storage_owner.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
             <!-- Delivery Driver Links-->
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.delivery_driver')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('delivery_driver.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @endif

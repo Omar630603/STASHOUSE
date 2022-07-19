@@ -19,26 +19,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'beranda'])->name('home');
-Route::get('/daftarUnitPenyimpanan', [HomeController::class, 'daftarUnitPenyimpanan'])->name('daftarUnitPenyimpanan');
-Route::get('/choose_city', [HomeController::class, 'chooceCity'])->name('choose_city');
-Route::get('/tentangKami', [HomeController::class, 'tentangKami'])->name('tentangKami');
-Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'beranda')->name('home');
+    Route::get('/daftarUnitPenyimpanan', 'daftarUnitPenyimpanan')->name('daftarUnitPenyimpanan');
+    Route::get('/choose_city', 'chooceCity')->name('choose_city');
+    Route::get('/tentangKami', 'tentangKami')->name('tentangKami');
+    Route::get('/faq', 'faq')->name('faq');
+});
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard/admin', [AdminController::class, 'index'])->name('dashboard.admin');
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    });
 });
 
 Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('/dashboard/customer', [CustomerController::class, 'index'])->name('dashboard.customer');
+    Route::prefix('customer')->group(function () {
+        Route::get('/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    });
 });
 
 Route::middleware(['auth', 'storage_owner'])->group(function () {
-    Route::get('/dashboard/storage_owner', [StorageOwnerController::class, 'index'])->name('dashboard.storage_owner');
+    Route::prefix('storage_owner')->group(function () {
+        Route::get('/dashboard', [StorageOwnerController::class, 'index'])->name('storage_owner.dashboard');
+    });
 });
 
 Route::middleware(['auth', 'delivery_driver'])->group(function () {
-    Route::get('/dashboard/delivery_driver', [DeliveryDriverController::class, 'index'])->name('dashboard.delivery_driver');
+    Route::prefix('delivery_driver')->group(function () {
+        Route::get('/dashboard', [DeliveryDriverController::class, 'index'])->name('delivery_driver.dashboard');
+    });
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
