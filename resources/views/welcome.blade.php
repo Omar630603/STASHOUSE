@@ -69,11 +69,11 @@
             </div>
         </div>
 
-        <div class="lg:mt-[130px] bg-white dark:bg-[#72358E]">
+        <div class="lg:mt-[130px] bg-[#72358E]">
             <div class="container px-6 py-10 mx-auto">
-                <h1 class="text-3xl font-bold text-center text-gray-800 capitalize lg:text-4xl dark:text-white">Layanan
+                <h1 class="text-3xl font-bold text-center text-white capitalize lg:text-4xl">Layanan
                     Kami</h1>
-                <p class="max-w-2xl mx-auto my-6 text-center font-semibold text-gray-500 dark:text-gray-300">Temukan
+                <p class="max-w-2xl mx-auto my-6 text-center font-semibold text-gray-300">Temukan
                     layanan
                     terbaik kami
                     disini

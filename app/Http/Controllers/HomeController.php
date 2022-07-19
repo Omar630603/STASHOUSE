@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DeliveryCompany;
 use App\Models\Unit;
 use App\Models\UnitCategory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -91,6 +92,20 @@ class HomeController extends Controller
                 $message = "No unit available";
             }
         }
+        $storage_owner_id = $request->storage_owner_id;
+        $storage_owner_name = '';
+        if (isset($storage_owner_id)) {
+            $units = Unit::where([
+                ['is_active', true],
+                ['is_rented', false],
+            ])->whereHas('storageOwner', function (Builder $query)  use ($storage_owner_id) {
+                $query->where('id', 'like', '%' .  $storage_owner_id . '%');
+            })->get();
+            $storage_owner_name = $units->first()->storageOwner->user->name;
+            if ($units->count() <= 0) {
+                $message = "No unit available";
+            }
+        }
         if ($message != "") {
             Session::flash('info', $message);
         }
@@ -101,7 +116,9 @@ class HomeController extends Controller
             'unitCategory_id',
             'categoryName',
             'unitCategories',
-            'selectedUnit'
+            'selectedUnit',
+            'storage_owner_id',
+            'storage_owner_name'
         ));
     }
 

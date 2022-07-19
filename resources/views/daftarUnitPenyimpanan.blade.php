@@ -10,14 +10,14 @@
             <form action="{{ route('daftarUnitPenyimpanan') }}">
                 @csrf
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-1 xl:grid-cols-3">
-                    <div class="flex space-x-1">
+                    <div class="flex space-x-1 w-full">
                         <span
                             class="inline-flex items-center px-3 text-sm text-black-900 bg-white rounded-md drop-shadow-sm">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                                viewBox="0 0 24 24" style=" fill:#3F1652;">
                                 <path
-                                    d="M7.49364 0.546875C7.43116 0.47813 7.35499 0.423202 7.27004 0.385616C7.18508 0.348029 7.09321 0.328613 7.00031 0.328613C6.90741 0.328613 6.81553 0.348029 6.73058 0.385616C6.64562 0.423202 6.56946 0.47813 6.50697 0.546875L0.506975 7.21354C0.4185 7.30893 0.359871 7.42813 0.338315 7.55644C0.31676 7.68475 0.333219 7.81656 0.385666 7.93563C0.438112 8.05469 0.524252 8.15581 0.633469 8.22652C0.742686 8.29722 0.870205 8.33443 1.00031 8.33354H2.33364V13.0002C2.33364 13.177 2.40388 13.3466 2.5289 13.4716C2.65393 13.5966 2.8235 13.6669 3.00031 13.6669H11.0003C11.1771 13.6669 11.3467 13.5966 11.4717 13.4716C11.5967 13.3466 11.667 13.177 11.667 13.0002V8.33354H13.0003C13.1771 8.33354 13.3467 8.2633 13.4717 8.13828C13.5967 8.01325 13.667 7.84369 13.667 7.66687C13.6682 7.49935 13.6063 7.33751 13.4936 7.21354L7.49364 0.546875Z"
-                                    fill="#3F1652" />
+                                    d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z">
+                                </path>
                             </svg>
                         </span>
                         <select name="unitCategory" id="unitCategory_id" @if(isset($unitCategory_id))
@@ -51,15 +51,16 @@
                         @endforeach
                         @endif
                     </div>
-                    <div class="flex space-x-1">
+                    <div class="flex space-x-1 w-full">
                         <span
                             class="inline-flex items-center px-3 text-sm text-black-900 bg-white rounded-md drop-shadow-sm">
-                            <svg width="12" height="10" viewBox="0 0 12 10" fill="none"
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M0 2.5V10L3.5 7.812V0.312L0 2.5ZM7.5 9.688V2.188L4.5 0.313V7.813L7.5 9.687V9.688ZM8.5 9.688V2.188L12 0V7.5L8.5 9.688V9.688Z"
+                                    d="M3.75 8.66527V18.1453L8.25 15.3343V5.85277L3.75 8.66527ZM9.75 5.85277V15.3328L14.25 18.1468V8.66527L9.75 5.85277ZM9 16.6348L3.3975 20.1358L2.25 19.4998V8.24977L2.6025 7.61377L8.6025 3.86377H9.3975L15 7.36477L20.6025 3.86377L21.75 4.49977V15.7498L21.3975 16.3858L15.3975 20.1358H14.6025L9 16.6348ZM15.75 8.66527V18.1453L20.25 15.3343V5.85277L15.75 8.66527Z"
                                     fill="#3F1652" />
                             </svg>
+
                         </span>
                         <select name="city" id="cities" @if(isset($city_name)) value="{{ $city_name }}" @endif
                             class="w-full">
@@ -93,7 +94,12 @@
 
             @if (isset($units))
             <div class="mt-8 container mx-auto">
+                @if (isset($storage_owner_id))
+                <h1 class="text-2xl font-bold">Profile {{ $storage_owner_name }} : memiliki {{$units->count()}} unit
+                </h1>
+                @else
                 <h1 class="text-2xl font-bold">Hasil Pencarian : {{$units->count()}}</h1>
+                @endif
                 <div class="min-w-full mt-5 rounded lg:grid lg:grid-cols-3">
                     {{-- side-bar --}}
                     <div class="lg:col-span-1">
@@ -112,7 +118,11 @@
                             <li class="border-2 border-[#E7E7E7] mb-2 rounded-xl p-3 ">
                                 @endif
                                 @php
-                                if(isset($city_name) && isset($unitCategory_id)){
+                                if(isset($city_name) && isset($unitCategory_id) && isset($storage_owner_id)){
+                                $route = route('daftarUnitPenyimpanan', ['unit_id'=> $unit->id, 'city' => $city_name,
+                                'unitCategory' => $unitCategory_id, 'storage_owner_id' => $storage_owner_id]);
+                                }
+                                else if(isset($city_name) && isset($unitCategory_id)){
                                 $route = route('daftarUnitPenyimpanan', ['unit_id'=> $unit->id, 'city' => $city_name,
                                 'unitCategory' => $unitCategory_id]);
                                 }else if(isset($city_name)){
@@ -120,7 +130,11 @@
                                 else if(isset($unitCategory_id)){
                                 $route = route('daftarUnitPenyimpanan', ['unit_id'=> $unit->id, 'unitCategory' =>
                                 $unitCategory_id]);
-                                }else{
+                                }else if(isset($storage_owner_id)){
+                                $route = route('daftarUnitPenyimpanan', ['unit_id'=> $unit->id, 'storage_owner_id' =>
+                                $storage_owner_id]);
+                                }
+                                else{
                                 $route = route('daftarUnitPenyimpanan', ['unit_id'=> $unit->id]);
                                 }
                                 @endphp
@@ -206,8 +220,11 @@
                                             <img class="object-fit w-8 h-8 rounded-full"
                                                 src="{{ asset('storage/'. $selectedUnit->storageOwner->image) }}"
                                                 alt="ownerImage" />
-                                            <span
-                                                class="text-base text-black underline underline-offset-2">{{$selectedUnit->storageOwner->user->name}}</span>
+                                            <a href="{{route('daftarUnitPenyimpanan', ['storage_owner_id' =>
+                                                $selectedUnit->storageOwner->id])}}">
+                                                <span
+                                                    class="text-base text-black underline underline-offset-2">{{$selectedUnit->storageOwner->user->name}}</span>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="self-end">

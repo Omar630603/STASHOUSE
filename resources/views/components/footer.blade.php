@@ -1,4 +1,4 @@
-<footer class="bg-[#72358E] dark:bg-[#72358E]">
+<footer class="bg-[#72358E]">
     <div class="container px-6 py-4 mx-auto">
         <div class="lg:flex">
             <div class="w-full -mx-6 lg:w-2/5">
@@ -12,36 +12,33 @@
             <div class="mt-6 lg:mt-0 lg:flex-1">
                 <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
                     <div>
-                        <h3 class="text-gray-700 uppercase dark:text-white">STASHOUSE</h3>
+                        <h3 class="text-white uppercase ">STASHOUSE</h3>
                         <a href="{{ route('home') }}"
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Beranda</a>
+                            class="block mt-2 text-sm text-gray-300 hover:underline">Beranda</a>
                         <a href="{{ route('tentangKami') }}"
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Tentang
+                            class="block mt-2 text-sm text-gray-300 hover:underline">Tentang
                             Kami</a>
-                        <a href="{{ route('faq') }}"
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">FAQ</a>
+                        <a href="{{ route('faq') }}" class="block mt-2 text-sm text-gray-300 hover:underline">FAQ</a>
                     </div>
 
                     <div>
-                        <h3 class="text-gray-700 uppercase dark:text-white">Mitra</h3>
-                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Daftar
+                        <h3 class="text-white uppercase">Mitra</h3>
+                        <a href="#" class="block mt-2 text-sm text-gray-300 hover:underline">Daftar
                             Sebagai Mitra</a>
                     </div>
 
                     <div>
-                        <h3 class="text-gray-700 uppercase dark:text-white">Product</h3>
+                        <h3 class="text-white uppercase">Product</h3>
                         <a href="{{ route('daftarUnitPenyimpanan') }}"
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Daftar
+                            class="block mt-2 text-sm text-gray-300 hover:underline">Daftar
                             Unit Penyimpanan</a>
                     </div>
 
                     <div>
-                        <h3 class="text-gray-700 uppercase dark:text-white">Contact</h3>
-                        <span
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">stashouse@industries.com</span>
-                        <span
-                            class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">089675432140</span>
-                        <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">MT. Haryono No
+                        <h3 class="text-white uppercase">Kontak Kami</h3>
+                        <span class="block mt-2 text-sm text-gray-400 hover:underline">stashouse@industries.com</span>
+                        <span class="block mt-2 text-sm text-gray-400 hover:underline">089675432140</span>
+                        <span class="block mt-2 text-sm text-gray-400 hover:underline">MT. Haryono No
                             90, Kota Malang</span>
 
                     </div>
@@ -51,20 +48,18 @@
     </div>
     <div class="bg-[#5A2871] flex py-2 flex-col lg:flex-row items-center">
         <div class="flex space-x-8 mx-2">
-            <p class="text-sm text-gray-800 dark:text-white">© 2021 PT STASHOUSE Membangun Bangsa. All rights
+            <p class="text-sm text-gray-100">© 2021 PT STASHOUSE Membangun Bangsa. All rights
                 reserved</p>
             <a href="">
-                <p class="text-sm text-gray-800 dark:text-white">Syarat & Ketentuan</p>
+                <p class="text-sm text-gray-100">Syarat & Ketentuan</p>
             </a>
             <a href="">
-                <p class="text-sm text-gray-800 dark:text-white">Kebijakan Privasi</p>
+                <p class="text-sm text-gray-100">Kebijakan Privasi</p>
             </a>
         </div>
 
         <div class="ml-auto flex mr-2">
-            <a href="#"
-                class="mx-2 bg-white rounded-full p-1 text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-                aria-label="Instagram">
+            <a href="#" class="mx-2 bg-white rounded-full p-1 text-gray-700 hover:text-gray-600" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="36px" height="36px">
                     <radialGradient id="yOrnnhliCrdS2gy~4tD8ma" cx="19.38" cy="42.035" r="44.899"
                         gradientUnits="userSpaceOnUse">
@@ -93,9 +88,7 @@
                 </svg>
             </a>
 
-            <a href="#"
-                class="mx-2 bg-white rounded-full p-1 text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-                aria-label="Youtube">
+            <a href="#" class="mx-2 bg-white rounded-full p-1 text-gray-700 hover:text-gray-600" aria-label="Youtube">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="36px" height="36px">
                     <linearGradient id="PgB_UHa29h0TpFV_moJI9a" x1="9.816" x2="41.246" y1="9.871" y2="41.301"
                         gradientUnits="userSpaceOnUse">
@@ -116,9 +109,7 @@
                 </svg>
             </a>
 
-            <a href="#"
-                class="mx-2 bg-white rounded-full p-1 text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-                aria-label="Linkden">
+            <a href="#" class="mx-2 bg-white rounded-full p-1 text-gray-700 hover:text-gray-600" aria-label="Linkden">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="36px" height="36px">
                     <path fill="#0078d4"
                         d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5	V37z" />
