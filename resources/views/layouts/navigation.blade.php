@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
+                        {{ __('Chas') }}
+                    </x-nav-link>
                     @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
                     <!-- Storage Owner Links-->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('storage_owner.dashboard')">
@@ -97,6 +100,9 @@
             <!-- Customer Links-->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
+                {{ __('Chats') }}
             </x-responsive-nav-link>
             @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
             <!-- Storage Owner Links-->

@@ -36,6 +36,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'customer'])->group(function () {
     Route::prefix('customer')->group(function () {
         Route::get('/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+        Route::post('/sendChat', [CustomerController::class, 'sendChat'])->name('customer.sendChat');
+        Route::get('/chats', [CustomerController::class, 'getChats'])->name('customer.chats');
     });
 });
 

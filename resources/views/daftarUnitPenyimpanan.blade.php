@@ -264,8 +264,13 @@
                                             <img class="object-fit w-8 h-8 rounded-full"
                                                 src="{{ asset('storage/'. $selectedUnit->unitCategory->image) }}"
                                                 alt="categoryImage" />
+                                            @if (isset(explode(" ", $selectedUnit->unitCategory->name)[1]))
                                             <span
-                                                class="text-lg font-bold text-black">{{explode(" ", $selectedUnit->unitCategory->name)[1]}}</span>
+                                                class="text-base text-black">{{explode(" ", $selectedUnit->unitCategory->name)[1]}}</span>
+                                            @else
+                                            <span
+                                                class="text-base text-black">{{$selectedUnit->unitCategory->name}}</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +337,6 @@
                                             <div class="flex flex-col ml-2">
                                                 <span
                                                     class="text-base text-black font-bold">{{$review->customer->user->name}}</span>
-                                                {{-- format date --}}
                                                 <span class="text-sm text-black">
                                                     {{date('d M Y', strtotime($review->created_at))}}
                                                 </span>
@@ -515,7 +519,8 @@
                                     </div>
                                     @endif
                                 </div>
-                                <form class="mt-8">
+                                <form class="mt-8" method="POST" action="{{ route('customer.sendChat') }}">
+                                    @csrf
                                     <label for="default-search"
                                         class="mb-2 text-sm font-medium text-gray-900 sr-only">Hubungi
                                         Penjual</label>
@@ -539,17 +544,18 @@
                                         </div>
                                         @auth
                                         @if (Auth::user()->role_id == \App\Models\Role::CUSTOMER)
-                                        <input type="search" id="default-search"
+                                        <input name="receiver" hidden value="{{$selectedUnit->storageOwner->user->id}}">
+                                        <input name="message"
                                             class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
                                             placeholder="Hubungi Penjual" required>
                                         @else
-                                        <input type="search" id="default-search"
+                                        <input name="message"
                                             class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
                                             placeholder="Anda Bukan Customer!" required>
                                         @endif
                                         @endauth
                                         @guest
-                                        <input type="search" id="default-search"
+                                        <input name="message"
                                             class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
                                             placeholder="Hubungi Penjual" required>
                                         @endguest
