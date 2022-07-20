@@ -349,11 +349,40 @@
                                                 </defs>
                                             </svg>
                                         </div>
+                                        @auth
+                                        @if (Auth::user()->role_id == \App\Models\Role::CUSTOMER)
                                         <input type="search" id="default-search"
                                             class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
                                             placeholder="Hubungi Penjual" required>
+                                        @else
+                                        <input type="search" id="default-search"
+                                            class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
+                                            placeholder="Anda Bukan Customer!" required>
+                                        @endif
+                                        @endauth
+                                        @guest
+                                        <input type="search" id="default-search"
+                                            class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-100 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
+                                            placeholder="Hubungi Penjual" required>
+                                        @endguest
+                                        @auth
+                                        @if (Auth::user()->role_id == \App\Models\Role::CUSTOMER)
                                         <button type="submit"
                                             class="text-white absolute right-2.5 bottom-2.5 bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">Kirim</button>
+                                        @else
+                                        <button onclick="event.preventDefault();"
+                                            class="text-white absolute right-2.5 bottom-2.5 bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">Tidak
+                                            bisa kirim</button>
+                                        @endif
+                                        @endauth
+                                        @guest
+                                        @php
+                                        Session::flash('warning', 'Silahkan login untuk mengirim pesan');
+                                        @endphp
+                                        <button
+                                            onclick="alert('Anda harus login untuk menghubungi penjual'); event.preventDefault();"
+                                            class="text-white absolute right-2.5 bottom-2.5 bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">Kirim</button>
+                                        @endguest
                                     </div>
                                 </form>
                             </div>
