@@ -31,7 +31,7 @@ class DeliveryDriver extends Model
 
     public function storageOwners()
     {
-        return $this->belongsToMany(StorageOwner::class, 'storage_owner_delivery_drivers');
+        return $this->belongsToMany(StorageOwner::class, 'storage_owner_delivery_drivers')->withPivot('status');
     }
 
     public function deliveryCompany()

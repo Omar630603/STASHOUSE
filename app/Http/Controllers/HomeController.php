@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StorageOwner;
 use App\Models\DeliveryCompany;
 use App\Models\Unit;
 use App\Models\UnitCategory;
@@ -94,6 +95,7 @@ class HomeController extends Controller
         }
         $storage_owner_id = $request->storage_owner_id;
         $storage_owner_name = '';
+        $storage_owner = '';
         if (isset($storage_owner_id)) {
             $units = Unit::where([
                 ['is_active', true],
@@ -101,7 +103,7 @@ class HomeController extends Controller
             ])->whereHas('storageOwner', function (Builder $query)  use ($storage_owner_id) {
                 $query->where('id', 'like', '%' .  $storage_owner_id . '%');
             })->get();
-            $storage_owner_name = $units->first()->storageOwner->user->name;
+            $storage_owner = StorageOwner::where('id', $units->first()->storageOwner->id)->first();
             if ($units->count() <= 0) {
                 $message = "No unit available";
             }
@@ -118,7 +120,7 @@ class HomeController extends Controller
             'unitCategories',
             'selectedUnit',
             'storage_owner_id',
-            'storage_owner_name'
+            'storage_owner'
         ));
     }
 

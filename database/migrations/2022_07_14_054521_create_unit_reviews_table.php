@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('rating');
-            $table->string('review')->nullable();
+            $table->text('review')->nullable();
             $table->boolean('is_published')->default(false);
             $table->timestamps();
         });

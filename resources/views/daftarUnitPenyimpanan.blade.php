@@ -95,7 +95,8 @@
             @if (isset($units))
             <div class="mt-8 container mx-auto">
                 @if (isset($storage_owner_id))
-                <h1 class="text-2xl font-bold">Profile {{ $storage_owner_name }} : memiliki {{$units->count()}} unit
+                <h1 class="text-2xl font-bold">Profile {{ $storage_owner->storage_name }} : memiliki {{$units->count()}}
+                    unit
                 </h1>
                 @else
                 <h1 class="text-2xl font-bold">Hasil Pencarian : {{$units->count()}}</h1>
@@ -155,6 +156,16 @@
                                         </span>
                                         @endif
                                         @if (isset($unit->storageOwner->deliveryDrivers))
+                                        @php
+                                        $is_there_driver = false;
+                                        foreach ($unit->storageOwner->deliveryDrivers as $deliveryDriver) {
+                                        if(!$deliveryDriver->status && $deliveryDriver->pivot->status){
+                                        $is_there_driver = true;
+                                        break;
+                                        }
+                                        }
+                                        @endphp
+                                        @if ($is_there_driver)
                                         <span class="flex gap-1 items-center bg-[#F8C35B30] text-[#C96A1C] text-xs 
                                         font-semibold mr-2 px-2.5 py-0.5 rounded-lg"><svg width="13" height="13"
                                                 viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -165,6 +176,7 @@
                                                     stroke="#C96A1C" />
                                             </svg> Delivery
                                         </span>
+                                        @endif
                                         @endif
                                     </div>
                                     <img class="object-fit w-16 h-16 rounded-lg mt-2"
@@ -276,6 +288,150 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                <div class="mb-4">
+                                    <span class="text-xl font-bold text-black">Ulasan</span>
+                                    @if($selectedUnit->reviews->count() > 0) <div
+                                        class="my-4 max-h-[15rem] overflow-auto">
+                                        @foreach($selectedUnit->reviews->sortByDesc('created_at') as $review)
+                                        @if($review->is_published)
+                                        <div class="flex gap-2 border-b-2 rounded py-2 mb-1">
+                                            <img class="object-fit w-8 h-8 rounded-full ml-2"
+                                                src="{{ asset('storage/'. $review->customer->image) }}"
+                                                alt="ownerImage" />
+                                            <div class="flex flex-col ml-2">
+                                                <span
+                                                    class="text-base text-black font-bold">{{$review->customer->user->name}}</span>
+                                                {{-- format date --}}
+                                                <span class="text-sm text-black">
+                                                    {{date('d M Y', strtotime($review->created_at))}}
+                                                </span>
+                                                <div class="flex items-center">
+                                                    @for ($i = 0; $i < $review->rating; $i++)
+                                                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400"
+                                                            fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <title>First star</title>
+                                                            <path
+                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                            </path>
+                                                        </svg>
+                                                        @endfor
+                                                        @for ($i = 0; $i < 5 - $review->rating; $i++)
+                                                            <svg aria-hidden="true"
+                                                                class="w-5 h-5 text-gray-300 dark:text-gray-500"
+                                                                fill="currentColor" viewBox="0 0 20 20"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <title>Fifth star</title>
+                                                                <path
+                                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                                                </path>
+                                                            </svg>
+                                                            @endfor
+                                                </div>
+                                                <span
+                                                    class="text-sm text-black p-2 border-l-2 border-[#F8C35B] mt-2 mr-2">{{$review->review}}</span>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                    </div>
+                                    @else
+                                    <div class="flex flex-col justify-center items-center">
+                                        <img class="object-scale-down"
+                                            src="{{ asset('storage/images/stockImages/noReviewsFound.svg') }}" alt="">
+                                        <span class="mt-5 text-gray-400 font-semibold text-lg text-center">Belum ada
+                                            Ulasan</span>
+                                    </div>
+                                    @endif
+                                    @if (Auth::check() && Auth::user()->role_id == \App\Models\Role::CUSTOMER)
+
+                                    <span class="text-lg font-bold text-black">Kirim Ulasan</span>
+                                    <div class="mt-6 border-2 border-gray p-2 rounded-xl">
+                                        <div class="flex flex-col">
+                                            <form action="" method="POST">
+                                                @csrf
+                                                <div class="flex justify-between">
+                                                    <div class="flex self-start gap-2">
+                                                        <img class="object-fit w-8 h-8 rounded-full"
+                                                            src="{{ asset('storage/'. Auth::user()->customer->image) }}"
+                                                            alt="ownerImage" />
+                                                        <div class="self-end flex flex-col">
+                                                            <span
+                                                                class="text-sm text-black">{{Auth::user()->name}}</span>
+                                                            <span class="text-sm text-black">{{date('d M Y')}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-sm text-black">
+                                                        <label for="message"
+                                                            class="text-right block text-sm font-medium text-gray-900 dark:text-gray-400">
+                                                            Rating Anda</label>
+                                                        <div class="rating">
+                                                            <label>
+                                                                <input type="radio" name="stars" value="1" />
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="stars" value="2" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="stars" value="3" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="stars" value="4" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="stars" value="5" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div class="relative">
+                                                    @if (Auth::user()->customer->rents->where('unit_id',
+                                                    $selectedUnit->id)->first())
+                                                    <span class="text-sm text-black">
+                                                        <textarea id="review" rows="4"
+                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                            placeholder="Ulasan Anda..."></textarea>
+                                                    </span>
+                                                    <span class="absolute bottom-2 right-2 text-sm text-black">
+                                                        <button type="submit"
+                                                            class="text-white bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">
+                                                            Kirim
+                                                        </button>
+                                                    </span>
+                                                    @else
+                                                    <span class="text-sm text-black">
+                                                        <textarea disabled id="review" rows="4"
+                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                            placeholder="Harus sewa terlebih dahulu..."></textarea>
+                                                    </span>
+                                                    <span class="absolute bottom-2 right-2 text-sm text-black">
+                                                        <button onclick="event.preventDefault();"
+                                                            class="text-white bg-[#4D275F] hover:bg-[#3E1D4E] focus:ring-4 focus:outline-none focus:ring-[#F8C35B50] font-medium rounded-lg text-sm px-4 py-2">
+                                                            TIdak bisa beri ulasan. Harus sewa terlebih dahulu.
+                                                        </button>
+                                                    </span>
+                                                    @endif
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
                                 <div>
                                     <span class="text-xl font-bold text-black">Galeri</span>
                                     @if (count($selectedUnit->assets) > 0)
@@ -330,7 +486,8 @@
                                 </div>
                                 <form class="mt-8">
                                     <label for="default-search"
-                                        class="mb-2 text-sm font-medium text-gray-900 sr-only">Hubungi Penjual</label>
+                                        class="mb-2 text-sm font-medium text-gray-900 sr-only">Hubungi
+                                        Penjual</label>
                                     <div class="relative">
                                         <div
                                             class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -390,7 +547,8 @@
                             <div class="flex flex-col items-center align-center justify-items-center p-20">
                                 <img src="{{ asset('storage/images/stockImages/noUnitFound.svg') }}" alt="">
                                 <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum memilih gudang</h1>
-                                <p class="mt-10 text-gray-400 font-semibold text-lg text-center">Pilih salah satu gudang
+                                <p class="mt-10 text-gray-400 font-semibold text-lg text-center">Pilih salah satu
+                                    gudang
                                     atau kamu
                                     bisa mencari berdasarkan kota dan kategori
                                     ukuran</p>
@@ -421,5 +579,4 @@
             });
         </script>
     </x-slot>
-
 </x-guest-layout>

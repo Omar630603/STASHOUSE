@@ -18,4 +18,9 @@ class Rent extends Model
         'totalPrice',
         'status',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

@@ -16,4 +16,13 @@ class UnitReview extends Model
         'review',
         'is_published',
     ];
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

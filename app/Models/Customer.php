@@ -21,4 +21,9 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class);
+    }
 }

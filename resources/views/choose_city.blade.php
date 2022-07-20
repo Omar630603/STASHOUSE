@@ -58,6 +58,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             name="city">
                             <option selected value="0">Milih Kota Anda</option>
+                            <option value="all">--Semua Kota--</option>
                             @foreach ($cities as $item)
                             <option @if ($item->available_units <= 0) @disabled(true) @endif class="w-full"
                                     value="{{$item->city}}">{{$item->city}} -

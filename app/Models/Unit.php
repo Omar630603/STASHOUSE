@@ -42,4 +42,9 @@ class Unit extends Model
     {
         return $this->hasMany(UnitAsset::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(UnitReview::class);
+    }
 }
