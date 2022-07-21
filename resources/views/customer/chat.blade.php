@@ -241,12 +241,9 @@
                 @else
                 <div class="flex flex-col items-center align-center justify-items-center p-20">
                     <img src="{{ asset('storage/images/stockImages/noUnitFound.svg') }}" alt="">
-                    <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum memilih gudang</h1>
+                    <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum memilih chat</h1>
                     <p class="mt-10 text-gray-400 font-semibold text-lg text-center">Pilih salah satu
-                        gudang
-                        atau kamu
-                        bisa mencari berdasarkan kota dan kategori
-                        ukuran</p>
+                        chat</p>
                 </div>
                 @endif
             </div>
