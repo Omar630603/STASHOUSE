@@ -5,12 +5,11 @@
         </h2>
     </x-slot>
     <x-slot name="slot">
-        {{-- {{$chats}}
-        {{$chats->first()->messages}} --}}
         <div class="container mx-auto">
-            <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
-                <div class="border-r border-gray-300 lg:col-span-1">
-                    <div class="mx-3 my-3">
+            @if (isset($chats))
+            <div class="min-w-full rounded lg:grid lg:grid-cols-3">
+                <div class="chats border-r border-gray-300 lg:col-span-1">
+                    <div class="mx-3 mt-1 mb-3">
                         <div class="relative text-gray-600">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -18,111 +17,202 @@
                                     <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </span>
-                            <input type="search" class="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
-                                name="search" placeholder="Search" required />
+                            <input @if(!isset($chats)) @if($chats->count()
+                            <= 0) @disabled(true) @endif @elseif($chats->count()
+                                <= 0) @disabled(true) @endif id="inputString" type="search"
+                                    class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-[#4F8C35B50] focus:border-[#F8C35B50]"
+                                    name="search" placeholder="Search" required />
                         </div>
                     </div>
 
-                    <ul class="overflow-auto h-[32rem]">
-                        <h2 class="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-                        @foreach ($chats as $chat)
+                    <ul id="chatList" class="overflow-auto h-fit mb-3 max-h-[40rem]">
+                        @if(isset($chats) && count($chats) > 0)
+                        @foreach ($chats->sortByDesc('updated_at') as $chat)
                         @php
+                        if ($chat->messages->count() > 0) {
+                        $chat_id = 0;
+                        if ($chat->receiver_user_id == Auth::user()->id) {
+                        $chat_id = $chat->sender_user_id;
+                        }else {
                         $chat_id = $chat->receiver_user_id;
+                        }
+                        $unReadMessages = 0;
+                        foreach ($chat->messages as $message) {
+                        if ($message->status == 0 && $message->receiver_user_id == Auth::user()->id) {
+                        $unReadMessages ++;
+                        }
+                        }
+                        }else{
+                        continue;
+                        }
                         $chatListPerson = \App\Models\User::where('id', $chat_id)->first();
                         @endphp
-                        <li>
-                            <a
-                                class="flex items-center px-3 py-2 text-sm transition duration-150 
-                                ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                        @if (isset($selectedChat) && $selectedChat->id == $chat->id)
+                        <li id="selectedChat" class="p-2 border-2 border-[#3F1652] rounded-xl mb-3 mx-3">
+                            @else
+                        <li class="p-2 border-2 border-[#E7E7E7] rounded-xl mb-3 mx-3">
+                            @endif
+                            <a href="{{ route('customer.chats', ['chat_id'=>$chat->id]) }}" class="flex items-center p-6 text-sm transition duration-150 
+                                ease-in-out rounded-xl cursor-pointer hover:bg-[#FFF6E4] focus:outline-none relative">
                                 @if ($chatListPerson->role_id == \App\Models\Role::ADMIN)
-                                <img class="object-cover w-10 h-10 rounded-full"
+                                <img class="self-start object-cover w-10 h-10 rounded-full"
                                     src="{{ asset('storage/' . $chatListPerson->admin->image) }}" alt="username" />
-                                <div class="w-full pb-2">
-                                    <div class="flex justify-between">
-                                        <span
-                                            class="block ml-2 font-semibold text-gray-600">{{$chatListPerson->admin->name}}</span>
-                                        <span class="block ml-2 text-sm text-gray-600">25 minutes</span>
-                                    </div>
+                                <span class="absolute top-2 right-2 block ml-2 text-sm text-gray-600">
+                                    {{date('d M Y h:m', strtotime($chat->messages->sortByDesc('created_at')->first()->updated_at))}}
+                                </span>
+                                @if ($unReadMessages > 0)
+                                <span
+                                    class="absolute bottom-2 right-2 h-5 w-5 text-center bg-red-500 rounded-full font-bold text-white text-sm">{{$unReadMessages}}</span>
+                                @endif
+                                <span
+                                    class="absolute bottom-2 right-8 bg-[#C2A2D1] text-[#4D275F] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Admin</span>
+                                <div class="w-3/5">
                                     <span
-                                        class="block ml-2 text-sm text-gray-600">{{$chat->message->sortByDesc('created_at')->last()->message}}</span>
+                                        class="block ml-2 font-semibold text-gray-600 truncate">{{$chatListPerson->username}}</span>
+                                    <span
+                                        class="block ml-2 text-sm text-gray-600 truncate">{{$chat->messages->sortByDesc('created_at')->first()->message}}</span>
                                 </div>
+
+
                                 @elseif ($chatListPerson->role_id == \App\Models\Role::CUSTOMER)
-                                <img class="object-cover w-10 h-10 rounded-full"
+                                <img class="self-start object-cover w-10 h-10 rounded-full"
                                     src="{{ asset('storage/' . $chatListPerson->customer->image) }}" alt="username" />
-                                <div class="w-full pb-2">
-                                    <div class="flex justify-between">
-                                        <span
-                                            class="block ml-2 font-semibold text-gray-600">{{$chatListPerson->customer->name}}</span>
-                                        <span class="block ml-2 text-sm text-gray-600">25 minutes</span>
-                                    </div>
-                                    <span class="block ml-2 text-sm text-gray-600">bye</span>
+                                <span class="absolute top-2 right-2 block ml-2 text-sm text-gray-600">
+                                    {{date('d M Y h:m', strtotime($chat->messages->sortByDesc('created_at')->first()->updated_at))}}
+                                </span>
+                                @if ($unReadMessages > 0)
+                                <span
+                                    class="absolute bottom-2 right-2 h-5 w-5 text-center bg-red-500 rounded-full font-bold text-white text-sm">{{$unReadMessages}}</span>
+                                @endif
+                                <span
+                                    class="absolute bottom-2 right-8 bg-[#E8F5FF] text-[#13354E] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Customer</span>
+                                <div class="w-3/5">
+                                    <span
+                                        class="block ml-2 font-semibold text-gray-600 truncate">{{$chatListPerson->username}}</span>
+                                    <span
+                                        class="block ml-2 text-sm text-gray-600 truncate">{{$chat->messages->sortByDesc('created_at')->first()->message}}</span>
                                 </div>
+
+
                                 @elseif ($chatListPerson->role_id == \App\Models\Role::STORAGE_OWNER)
-                                <img class="object-cover w-10 h-10 rounded-full"
+                                <img class="self-start object-cover w-10 h-10 rounded-full"
                                     src="{{ asset('storage/' . $chatListPerson->storageOwner->image) }}"
                                     alt="username" />
-                                <div class="w-full pb-2">
-                                    <div class="flex justify-between">
-                                        <span
-                                            class="block ml-2 font-semibold text-gray-600">{{$chatListPerson->storageOwner->storage_name}}</span>
-                                        <span class="block ml-2 text-sm text-gray-600">
-                                            {{date('d M Y h:m', strtotime($chat->messages->sortByDesc('created_at')->first()->updated_at))}}
-                                        </span>
-                                    </div>
+                                <span class="absolute top-2 right-2 block ml-2 text-sm text-gray-600">
+                                    {{date('d M Y h:m', strtotime($chat->messages->sortByDesc('created_at')->first()->updated_at))}}
+                                </span>
+                                @if ($unReadMessages > 0)
+                                <span
+                                    class="absolute bottom-2 right-2 h-5 w-5 text-center bg-red-500 rounded-full font-bold text-white text-sm">{{$unReadMessages}}</span>
+                                @endif
+                                <span
+                                    class="absolute bottom-2 right-8 bg-[#F8C35B30] text-[#C96A1C] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Storage
+                                    Owner </span>
+                                <div class="w-3/5">
                                     <span
-                                        class="block ml-2 text-sm text-gray-600">{{$chat->messages->sortByDesc('created_at')->first()->message}}</span>
+                                        class="block ml-2 font-semibold text-gray-600 truncate">{{$chatListPerson->storageOwner->storage_name}}</span>
+                                    <span
+                                        class="block ml-2 text-sm text-gray-600 truncate">{{$chat->messages->sortByDesc('created_at')->first()->message}}</span>
                                 </div>
+
+
                                 @elseif($chatListPerson->role_id == \App\Models\Role::DELIVERY_DRIVER)
-                                <img class="object-cover w-10 h-10 rounded-full"
+                                <img class="self-start object-cover w-10 h-10 rounded-full"
                                     src="{{ asset('storage/' . $chatListPerson->deliveryDriver->image) }}"
                                     alt="username" />
-                                <div class="w-full pb-2">
-                                    <div class="flex justify-between">
-                                        <span
-                                            class="block ml-2 font-semibold text-gray-600">{{$chatListPerson->deliveryDriver->driver_name}}</span>
-                                        <span class="block ml-2 text-sm text-gray-600">25 minutes</span>
-                                    </div>
-                                    <span class="block ml-2 text-sm text-gray-600">bye</span>
+                                <span class="absolute top-2 right-2 block ml-2 text-sm text-gray-600">
+                                    {{date('d M Y h:m', strtotime($chat->messages->sortByDesc('created_at')->first()->updated_at))}}
+                                </span>
+                                @if ($unReadMessages > 0)
+                                <span
+                                    class="absolute bottom-2 right-2 h-5 w-5 text-center bg-red-500 rounded-full font-bold text-white text-sm">{{$unReadMessages}}</span>
+                                @endif
+                                <span
+                                    class="absolute bottom-2 right-8 bg-[#FF5688] text-[#420014] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Driver</span>
+                                <div class="w-3/5">
+                                    <span
+                                        class=" block ml-2 font-semibold text-gray-600 truncate">{{$chatListPerson->deliveryDriver->driver_name}}</span>
+                                    <span
+                                        class="block ml-2 text-sm text-gray-600 truncate">{{$chat->messages->sortByDesc('created_at')->first()->message}}</span>
                                 </div>
                                 @endif
                             </a>
                         </li>
                         @endforeach
+                        @else
+                        <div class="flex flex-col justify-center items-center">
+                            <img class="object-scale-down"
+                                src="{{ asset('storage/images/stockImages/noReviewsFound.svg') }}" alt="">
+                            <span class="mt-5 text-gray-400 font-semibold text-lg text-center">Belum ada
+                                chat</span>
+                        </div>
+                        @endif
                     </ul>
                 </div>
-                <div class="hidden lg:col-span-2 lg:block">
+                @if (isset($selectedChat))
+                <div class="lg:col-span-2">
                     <div class="w-full">
                         <div class="relative flex items-center p-3 border-b border-gray-300">
+                            @php
+                            $selectedChatId = 0;
+                            if ($selectedChat->receiver_user_id == Auth::user()->id) {
+                            $selectedChatId = $selectedChat->sender_user_id;
+                            }else {
+                            $selectedChatId = $selectedChat->receiver_user_id;
+                            }
+                            $selectedChatListPerson = \App\Models\User::where('id', $selectedChatId)->first();
+                            @endphp
+                            @if ($selectedChatListPerson->role_id == \App\Models\Role::ADMIN)
                             <img class="object-cover w-10 h-10 rounded-full"
-                                src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
+                                src="{{ asset('storage/'. $selectedChatListPerson->admin->image) }}" alt="username" />
+                            <span
+                                class="block ml-2 font-bold text-gray-600">{{$selectedChatListPerson->username}}</span>
+                            <span
+                                class="ml-auto bg-[#C2A2D1] text-[#4D275F] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Admin</span>
+                            @elseif ($selectedChatListPerson->role_id == \App\Models\Role::CUSTOMER)
+                            <img class="object-cover w-10 h-10 rounded-full"
+                                src="{{ asset('storage/' . $selectedChatListPerson->customer->image) }}"
                                 alt="username" />
-                            <span class="block ml-2 font-bold text-gray-600">Emma</span>
-                            <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
-                            </span>
+                            <span
+                                class="block ml-2 font-bold text-gray-600">{{$selectedChatListPerson->username}}</span>
+                            <span
+                                class="ml-auto bg-[#E8F5FF] text-[#13354E] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Customer</span>
+                            @elseif ($selectedChatListPerson->role_id == \App\Models\Role::STORAGE_OWNER)
+                            <img class="object-cover w-10 h-10 rounded-full"
+                                src="{{ asset('storage/' . $selectedChatListPerson->storageOwner->image) }}"
+                                alt="username" />
+                            <span
+                                class="block ml-2 font-bold text-gray-600">{{$selectedChatListPerson->storageOwner->storage_name}}</span>
+                            <span
+                                class="ml-auto bg-[#F8C35B30] text-[#C96A1C] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Storage
+                                Owner </span>
+                            @elseif($selectedChatListPerson->role_id == \App\Models\Role::DELIVERY_DRIVER)
+                            <img class="object-cover w-10 h-10 rounded-full"
+                                src="{{ asset('storage/' . $selectedChatListPerson->deliveryDriver->image) }}"
+                                alt="username" />
+                            <span
+                                class="block ml-2 font-bold text-gray-600">{{$selectedChatListPerson->deliveryDriver->driver_name}}</span>
+                            <span
+                                class="ml-auto bg-[#FF5688] text-[#420014] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Driver</span>
+                            @endif
                         </div>
                         <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
                             <ul class="space-y-2">
+                                @foreach ($selectedChat->messages as $message)
+                                @if ($message->receiver_user_id == Auth::user()->id)
                                 <li class="flex justify-start">
                                     <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                                        <span class="block">Hi</span>
+                                        <span class="block">{{$message->message}}</span>
                                     </div>
                                 </li>
+                                @elseif ($message->sender_user_id == Auth::user()->id)
                                 <li class="flex justify-end">
                                     <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                                        <span class="block">Hiiii</span>
+                                        <span class="block">{{$message->message}}</span>
                                     </div>
                                 </li>
-                                <li class="flex justify-end">
-                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                                        <span class="block">how are you?</span>
-                                    </div>
-                                </li>
-                                <li class="flex justify-start">
-                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                                        <span class="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                        </span>
-                                    </div>
-                                </li>
+                                @endif
+                                @endforeach
                             </ul>
                         </div>
 
@@ -148,7 +238,46 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="flex flex-col items-center align-center justify-items-center p-20">
+                    <img src="{{ asset('storage/images/stockImages/noUnitFound.svg') }}" alt="">
+                    <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum memilih gudang</h1>
+                    <p class="mt-10 text-gray-400 font-semibold text-lg text-center">Pilih salah satu
+                        gudang
+                        atau kamu
+                        bisa mencari berdasarkan kota dan kategori
+                        ukuran</p>
+                </div>
+                @endif
             </div>
+            @else
+            <div class="flex flex-col justify-center items-center">
+                <img class="object-scale-down" src="{{ asset('storage/images/stockImages/noReviewsFound.svg') }}"
+                    alt="">
+                <span class="mt-5 text-gray-400 font-semibold text-lg text-center">Belum ada
+                    chat</span>
+            </div>
+            @endif
         </div>
+        <script>
+            $("document").ready(function(){
+                selectedChat = $("#selectedChat");
+                if (selectedChat.length > 0) {
+                    $('#chatList').animate({
+                    scrollTop: selectedChat.offset().top - selectedChat.parent().offset().top
+                    }, 1000);              
+                }
+                $("#inputString").keyup(function () {
+                var filter = jQuery(this).val();
+                    $(".chats ul li").each(function () {
+                        if (jQuery(this).text().search(new RegExp(filter, "i")) < 0) {
+                            jQuery(this).hide();
+                        } else {
+                            jQuery(this).show()
+                        }
+                    });
+                });
+            });
+        </script>
     </x-slot>
 </x-app-layout>

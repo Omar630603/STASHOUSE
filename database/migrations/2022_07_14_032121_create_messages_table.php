@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('receiver_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->text('message');
             $table->integer('message_type')->default(0);
-            $table->integer('status')->default(0);
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

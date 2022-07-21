@@ -23,7 +23,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
-                        {{ __('Chas') }}
+                        {{ __('Chats') }}
                     </x-nav-link>
                     @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
                     <!-- Storage Owner Links-->

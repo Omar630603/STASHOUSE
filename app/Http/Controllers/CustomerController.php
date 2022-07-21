@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\Message;
-use App\Models\Role;
-use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -35,22 +32,35 @@ class CustomerController extends Controller
             $chat->receiver_user_id = $receiver->id;
             $chat->save();
         }
-        $message = $request->message;
+        $messageText = $request->message;
         $message_type = $request->message_type ? $request->message_type : 0;
-        $message = Message::create([
-            'chat_id' => $chat->id,
-            'message' => $message,
-            'message_type' => $message_type,
-            'status' => 0,
-        ]);
+        $message = new Message();
+        $message->chat_id = $chat->id;
+        $message->sender_user_id = $sender->id;
+        $message->receiver_user_id = $receiver->id;
+        $message->message = $messageText;
+        $message->message_type = $message_type;
+        $message->status = 0;
+        $message->save();
+
+        $chat->updated_at = $message->updated_at;
+        $chat->save();
         return redirect()->route('customer.chats')->with('success', 'Message sent successfully');
     }
-    public function getChats()
+    public function getChats(Request $request)
     {
+        $selectedChat = $request->chat_id;
+        $selectedChat = Chat::where('id', $selectedChat)->first();
+        if ($selectedChat != null) {
+            foreach ($selectedChat->messages as $message) {
+                $message->status = true;
+                $message->save();
+            }
+        }
         $chats = Chat::where('sender_user_id', Auth::user()->id)->orWhere('receiver_user_id', Auth::user()->id)->get();
         if ($chats->count() <= 0) {
             Session::flash('info', 'No chats found');
         }
-        return view('customer.chat', compact('chats'));
+        return view('customer.chat', compact('chats', 'selectedChat'));
     }
 }
