@@ -33,19 +33,28 @@ class CustomerController extends Controller
             $chat->save();
         }
         $messageText = $request->message;
-        $message_type = $request->message_type ? $request->message_type : 0;
+        $message_type = 0;
         $message = new Message();
         $message->chat_id = $chat->id;
         $message->sender_user_id = $sender->id;
         $message->receiver_user_id = $receiver->id;
-        $message->message = $messageText;
-        $message->message_type = $message_type;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $image_path = 'images/chats/' . $chat->id . '/';
+            $image->storeAs($image_path, $image_name, 'public');
+            $message->message = $image_path . $image_name;
+            $message->message_type = 1;
+        } else {
+            $message->message = $messageText;
+            $message->message_type = 0;
+        }
         $message->status = 0;
         $message->save();
 
         $chat->updated_at = $message->updated_at;
         $chat->save();
-        return redirect()->route('customer.chats')->with('success', 'Message sent successfully');
+        return redirect()->route('customer.chats', ['chat_id' => $chat->id])->with('success', 'Message sent successfully');
     }
     public function getChats(Request $request)
     {
