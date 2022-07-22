@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('price_per_day');
             $table->text('description')->nullable();
             $table->text('detail')->nullable();
+            $table->integer('rented')->default(0);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_rented')->default(false);
             $table->integer('capacity')->default(0);

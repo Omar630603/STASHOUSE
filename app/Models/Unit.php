@@ -19,6 +19,7 @@ class Unit extends Model
         'price_per_day',
         'description',
         'detail',
+        'rented',
         'is_active',
         'is_rented',
         'capacity',

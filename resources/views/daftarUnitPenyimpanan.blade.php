@@ -324,6 +324,7 @@
                                                     @endfor
                                         </div>
                                         {{round($avgRating)}} / 5
+                                        sudah disewakan {{$selectedUnit->rented}} kali
                                         @endif
                                     </span>
                                     @if($selectedUnit->reviews->count() > 0) <div
