@@ -33,7 +33,6 @@ class CustomerController extends Controller
             $chat->save();
         }
         $messageText = $request->message;
-        $message_type = 0;
         $message = new Message();
         $message->chat_id = $chat->id;
         $message->sender_user_id = $sender->id;
@@ -54,16 +53,21 @@ class CustomerController extends Controller
 
         $chat->updated_at = $message->updated_at;
         $chat->save();
-        return redirect()->route('customer.chats', ['chat_id' => $chat->id])->with('success', 'Message sent successfully');
+        return redirect()->route('customer.chats', ['chat_id' => $chat->id]);
     }
     public function getChats(Request $request)
     {
         $selectedChat = $request->chat_id;
-        $selectedChat = Chat::where('id', $selectedChat)->first();
+        $selectedChat = Chat::where('id', $selectedChat)
+            ->where('sender_user_id', Auth::user()->id)
+            ->orWhere('receiver_user_id', Auth::user()->id)
+            ->first();
         if ($selectedChat != null) {
             foreach ($selectedChat->messages as $message) {
-                $message->status = true;
-                $message->save();
+                if ($message->receiver_user_id == Auth::user()->id) {
+                    $message->status = true;
+                    $message->save();
+                }
             }
         }
         $chats = Chat::where('sender_user_id', Auth::user()->id)->orWhere('receiver_user_id', Auth::user()->id)->get();

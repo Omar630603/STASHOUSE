@@ -30,6 +30,8 @@ Route::controller(HomeController::class)->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::post('/sendChat', [AdminController::class, 'sendChat'])->name('admin.sendChat');
+        Route::get('/chats', [AdminController::class, 'getChats'])->name('admin.chats');
     });
 });
 
@@ -44,12 +46,16 @@ Route::middleware(['auth', 'customer'])->group(function () {
 Route::middleware(['auth', 'storage_owner'])->group(function () {
     Route::prefix('storage_owner')->group(function () {
         Route::get('/dashboard', [StorageOwnerController::class, 'index'])->name('storage_owner.dashboard');
+        Route::post('/sendChat', [StorageOwnerController::class, 'sendChat'])->name('storage_owner.sendChat');
+        Route::get('/chats', [StorageOwnerController::class, 'getChats'])->name('storage_owner.chats');
     });
 });
 
 Route::middleware(['auth', 'delivery_driver'])->group(function () {
     Route::prefix('delivery_driver')->group(function () {
         Route::get('/dashboard', [DeliveryDriverController::class, 'index'])->name('delivery_driver.dashboard');
+        Route::post('/sendChat', [DeliveryDriverController::class, 'sendChat'])->name('delivery_driver.sendChat');
+        Route::get('/chats', [DeliveryDriverController::class, 'getChats'])->name('delivery_driver.chats');
     });
 });
 

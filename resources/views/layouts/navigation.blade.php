@@ -17,6 +17,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.chats')" :active="request()->routeIs('admin.chats')">
+                        {{ __('Chats') }}
+                    </x-nav-link>
+
                     @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
                     <!-- Customer Links-->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
@@ -25,16 +29,27 @@
                     <x-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                         {{ __('Chats') }}
                     </x-nav-link>
+
                     @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
                     <!-- Storage Owner Links-->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('storage_owner.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('storage_owner.chats')"
+                        :active="request()->routeIs('storage_owner.chats')">
+                        {{ __('Chats') }}
+                    </x-nav-link>
+
                     @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
                     <!-- Delivery Driver Links-->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('delivery_driver.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('delivery_driver.chats')"
+                        :active="request()->routeIs('delivery_driver.chats')">
+                        {{ __('Chats') }}
+                    </x-nav-link>
+
                     @endif
                 </div>
             </div>
@@ -96,6 +111,10 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.chats')" :active="request()->routeIs('admin.chats')">
+                {{ __('Chats') }}
+            </x-responsive-nav-link>
+
             @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
             <!-- Customer Links-->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
@@ -104,16 +123,27 @@
             <x-responsive-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                 {{ __('Chats') }}
             </x-responsive-nav-link>
+
             @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
             <!-- Storage Owner Links-->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('storage_owner.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('storage_owner.chats')"
+                :active="request()->routeIs('storage_owner.chats')">
+                {{ __('Chats') }}
+            </x-responsive-nav-link>
+
             @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
             <!-- Delivery Driver Links-->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('delivery_driver.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('delivery_driver.chats')"
+                :active="request()->routeIs('delivery_driver.chats')">
+                {{ __('Chats') }}
+            </x-responsive-nav-link>
+
             @endif
         </div>
 

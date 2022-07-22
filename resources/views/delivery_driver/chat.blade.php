@@ -52,7 +52,7 @@
                             @else
                         <li class="p-2 border-2 border-[#E7E7E7] rounded-xl mb-3 mx-3">
                             @endif
-                            <a href="{{ route('customer.chats', ['chat_id'=>$chat->id]) }}" class="flex items-center p-6 text-sm transition duration-150 
+                            <a href="{{ route('delivery_driver.chats', ['chat_id'=>$chat->id]) }}" class="flex items-center p-6 text-sm transition duration-150 
                                 ease-in-out rounded-xl cursor-pointer hover:bg-[#FFF6E4] focus:outline-none relative">
                                 @if ($chatListPerson->role_id == \App\Models\Role::ADMIN)
                                 <img class="self-start object-cover w-10 h-10 rounded-full"
@@ -233,7 +233,7 @@
                         <div>
                             <form method="POST" enctype="multipart/form-data"
                                 class="flex items-center justify-between w-full p-3 border-t border-gray-300"
-                                action="{{ route('customer.sendChat', ['chat_id', $selectedChat->id]) }}">
+                                action="{{ route('delivery_driver.sendChat', ['chat_id', $selectedChat->id]) }}">
                                 @csrf
                                 <input name="receiver" hidden value="{{$selectedChatListPerson->id}}">
                                 <input hidden type="file" name="image" id="messageImage" accept="image/*">
