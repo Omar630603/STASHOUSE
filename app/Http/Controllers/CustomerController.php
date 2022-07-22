@@ -98,4 +98,12 @@ class CustomerController extends Controller
         }
         return redirect()->back();
     }
+    public function rentProcess(Unit $unit)
+    {
+        if ($unit->is_active && !$unit->is_rented) {
+            return view('customer.rent-process', compact('unit'));
+        } else {
+            return redirect()->back()->with('error', 'Unit is not available');
+        }
+    }
 }

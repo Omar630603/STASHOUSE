@@ -35,7 +35,6 @@
                 <x-message-error />
                 <x-message-warning />
                 <x-message-info />
-                <x-validation-errors class="mb-4" :errors="$errors" />
             </div>
             {{ $slot }}
         </div>

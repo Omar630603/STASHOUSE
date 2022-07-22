@@ -6,6 +6,7 @@
     </x-slot>
 
     <x-slot name="slot">
+        <x-validation-errors class="mb-4" :errors="$errors" />
         <div class="max-w-7xl py-6 mx-auto px-4 sm:px-6 lg:px-8">
             <form action="{{ route('daftarUnitPenyimpanan') }}">
                 @csrf
@@ -216,14 +217,14 @@
                                     <h1 class="text-2xl font-bold text-black">
                                         {{$selectedUnit->storageOwner->storage_name}}
                                     </h1>
-                                    <button
+                                    <a href="{{ route('customer.rent-process', ['unit' => $selectedUnit]) }}"
                                         class="justify-self-end	self-end relative inline-flex items-center justify-center p-0.5 overflow-hidden text-base font-bold text-[#3F1652]] 
                                         rounded-full group bg-gradient-to-br from-[#E52878] to-[#F8C35B] hover:text-black">
                                         <span
                                             class="relative px-8 py-2.5 transition-all ease-in duration-75 bg-white rounded-full hover:text-gray-600">
                                             Sewa Sekarang
                                         </span>
-                                    </button>
+                                    </a>
                                 </div>
                                 <div class="flex justify-between items-center mb-2 mr-4">
                                     <div>
@@ -302,6 +303,7 @@
                                         $totalRating += $rating->rating;
                                         }
                                         $avgRating = $totalRating / $selectedUnit->reviews->count();
+                                        $avgRating = round($avgRating);
                                         @endphp
                                         <div class="flex items-center">
                                             @for ($i = 0; $i < $avgRating; $i++) <svg aria-hidden="true"
@@ -323,7 +325,7 @@
                                                     </svg>
                                                     @endfor
                                         </div>
-                                        {{round($avgRating)}} / 5
+                                        {{$avgRating}} / 5
                                         sudah disewakan {{$selectedUnit->rented}} kali
                                         @endif
                                     </span>
