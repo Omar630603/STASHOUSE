@@ -270,8 +270,6 @@
                 <img src="{{ asset('storage/images/stockImages/noUnitFound.svg') }}" alt="">
                 @if(count($chats) <= 0) <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum ada chat
                     </h1>
-                    <p class="mt-10 text-gray-400 font-semibold text-lg text-center">Pilih salah satu
-                        unit di chat sama pemilik unit</p>
                     @else
                     <h1 class="mt-6 text-xl font-bold text-[#5A2871]">Kamu belum memilih chat
                     </h1>
