@@ -323,7 +323,7 @@
                                                     </svg>
                                                     @endfor
                                         </div>
-                                        {{$avgRating}} / 5
+                                        {{round($avgRating)}} / 5
                                         @endif
                                     </span>
                                     @if($selectedUnit->reviews->count() > 0) <div
@@ -363,8 +363,10 @@
                                                             </svg>
                                                             @endfor
                                                 </div>
+                                                @if ($review->review)
                                                 <span
                                                     class="text-sm text-black p-2 border-l-2 border-[#F8C35B] mt-2 mr-2">{{$review->review}}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         @endif
@@ -383,7 +385,8 @@
                                     <span class="text-lg font-bold text-black">Kirim Ulasan</span>
                                     <div class="mt-6 border-2 border-gray p-2 rounded-xl">
                                         <div class="flex flex-col">
-                                            <form action="" method="POST">
+                                            <form action="{{ route('customer.review', ['unit'=>$selectedUnit]) }}"
+                                                method="POST">
                                                 @csrf
                                                 <div class="flex justify-between">
                                                     <div class="flex self-start gap-2">
@@ -402,29 +405,29 @@
                                                             Rating Anda</label>
                                                         <div class="rating">
                                                             <label>
-                                                                <input type="radio" name="stars" value="1" />
+                                                                <input type="radio" name="rating" value="1" />
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="2" />
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="3" />
-                                                                <span class="icon">★</span>
+                                                                <input type="radio" name="rating" value="2" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="4" />
-                                                                <span class="icon">★</span>
+                                                                <input type="radio" name="rating" value="3" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="5" />
+                                                                <input type="radio" name="rating" value="4" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="rating" value="5" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
@@ -438,7 +441,7 @@
                                                     @if (Auth::user()->customer->rents->where('unit_id',
                                                     $selectedUnit->id)->first())
                                                     <span class="text-sm text-black">
-                                                        <textarea id="review" rows="4"
+                                                        <textarea id="review" rows="4" name="review"
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Ulasan Anda..."></textarea>
                                                     </span>

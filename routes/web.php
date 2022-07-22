@@ -40,6 +40,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
         Route::get('/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
         Route::post('/sendChat', [CustomerController::class, 'sendChat'])->name('customer.sendChat');
         Route::get('/chats', [CustomerController::class, 'getChats'])->name('customer.chats');
+        Route::post('review/{unit}', [CustomerController::class, 'review'])->name('customer.review');
     });
 });
 

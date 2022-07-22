@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,5 +76,26 @@ class CustomerController extends Controller
             Session::flash('info', 'No chats found');
         }
         return view('customer.chat', compact('chats', 'selectedChat'));
+    }
+    public function review(Request $request, Unit $unit)
+    {
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+            'review' => 'max:255',
+        ]);
+
+        if ($request->has('rating')) {
+            $unit->reviews()->create([
+                'unit_id' => $unit->id,
+                'customer_id' => Auth::user()->customer->id,
+                'rating' => $request->rating,
+                'review' => $request->review ?? '',
+                'is_published' => true,
+            ]);
+            Session::flash('success', 'Review submitted successfully');
+        } else {
+            Session::flash('error', 'Review not submitted');
+        }
+        return redirect()->back();
     }
 }
