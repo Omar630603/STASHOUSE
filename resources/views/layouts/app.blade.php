@@ -18,6 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="https://unpkg.com/flowbite@1.5.1/dist/datepicker.js"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="icon" href="{{ asset('../logo.png') }}">
     </head>

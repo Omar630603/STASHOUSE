@@ -13,8 +13,6 @@ class RentDelivery extends Model
         'rent_id',
         'delivery_driver_id',
         'description',
-        'picked_up_time',
-        'delivered_time',
         'picked_up_location',
         'delivered_to_location',
         'status',

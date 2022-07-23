@@ -13,4 +13,9 @@ class Bank extends Model
         'name',
         'image',
     ];
+
+    public function storageOwnerBanks()
+    {
+        return $this->hasMany(StorageOwnerBank::class);
+    }
 }

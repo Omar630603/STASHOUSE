@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -105,5 +106,22 @@ class CustomerController extends Controller
         } else {
             return redirect()->back()->with('error', 'Unit is not available');
         }
+    }
+    public function rent(Request $request, Unit $unit)
+    {
+        $request->validate([
+            'starts_from' => 'required|date:after_today',
+            'ends_at' => 'required|date|after:start_date',
+            'days' => 'required|numeric|min:1',
+            'total_price' => 'required|numeric|min:1',
+            'payment_method' => 'required',
+            'delivery_option' => 'required',
+        ]);
+        $today = date('d M Y');
+        $date = date('d M Y', strtotime($request->starts_from));
+        if ($date < $today) {
+            return redirect()->back()->with('error', 'Start date must be after today');
+        }
+        return redirect()->back();
     }
 }

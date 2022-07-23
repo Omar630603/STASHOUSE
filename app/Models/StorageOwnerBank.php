@@ -16,4 +16,14 @@ class StorageOwnerBank extends Model
         'is_primary',
         'is_verified',
     ];
+
+    public function storageOwner()
+    {
+        return $this->belongsTo(StorageOwner::class);
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
 }

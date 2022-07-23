@@ -143,6 +143,9 @@ class HomeController extends Controller
         if ($cities->count() > 0 && isset($currentCity)) {
             $message = 'Cool, we found units near you';
             Session::flash('info', $message);
+        } else {
+            $message = 'No unit available in your city';
+            Session::flash('info', $message);
         }
         return view(
             'choose_city',

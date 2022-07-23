@@ -20,8 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('delivery_driver_id');
             $table->foreign('delivery_driver_id')->references('id')->on('delivery_drivers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('description')->nullable();
-            $table->dateTime('picked_up_time');
-            $table->dateTime('delivered_time');
             $table->string('picked_up_location');
             $table->string('delivered_to_location');
             $table->integer('status')->default(0);

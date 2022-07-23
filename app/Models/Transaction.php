@@ -12,6 +12,7 @@ class Transaction extends Model
     protected $fillable = [
         'rent_id',
         'customer_id',
+        'storage_owner_bank_id',
         'description',
         'totalPrice',
         'status',

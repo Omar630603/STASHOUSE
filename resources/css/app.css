@@ -116,3 +116,21 @@
     color: #ddd;
     text-shadow: 0 0 5px #e0af4c;
 }
+img,
+svg {
+    transition: 0.2s ease-out;
+}
+
+svg:hover,
+img:hover {
+    transform: translate3d(0, -2px, 0);
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #e52878;
+}
