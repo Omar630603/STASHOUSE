@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade')->onUpdate('cascade');
             $table->dateTime('starts_from');
             $table->dateTime('ends_at');
-            $table->mediumText('description')->nullable();
-            $table->integer('totalPrice');
+            $table->text('description')->nullable();
+            $table->integer('total_price');
             $table->integer('status')->default(0);
             $table->timestamps();
         });

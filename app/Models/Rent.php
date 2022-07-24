@@ -15,12 +15,17 @@ class Rent extends Model
         'starts_from',
         'ends_at',
         'description',
-        'totalPrice',
+        'total_price',
         'status',
     ];
 
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

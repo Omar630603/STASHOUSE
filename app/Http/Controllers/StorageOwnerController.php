@@ -58,17 +58,18 @@ class StorageOwnerController extends Controller
     public function getChats(Request $request)
     {
         $selectedChat = $request->chat_id;
-        $selectedChat = Chat::where('id', $selectedChat)->first();
-        if ($selectedChat != null) {
-            if ($selectedChat->sender_user_id == Auth::user()->id || $selectedChat->receiver_user_id == Auth::user()->id) {
+        if ($request->chat_id != null) {
+            $selectedChat = Chat::where('id', $selectedChat)
+                ->where('sender_user_id', Auth::user()->id)
+                ->orWhere('receiver_user_id', Auth::user()->id)
+                ->first();
+            if ($selectedChat != null) {
                 foreach ($selectedChat->messages as $message) {
                     if ($message->receiver_user_id == Auth::user()->id) {
                         $message->status = true;
                         $message->save();
                     }
                 }
-            } else {
-                $selectedChat = null;
             }
         }
         $chats = Chat::where('sender_user_id', Auth::user()->id)->orWhere('receiver_user_id', Auth::user()->id)->get();

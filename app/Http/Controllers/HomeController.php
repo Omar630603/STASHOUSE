@@ -103,7 +103,10 @@ class HomeController extends Controller
             ])->whereHas('storageOwner', function (Builder $query)  use ($storage_owner_id) {
                 $query->where('id', 'like', '%' .  $storage_owner_id . '%');
             })->get();
-            $storage_owner = StorageOwner::where('id', $units->first()->storageOwner->id)->first();
+            if ($units->count() <= 0) {
+                $message = "No unit available with storage owner " . $storage_owner_id;
+            }
+            $storage_owner = StorageOwner::where('id',  $storage_owner_id)->first();
             if ($units->count() <= 0) {
                 $message = "No unit available";
             }

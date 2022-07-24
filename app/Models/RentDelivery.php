@@ -17,4 +17,14 @@ class RentDelivery extends Model
         'delivered_to_location',
         'status',
     ];
+
+    public function rent()
+    {
+        return $this->belongsTo(Rent::class);
+    }
+
+    public function deliveryDriver()
+    {
+        return $this->belongsTo(DeliveryDriver::class);
+    }
 }

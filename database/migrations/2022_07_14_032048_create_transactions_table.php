@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
             $table->integer('totalPrice');
             $table->integer('status')->default(0);
-            $table->string('proof');
+            $table->string('proof')->nullable();
             $table->timestamps();
         });
     }

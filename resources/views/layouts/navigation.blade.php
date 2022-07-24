@@ -19,6 +19,14 @@
                     </x-nav-link>
                     <x-nav-link :href="route('admin.chats')" :active="request()->routeIs('admin.chats')">
                         {{ __('Chats') }}
+                        @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                        0)->get()) > 0)
+                        <span
+                            class="h-7 w-7 ml-2 pt-1 text-center bg-red-500 rounded-full font-bold text-white text-sm">
+                            {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                                    0)->get())}}
+                        </span>
+                        @endif
                     </x-nav-link>
 
                     @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
@@ -26,8 +34,17 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                         {{ __('Chats') }}
+                        @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                        0)->get()) > 0)
+                        <span
+                            class="h-7 w-7 ml-2 pt-1 text-center bg-red-500 rounded-full font-bold text-white text-sm">
+                            {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                                    0)->get())}}
+                        </span>
+                        @endif
                     </x-nav-link>
 
                     @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
@@ -38,6 +55,14 @@
                     <x-nav-link :href="route('storage_owner.chats')"
                         :active="request()->routeIs('storage_owner.chats')">
                         {{ __('Chats') }}
+                        @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                        0)->get()) > 0)
+                        <span
+                            class="h-7 w-7 ml-2 pt-1 text-center bg-red-500 rounded-full font-bold text-white text-sm">
+                            {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                            0)->get())}}
+                        </span>
+                        @endif
                     </x-nav-link>
 
                     @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
@@ -48,6 +73,14 @@
                     <x-nav-link :href="route('delivery_driver.chats')"
                         :active="request()->routeIs('delivery_driver.chats')">
                         {{ __('Chats') }}
+                        @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                        0)->get()) > 0)
+                        <span
+                            class="h-7 w-7 ml-2 pt-1 text-center bg-red-500 rounded-full font-bold text-white text-sm">
+                            {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                                    0)->get())}}
+                        </span>
+                        @endif
                     </x-nav-link>
 
                     @endif
@@ -113,6 +146,14 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.chats')" :active="request()->routeIs('admin.chats')">
                 {{ __('Chats') }}
+                @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                0)->get()) > 0)
+                <span
+                    class="bg-red-500 text-white align-center h-7 w-7 text-sm ml-2 self-center items-center p-1.5 rounded-full">
+                    {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                            0)->get())}}
+                </span>
+                @endif
             </x-responsive-nav-link>
 
             @elseif(Auth::user()->role_id == \App\Models\Role::CUSTOMER)
@@ -122,6 +163,14 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                 {{ __('Chats') }}
+                @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                0)->get()) > 0)
+                <span
+                    class="bg-red-500 text-white align-center h-7 w-7 text-sm ml-2 self-center items-center p-1.5 rounded-full">
+                    {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                            0)->get())}}
+                </span>
+                @endif
             </x-responsive-nav-link>
 
             @elseif(Auth::user()->role_id == \App\Models\Role::STORAGE_OWNER)
@@ -132,6 +181,14 @@
             <x-responsive-nav-link :href="route('storage_owner.chats')"
                 :active="request()->routeIs('storage_owner.chats')">
                 {{ __('Chats') }}
+                @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                0)->get()) > 0)
+                <span
+                    class="bg-red-500 text-white align-center h-7 w-7 text-sm ml-2 self-center items-center p-1.5 rounded-full">
+                    {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                            0)->get())}}
+                </span>
+                @endif
             </x-responsive-nav-link>
 
             @elseif(Auth::user()->role_id == \App\Models\Role::DELIVERY_DRIVER)
@@ -142,6 +199,14 @@
             <x-responsive-nav-link :href="route('delivery_driver.chats')"
                 :active="request()->routeIs('delivery_driver.chats')">
                 {{ __('Chats') }}
+                @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                0)->get()) > 0)
+                <span
+                    class="bg-red-500 text-white align-center h-7 w-7 text-sm ml-2 self-center items-center p-1.5 rounded-full">
+                    {{count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
+                                            0)->get())}}
+                </span>
+                @endif
             </x-responsive-nav-link>
 
             @endif

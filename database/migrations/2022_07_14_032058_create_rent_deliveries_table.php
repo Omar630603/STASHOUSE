@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('rent_id')->references('id')->on('rents')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('delivery_driver_id');
             $table->foreign('delivery_driver_id')->references('id')->on('delivery_drivers')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('picked_up_location');
             $table->string('delivered_to_location');
             $table->integer('status')->default(0);

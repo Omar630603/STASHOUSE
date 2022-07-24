@@ -63,7 +63,8 @@
             <div class="w-full rounded-lg border-4 border-solid border-[#72358E] p-4 relative">
                 <div class="absolute bottom-0 right-0 z-0 h-24 w-48 bg-[#72358E50]
                 rounded-tr-full rounded-tl-full"></div>
-                <form method="POST" class="flex flex-col" action="{{ route('customer.rent', ['unit' => $unit]) }}">
+                <form method="POST" class="flex flex-col" action="{{ route('customer.rent', ['unit' => $unit]) }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-1 xl:grid-cols-2">
                         <div class="z-40 mb-4">
@@ -78,14 +79,14 @@
                         <div class="self-start justify-self-end flex gap-2 flex-wrap">
                             <div class="flex flex-col self-center">
                                 <label for="total_price" class="block text-lg font-bold text-gray-900">Total
-                                    price</label>
+                                    harga</label>
                                 <small class="text-right">
                                     {{"Rp." . number_format($unit->price_per_day , 0, ',', '.') . " / hari"}}
                                 </small>
                             </div>
                             <input id="total_price" name="total_price" type="text" disabled
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E]"
-                                placeholder="Total price">
+                                placeholder="Total harga">
                             <input id="total_price_hidden" name="total_price" type="text" hidden required>
                             <input id="days_hidden" name="days" type="text" hidden required>
                             <small
@@ -105,7 +106,7 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            <input id="starts_from_date" name="starts_from" type="text"
+                            <input id="starts_from_date" name="starts_from" type="text" autocomplete="off"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5"
                                 placeholder="Tempatkan tanggal mulai di sini....." required>
                         </div>
@@ -118,21 +119,21 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            <input id="ends_at_date" name="ends_at" type="text"
+                            <input id="ends_at_date" name="ends_at" type="text" autocomplete="off"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5"
                                 placeholder="Tempatkan tanggal keluar di sini....." required>
                         </div>
                     </div>
                     <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-1 xl:grid-cols-2">
                         <div>
-                            <label for="discription"
-                                class="block mb-2 text-lg font-bold text-gray-900">Discription</label>
-                            <textarea name="discription" id="discription" cols="30" rows="10"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5">Write something for the owner</textarea>
+                            <label for="description" class="block mb-2 text-lg font-bold text-gray-900">Keterangan
+                                sewa</label>
+                            <textarea name="description" id="description" cols="30" rows="10"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5">Tulis sesuatu untuk pemilik unit</textarea>
                         </div>
                         <div>
-                            <label for="payment_method" class="block mb-2 text-lg font-bold text-gray-900">Payment
-                                method</label>
+                            <label for="payment_method" class="block mb-2 text-lg font-bold text-gray-900">Cara
+                                Pembayaran</label>
                             <ul class="grid gap-6 w-full md:grid-cols-2">
                                 <li>
                                     <input type="radio" id="payment_method-now" name="payment_method"
@@ -172,8 +173,8 @@
                                     </label>
                                 </li>
                             </ul>
-                            <label for="delivery_option" class="block my-1 text-lg font-bold text-gray-900">Delivery
-                                option</label>
+                            <label for="delivery_option" class="block my-1 text-lg font-bold text-gray-900">Pilihan
+                                pengiriman</label>
                             <ul class="grid gap-6 w-full md:grid-cols-2">
                                 <li>
                                     <input type="radio" id="delivery_option-yes" name="delivery_option"
@@ -183,7 +184,7 @@
                                             rounded-lg drop-shadow border-2 peer-checked:border-2 border-white cursor-pointer peer-checked:border-[#72358E] peer-checked:text-[#72358E] hover:text-gray-600 hover:bg-[#FFF6E4]">
                                         <div class="block">
                                             <div class="w-full text-lg font-semibold">Ya</div>
-                                            <small class="w-full">Memilih delivery services</small>
+                                            <small class="w-full">Memilih layanan pengiriman</small>
                                         </div>
                                         <svg aria-hidden="true" class="ml-3 w-6 h-6" fill="currentColor"
                                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -237,20 +238,19 @@
                                         fill="#E52878" />
                                 </svg>
                             </div>
-                            <input type="text" id="address_input"
+                            <input type="text" id="address_input" name="picked_up_location"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                 placeholder="Lokasi Anda...">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                                 <input id="default-address" type="checkbox"
                                     class="w-4 h-4 text-blue-600 bg-[#FFF6E4] rounded border-gray-300 focus:ring-[#E52878] focus:ring-2 ">
-                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900">Use my
-                                    address</label>
+                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900">Gunakan
+                                    alamat saya</label>
                             </div>
                         </div>
                         <div class="grid gap-6 w-full md:grid-cols-2">
                             <div>
-                                <label class="text-lg font-bold text-gray-900" for="">Memilih delivery
-                                    service</label>
+                                <label class="text-lg font-bold text-gray-900" for="">Memilih layanan pengiriman</label>
                                 <ul class="mt-2">
                                     @foreach ($unit->storageOwner->deliveryDrivers as $deliveryDriver)
                                     @php
@@ -296,11 +296,11 @@
 
                                 </ul>
                             </div>
-                            <div id="delivery_section-discription" class="hidden">
-                                <label for="discription" class="block mb-2 text-lg font-bold text-gray-900">Delivery
-                                    discription</label>
-                                <textarea name="delivery_discription" id="discription" cols="30" rows="10"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5">Write something for the driver</textarea>
+                            <div id="delivery_section-description" class="hidden">
+                                <label for="description" class="block mb-2 text-lg font-bold text-gray-900">Keterangan
+                                    pengiriman</label>
+                                <textarea name="delivery_description" id="description" cols="30" rows="10"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5">Tulis sesuatu untuk pengemudi pengiriman</textarea>
                             </div>
                         </div>
                         @if ($ind == 0)
@@ -390,19 +390,28 @@
                         @endif
                         {{--Total price--}}
                         <div id="payment_section-uploadProof" class="mt-2 hidden">
-                            <label class="block text-lg font-bold text-gray-900 mt-5" for="">Upload proof of
-                                payment</label>
-                            <span id="beforePaymentTotalPrice" class="text-md text-gray-900"></span>
+                            <label class="block text-lg font-bold text-gray-900 mt-5 mb-5" for="">Unggah bukti
+                                pembayaran</label>
+                            <div class="flex flex-col gap-4">
+                                <small class="p-2 border-l-2 border-[#F8C35B] bg-[#F8C35B50] text-black">Pilih
+                                    salah satu bank dari daftar di atas dan kirimkan jumlah di bawah ini ke rekening
+                                    tersebut.</small>
+                                <small class="p-2 border-l-2 border-[#F8C35B] bg-[#F8C35B50] text-black">jika jumlah
+                                    total
+                                    tidak muncul di bagian bawah ini berarti Anda harus mengisi
+                                    tanggalnya terlebih dahulu.</small>
+                                <span id="beforePaymentTotalPrice" class="text-md text-gray-900"></span>
+                            </div>
                             <input
                                 class="mt-3 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer"
                                 id="file_input" type="file" name="proof" accept="image/*">
                         </div>
                     </div>
                     <div class="flex justify-between mt-6 z-50">
-                        <small class="self-center p-2 border-l-2 border-[#F8C35B] bg-[#F8C35B50] text-black">Fill the
-                            form for the renting process</small>
+                        <small class="self-center p-2 border-l-2 border-[#F8C35B] bg-[#F8C35B50] text-black">Isi
+                            formulir untuk proses sewa</small>
                         <x-button>
-                            {{ __('Rent') }}
+                            {{ __('Sewa Sekarang') }}
                         </x-button>
                     </div>
                 </form>
@@ -428,7 +437,7 @@
                     var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
                     $('#total_price').val(formatter.format(diffDays * {{ $unit->price_per_day }}));
                     $('#total_price_hidden').val(diffDays * {{ $unit->price_per_day }});
-                    $('#beforePaymentTotalPrice').html('Total Payment: '+ formatter.format(diffDays * {{ $unit->price_per_day }}));
+                    $('#beforePaymentTotalPrice').html('Total pembayaran: '+ formatter.format(diffDays * {{ $unit->price_per_day }}));
                     $('#days').html(diffDays + ' / Hari'); 
                     $('#days_hidden').val(diffDays);
                     if (deliveryPrice != 0 && deliveryPrice != '' && deliveryPrice != null && deliveryPrice != 'undefined') {
@@ -436,7 +445,7 @@
                         rentPrice = Number(rentPrice) + Number(deliveryPrice);
                         $('#total_price').val(formatter.format(rentPrice));
                         $('#total_price_hidden').val(rentPrice);
-                        $('#beforePaymentTotalPrice').html('Total Payment: '+ formatter.format(rentPrice));
+                        $('#beforePaymentTotalPrice').html('Total pembayaran: '+ formatter.format(rentPrice));
                     }
                 }else{
                     
@@ -469,7 +478,7 @@
             $('input[type=radio][name=delivery_option]').on('change', function(){
                 if ($(this).val() == 'delivery_option-no') {
                     $('#delivery_section').hide('slow');
-                    $('#delivery_section-discription').hide('slow');
+                    $('#delivery_section-description').hide('slow');
                     $('input[type=radio][name=delivery_service]').prop('checked', false);
                 }else{
                     $('#delivery_section').show('slow');
@@ -484,17 +493,17 @@
             });
             $('input[type=radio][name=delivery_service]').on('change', function(){
                 if ($(this).val() == null) {
-                    $('#delivery_section-discription').hide('slow');
+                    $('#delivery_section-description').hide('slow');
                 }else{
                     startdateFormated = new Date(startdate);
                     enddateFormated = new Date(enddate);
                     deliveryPrice = $(this).next().val();
                     $('#total_price').val(formatter.format(deliveryPrice));
                     $('#total_price_hidden').val(deliveryPrice);
-                    $('#beforePaymentTotalPrice').html('Total Payment: '+ formatter.format(deliveryPrice));
+                    $('#beforePaymentTotalPrice').html('Total pembayaran: '+ formatter.format(deliveryPrice));
                     console.log(deliveryPrice);
                     valdiatePrice(startdateFormated, enddateFormated);
-                    $('#delivery_section-discription').show('slow');
+                    $('#delivery_section-description').show('slow');
                 }
             });
             $('#default-address').on('click', function(){
@@ -512,5 +521,4 @@
             });
         </script>
     </x-slot>
-
 </x-guest-layout>

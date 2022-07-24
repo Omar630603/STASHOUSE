@@ -58,15 +58,17 @@ class AdminController extends Controller
     public function getChats(Request $request)
     {
         $selectedChat = $request->chat_id;
-        $selectedChat = Chat::where('id', $selectedChat)
-            ->where('sender_user_id', Auth::user()->id)
-            ->orWhere('receiver_user_id', Auth::user()->id)
-            ->first();
-        if ($selectedChat != null) {
-            foreach ($selectedChat->messages as $message) {
-                if ($message->receiver_user_id == Auth::user()->id) {
-                    $message->status = true;
-                    $message->save();
+        if ($request->chat_id != null) {
+            $selectedChat = Chat::where('id', $selectedChat)
+                ->where('sender_user_id', Auth::user()->id)
+                ->orWhere('receiver_user_id', Auth::user()->id)
+                ->first();
+            if ($selectedChat != null) {
+                foreach ($selectedChat->messages as $message) {
+                    if ($message->receiver_user_id == Auth::user()->id) {
+                        $message->status = true;
+                        $message->save();
+                    }
                 }
             }
         }

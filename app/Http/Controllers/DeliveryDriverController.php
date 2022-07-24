@@ -58,15 +58,17 @@ class DeliveryDriverController extends Controller
     public function getChats(Request $request)
     {
         $selectedChat = $request->chat_id;
-        $selectedChat = Chat::where('id', $selectedChat)
-            ->where('sender_user_id', Auth::user()->id)
-            ->orWhere('receiver_user_id', Auth::user()->id)
-            ->first();
-        if ($selectedChat != null) {
-            foreach ($selectedChat->messages as $message) {
-                if ($message->receiver_user_id == Auth::user()->id) {
-                    $message->status = true;
-                    $message->save();
+        if ($request->chat_id != null) {
+            $selectedChat = Chat::where('id', $selectedChat)
+                ->where('sender_user_id', Auth::user()->id)
+                ->orWhere('receiver_user_id', Auth::user()->id)
+                ->first();
+            if ($selectedChat != null) {
+                foreach ($selectedChat->messages as $message) {
+                    if ($message->receiver_user_id == Auth::user()->id) {
+                        $message->status = true;
+                        $message->save();
+                    }
                 }
             }
         }
@@ -74,6 +76,6 @@ class DeliveryDriverController extends Controller
         if ($chats->count() <= 0) {
             Session::flash('info', 'No chats found');
         }
-        return view('delivery_driver.chat', compact('chats', 'selectedChat'));
+        return redirect()->view('delivery_driver.chat', compact('chats', 'selectedChat'));
     }
 }

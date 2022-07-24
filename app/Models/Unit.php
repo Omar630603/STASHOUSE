@@ -48,4 +48,9 @@ class Unit extends Model
     {
         return $this->hasMany(UnitReview::class);
     }
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class);
+    }
 }

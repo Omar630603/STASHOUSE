@@ -183,6 +183,10 @@
                                 alt="username" />
                             <span
                                 class="block ml-2 font-bold text-gray-600">{{$selectedChatListPerson->storageOwner->storage_name}}</span>
+                            <a class="ml-2 mr-2 p-2 text-blue-500 underline"
+                                href="{{route('daftarUnitPenyimpanan', ['storage_owner_id' => $selectedChatListPerson->storageOwner->id])}}">Lihat
+                                semua unit
+                            </a>
                             <span
                                 class="ml-auto bg-[#F8C35B30] text-[#C96A1C] text-xs font-semibold px-2.5 py-0.5 rounded-lg">Storage
                                 Owner </span>
@@ -207,7 +211,7 @@
                                     <img class="w-full h-auto rounded-lg my-2"
                                         src="{{ asset('storage/'. $message->message) }}" alt="">
                                     @elseif($message->message_type == 0)
-                                    <span class="block">{{$message->message}}</span>
+                                    <span class="block">{!!$message->message!!}</span>
                                     @endif
                                     <small
                                         class="block text-gray-700 text-right">{{date('d M Y h:m', strtotime($message->created_at))}}</small>
@@ -221,7 +225,7 @@
                                     <img class="w-full h-auto rounded-lg my-2"
                                         src="{{ asset('storage/'. $message->message) }}" alt="">
                                     @elseif($message->message_type == 0)
-                                    <span class="block">{{$message->message}}</span>
+                                    <span class="block">{!!$message->message!!}</span>
                                     @endif
                                     <small
                                         class="block text-gray-700 text-right">{{date('d M Y h:m', strtotime($message->created_at))}}</small>

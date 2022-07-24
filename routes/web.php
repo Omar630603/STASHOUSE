@@ -42,7 +42,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
         Route::get('/chats', [CustomerController::class, 'getChats'])->name('customer.chats');
         Route::post('review/{unit}', [CustomerController::class, 'review'])->name('customer.review');
         Route::get('/rent-process/{unit}', [CustomerController::class, 'rentProcess'])->name('customer.rent-process');
-        Route::post('/rent', [CustomerController::class, 'rent'])->name('customer.rent');
+        Route::post('/rent-process/{unit}', [CustomerController::class, 'rent'])->name('customer.rent');
     });
 });
 
