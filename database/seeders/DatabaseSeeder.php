@@ -28,5 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UnitReviewSeeder::class);
         $this->call(BankSeeder::class);
         $this->call(StorageOwnerBankSeeder::class);
+        $this->call(FaqTabSeeder::class);
+        $this->call(FaqQuestionSeeder::class);
     }
 }

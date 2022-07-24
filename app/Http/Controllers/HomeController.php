@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StorageOwner;
 use App\Models\DeliveryCompany;
+use App\Models\FaqTab;
 use App\Models\Unit;
 use App\Models\UnitCategory;
 use Illuminate\Database\Eloquent\Builder;
@@ -163,7 +164,8 @@ class HomeController extends Controller
 
     public function faq()
     {
-        return view('faq');
+        $faqs = FaqTab::all();
+        return view('faq', compact('faqs'));
     }
 
     public function getUserCity()
