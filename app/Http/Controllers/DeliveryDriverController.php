@@ -59,15 +59,17 @@ class DeliveryDriverController extends Controller
     {
         $selectedChat = $request->chat_id;
         if ($request->chat_id != null) {
-            $selectedChat = Chat::where('id', $selectedChat)
-                ->where('sender_user_id', Auth::user()->id)
-                ->orWhere('receiver_user_id', Auth::user()->id)
-                ->first();
-            if ($selectedChat != null) {
-                foreach ($selectedChat->messages as $message) {
-                    if ($message->receiver_user_id == Auth::user()->id) {
-                        $message->status = true;
-                        $message->save();
+            $selectedChat = Chat::where('id', $selectedChat)->first();
+            if (isset($selectedChat)) {
+                if ($selectedChat->sender_user_id != Auth::user()->id && $selectedChat->receiver_user_id != Auth::user()->id) {
+                    $selectedChat = null;
+                }
+                if ($selectedChat != null) {
+                    foreach ($selectedChat->messages as $message) {
+                        if ($message->receiver_user_id == Auth::user()->id) {
+                            $message->status = true;
+                            $message->save();
+                        }
                     }
                 }
             }

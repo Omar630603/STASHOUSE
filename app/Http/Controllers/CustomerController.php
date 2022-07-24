@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\RentDeliveryStatus;
 use App\Models\Message;
 use App\Models\Rent;
 use App\Models\RentDelivery;
+use App\Models\RentStatus;
 use App\Models\Transaction;
+use App\Models\TransactionStatus;
 use App\Models\Unit;
 use App\Models\User;
 use DateTime;
@@ -14,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -66,15 +68,17 @@ class CustomerController extends Controller
     {
         $selectedChat = $request->chat_id;
         if ($request->chat_id != null) {
-            $selectedChat = Chat::where('id', $selectedChat)
-                ->where('sender_user_id', Auth::user()->id)
-                ->orWhere('receiver_user_id', Auth::user()->id)
-                ->first();
-            if ($selectedChat != null) {
-                foreach ($selectedChat->messages as $message) {
-                    if ($message->receiver_user_id == Auth::user()->id) {
-                        $message->status = true;
-                        $message->save();
+            $selectedChat = Chat::where('id', $selectedChat)->first();
+            if (isset($selectedChat)) {
+                if ($selectedChat->sender_user_id != Auth::user()->id && $selectedChat->receiver_user_id != Auth::user()->id) {
+                    $selectedChat = null;
+                }
+                if ($selectedChat != null) {
+                    foreach ($selectedChat->messages as $message) {
+                        if ($message->receiver_user_id == Auth::user()->id) {
+                            $message->status = true;
+                            $message->save();
+                        }
                     }
                 }
             }
@@ -148,7 +152,7 @@ class CustomerController extends Controller
                 $rent->description = $request->description ?? '';
             }
             $rent->total_price = $request->total_price;
-            $rent->status = 0;
+            $rent->status = RentStatus::SUBMITTED;
             $rent->save();
             $message = '<strong>Permintaan sewa berhasil dikirim</strong>';
             // change unit status
@@ -174,7 +178,7 @@ class CustomerController extends Controller
                     $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
                         $request->starts_from . ' to ' . $request->ends_at . ' paid now. Delivery option: No';
                 }
-                $transaction->status = 1;
+                $transaction->status = TransactionStatus::PAID;
                 if ($request->hasFile('proof')) {
                     $proof = $request->file('proof');
                     $proof_name = time() . '.' . $proof->getClientOriginalExtension();
@@ -197,7 +201,7 @@ class CustomerController extends Controller
                     $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
                         $request->starts_from . ' to ' . $request->ends_at . ' paid later. Delivery option: No';
                 }
-                $transaction->status = 0;
+                $transaction->status = TransactionStatus::NOTPAID;
                 $transaction->proof = null;
                 $message .= '<br><strong>Metode pembayaran: Nanti, Bukti: Tidak Diunggah, perlu diunggah nanti dalam 5 hari kerja</strong>';
             }
@@ -232,7 +236,7 @@ class CustomerController extends Controller
                 }
                 $rentDelivery->picked_up_location = $request->picked_up_location;
                 $rentDelivery->delivered_to_location = $unit->address;
-                $rentDelivery->status = 0;
+                $rentDelivery->status = RentDeliveryStatus::REQUESTED;
                 $rentDelivery->save();
                 $message .= '<br><strong>Pengiriman sudah dibuat</strong><br><strong>Sopir pengiriman:</strong> ' . $rentDelivery->deliveryDriver->driver_name .
                     '<br><strong>Jasa pengiriman:</strong> ' . $rentDelivery->deliveryDriver->deliveryCompany->name .
@@ -259,6 +263,8 @@ class CustomerController extends Controller
             $chatMessage->message = 'Permintaan sewa dari <strong>' . Auth::user()->name . '</strong> telah dikirimkan.<br>' .
                 'Terima kasih telah menyewa ' . $unit->name . ', Silakan periksa permintaan sewa Anda di profil Anda.<br> Ini log sewa Anda:<br>' . $message;
             $chatMessage->save();
+            $chat->updated_at = $chatMessage->updated_at;
+            $chat->save();
             Session::flash('success', 'Rent request has been submitted');
             return view('customer.rent-success', compact('unit', 'rent', 'message'));
         }
