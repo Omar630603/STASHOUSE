@@ -28,4 +28,14 @@ class Rent extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function rentDeliveries()
+    {
+        return $this->hasMany(RentDelivery::class);
+    }
 }

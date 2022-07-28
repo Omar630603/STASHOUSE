@@ -172,11 +172,11 @@ class CustomerController extends Controller
                 }
                 $transaction->storage_owner_bank_id = explode("-", $request->bank_account)[1];
                 if ($request->delivery_option == 'delivery_option-yes') {
-                    $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
-                        $request->starts_from . ' to ' . $request->ends_at . ' paid now. Delivery option: Yes';
+                    $transaction->description = 'Sewa unit ' . $unit->name . ' dari ' .
+                        $request->starts_from . ' sampai ' . $request->ends_at . ' bayar sekarang. Opsi delivery: Iya';
                 } else if ($request->delivery_option == 'delivery_option-no') {
-                    $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
-                        $request->starts_from . ' to ' . $request->ends_at . ' paid now. Delivery option: No';
+                    $transaction->description = 'Sewa unit ' . $unit->name . ' dari ' .
+                        $request->starts_from . ' sampai ' . $request->ends_at . ' bayar sekarang. Opsi delivery: Tidak';
                 }
                 $transaction->status = TransactionStatus::PAID;
                 if ($request->hasFile('proof')) {
@@ -195,17 +195,17 @@ class CustomerController extends Controller
             } elseif ($request->payment_method == 'payment_method-later') {
                 $transaction->storage_owner_bank_id = null;
                 if ($request->delivery_option == 'delivery_option-yes') {
-                    $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
-                        $request->starts_from . ' to ' . $request->ends_at . ' paid later. Delivery option: Yes';
+                    $transaction->description = 'Sewa unit ' . $unit->name . ' dari ' .
+                        $request->starts_from . ' sampai ' . $request->ends_at . ' bayar nanti. Opsi delivery: Iya';
                 } else if ($request->delivery_option == 'delivery_option-no') {
-                    $transaction->description = 'Rent unit ' . $unit->name . ' from ' .
-                        $request->starts_from . ' to ' . $request->ends_at . ' paid later. Delivery option: No';
+                    $transaction->description = 'Sewa unit ' . $unit->name . ' dari ' .
+                        $request->starts_from . ' sampai ' . $request->ends_at . ' bayar nanti. Opsi delivery: Tidak';
                 }
                 $transaction->status = TransactionStatus::NOTPAID;
                 $transaction->proof = null;
                 $message .= '<br><strong>Metode pembayaran: Nanti, Bukti: Tidak Diunggah, perlu diunggah nanti dalam 5 hari kerja</strong>';
             }
-            $transaction->totalPrice = $request->total_price;
+            $transaction->total_price = $request->total_price;
             $transaction->save();
             $message .= '<br><strong>Transaksi sudah dibuat</strong><br>' . $transaction->description;
             // create a new delivery

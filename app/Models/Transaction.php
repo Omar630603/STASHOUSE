@@ -14,8 +14,23 @@ class Transaction extends Model
         'customer_id',
         'storage_owner_bank_id',
         'description',
-        'totalPrice',
+        'total_price',
         'status',
         'proof',
     ];
+
+    public function rent()
+    {
+        return $this->belongsTo(Rent::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function storageOwnerBank()
+    {
+        return $this->belongsTo(StorageOwnerBank::class);
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->integer('totalPrice');
+            $table->integer('total_price');
             $table->integer('status')->default(0);
             $table->string('proof')->nullable();
             $table->timestamps();

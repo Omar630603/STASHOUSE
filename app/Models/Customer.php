@@ -26,4 +26,9 @@ class Customer extends Model
     {
         return $this->hasMany(Rent::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
