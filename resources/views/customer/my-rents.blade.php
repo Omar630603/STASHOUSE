@@ -205,7 +205,7 @@
 
                     <div id="detail" class="lg:col-span-2 lg:block">
                         <div class="w-full lg:ml-3 rounded-xl border-2 relative">
-                            <div class="absolute -top-5 -right-5 p-5 bg-gray-100 rounded-full">
+                            <div class="absolute -top-5 -right-3 p-5 bg-gray-100 rounded-full">
                                 <a id="close" onclick="closeSideBar()">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -317,7 +317,7 @@
                                     $haveStarted = $daysWent >= 0;
                                     $haveEnded = 0 >= $daysLeft;
                                     @endphp
-                                    <div class="py-4 my-2 px-2  border-b-2">
+                                    <div class="py-4 my-2 px-2  border-b-4">
                                         <div class="flex justify-between w-full mb-2">
                                             <span>{{date('d M Y', strtotime($unitRents->first()->starts_from))}}</span>
                                             @if ($unitRents->first()->status == \App\Models\RentStatus::SUBMITTED)
