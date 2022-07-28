@@ -34,7 +34,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('customer.rents')" :active="request()->routeIs('customer.rents')">
+                        {{ __('Persewaan') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                         {{ __('Chats') }}
                         @if (count(\App\Models\Message::where('receiver_user_id', Auth::user()->id)->where('status',
@@ -160,6 +162,9 @@
             <!-- Customer Links-->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('customer.dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('customer.rents')" :active="request()->routeIs('customer.rents')">
+                {{ __('Persewaan') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('customer.chats')" :active="request()->routeIs('customer.chats')">
                 {{ __('Chats') }}

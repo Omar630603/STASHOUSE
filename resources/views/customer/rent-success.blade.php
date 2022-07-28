@@ -62,7 +62,7 @@
                 <span class="border-l-2 border-green-500 bg-green-100 p-5 text-base">
                     {!!$message!!}
                 </span>
-                <a href=""
+                <a href="{{route('customer.rents', ['unit_id'=> $unit->id])}}"
                     class="my-4 p-3 text-white text-bass font-bold bg-[#4D275F] ml-auto text-center rounded-lg">Lihat
                     status
                     sewa</a>

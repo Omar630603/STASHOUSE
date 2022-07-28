@@ -266,7 +266,17 @@ class CustomerController extends Controller
             $chat->updated_at = $chatMessage->updated_at;
             $chat->save();
             Session::flash('success', 'Rent request has been submitted');
-            return view('customer.rent-success', compact('unit', 'rent', 'message'));
+            return view('customer.rent-success', compact('unit', 'message'));
         }
+    }
+    public function showMyRents(Request $request)
+    {
+        $selectedUnit = $request->unit_id;
+        $selectedUnit = Unit::where([
+            ['id', $selectedUnit],
+            ['is_active', true],
+        ])->first();
+        $rents = Rent::select('*')->where('customer_id', Auth::user()->customer->id)->groupBy('unit_id')->get();
+        return view('customer.my-rents', compact('rents', 'selectedUnit'));
     }
 }

@@ -438,7 +438,7 @@
                     $('#total_price').val(formatter.format(diffDays * {{ $unit->price_per_day }}));
                     $('#total_price_hidden').val(diffDays * {{ $unit->price_per_day }});
                     $('#beforePaymentTotalPrice').html('Total pembayaran: '+ formatter.format(diffDays * {{ $unit->price_per_day }}));
-                    $('#days').html(diffDays + ' / Hari'); 
+                    $('#days').html(diffDays + ' - Hari'); 
                     $('#days_hidden').val(diffDays);
                     if (deliveryPrice != 0 && deliveryPrice != '' && deliveryPrice != null && deliveryPrice != 'undefined') {
                         rentPrice = diffDays * {{ $unit->price_per_day }};
