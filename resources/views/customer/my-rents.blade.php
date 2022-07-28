@@ -1020,7 +1020,7 @@
             }
             $("document").ready(function(){
                 selectedUnit = $("#selectedUnit");
-                if (selectedUnit.length > 0) {
+                if (selectedUnit.length > 0 && selectedUnit.offset() != null) {
                     $('#unitlist').animate({
                     scrollTop: selectedUnit.offset().top - selectedUnit.parent().offset().top
                     }, 1000);              

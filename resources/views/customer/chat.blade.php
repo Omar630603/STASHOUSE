@@ -301,9 +301,12 @@
                 button.remove();
             }
             $("document").ready(function(){
+                scrollSelectedChat = $("#scrollSelectedChat li:last-child");
+                if (scrollSelectedChat.offset() != null) {
                 $('#scrollSelectedChat').animate({
                     scrollTop: $('#scrollSelectedChat li:last-child').offset().top
                    }, 1000);
+                }
                 $('#messageImage').on('change', function(){
                     $('#messageInput').val('Click the button to send the image');
                     $('#messageInput').attr('disabled', true);
@@ -312,7 +315,7 @@
                     $('#messageInput').parent().append('<a id="cancelSendImage" onclick="cancel(this)" class="cursor-pointer bg-gray-300 rounded-full px-3 py-1 ml-2">Cancel</a>');
                 });
                 selectedChat = $("#selectedChat");
-                if (selectedChat.length > 0) {
+                if (selectedChat.length > 0 && selectedChat.offset() != null) {
                     $('#chatList').animate({
                     scrollTop: selectedChat.offset().top - selectedChat.parent().offset().top
                     }, 1000);              
