@@ -353,6 +353,12 @@ class CustomerController extends Controller
 
     public function deleteTransaction(Transaction $transaction)
     {
+        $rent = Rent::where('id', $transaction->rent_id)->first();
+
+        if ($transaction->status == TransactionStatus::NOTPAID) {
+            $rent->total_price = $rent->total_price - $transaction->total_price;
+            $rent->save();
+        }
         $transaction->status = TransactionStatus::DELETED;
         $transaction->save();
         return redirect()->back()->with('success', 'Transaction has been deleted');
@@ -426,5 +432,12 @@ class CustomerController extends Controller
         $chat->save();
 
         return redirect()->back()->with('success', 'Delivery has been requested');
+    }
+
+    public function deleteDelivery(RentDelivery $delivery)
+    {
+        $delivery->status = RentDeliveryStatus::DELETED;
+        $delivery->save();
+        return redirect()->back()->with('success', 'Delivery has been deleted');
     }
 }

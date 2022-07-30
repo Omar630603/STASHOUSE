@@ -1125,25 +1125,25 @@
                                                                     class="p-1 text-xs text-blue-500 bg-blue-100 rounded-2xl">
                                                                     Sedang diproses
                                                                 </span>
-                                                                @elseif ($transaction->status ==
+                                                                @elseif ($deliveries->status ==
                                                                 \App\Models\RentDeliveryStatus ::ACCEPTED)
                                                                 <span
                                                                     class="p-1 text-xs text-green-500 bg-green-100 rounded-2xl">
                                                                     Diterima
                                                                 </span>
-                                                                @elseif ($transaction->status ==
+                                                                @elseif ($deliveries->status ==
                                                                 \App\Models\RentDeliveryStatus ::ONTHEROAD)
                                                                 <span
                                                                     class="p-1 text-xs text-orange-500 bg-orange-100 rounded-2xl">
                                                                     Sedang diantar
                                                                 </span>
-                                                                @elseif ($transaction->status ==
+                                                                @elseif ($deliveries->status ==
                                                                 \App\Models\RentDeliveryStatus ::DONE)
                                                                 <span
                                                                     class="p-1 text-xs text-green-500 bg-green-100 rounded-2xl">
                                                                     Selesai
                                                                 </span>
-                                                                @elseif ($transaction->status ==
+                                                                @elseif ($deliveries->status ==
                                                                 \App\Models\RentDeliveryStatus ::DELETED)
                                                                 <span
                                                                     class="p-1 text-xs text-red-500 bg-red-100 rounded-2xl">
@@ -1152,15 +1152,89 @@
                                                                 @endif
                                                             </td>
                                                             <td class="py-4 px-6 flex flex-col items-start gap-1">
-                                                                @if ($deliveries->status ==
-                                                                \App\Models\RentDeliveryStatus ::REQUESTED)
-                                                                <a href=""
+                                                                @if($deliveries->status !=
+                                                                \App\Models\RentDeliveryStatus ::DELETED)
+                                                                @php
+                                                                $driver_id = $deliveries->deliveryDriver->user->id;
+                                                                $chat = \App\Models\Chat::where([
+                                                                ['sender_user_id', Auth::user()->id],
+                                                                ['receiver_user_id', $driver_id]
+                                                                ])->orWhere([
+                                                                ['sender_user_id', $driver_id],
+                                                                ['receiver_user_id', Auth::user()->id]
+                                                                ])->first();
+                                                                @endphp
+                                                                <a href="{{ route('customer.chats', ['chat_id'=>$chat->id]) }}"
                                                                     class="text-sm text-blue-500 hover:text-blue-700">
                                                                     Hubungi Pengemudi
                                                                 </a>
+                                                                <button
+                                                                    data-modal-toggle="delete-rent-delivery{{$deliveries->id}}"
+                                                                    class="font-medium text-blue-600 hover:underline">Hapus</button>
+                                                                <div id="delete-rent-delivery{{$deliveries->id}}"
+                                                                    tabindex="-1"
+                                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                                                    aria-modal="true" role="dialog">
+                                                                    <div
+                                                                        class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                                                        <div
+                                                                            class="relative bg-white rounded-lg shadow">
+                                                                            <button type="button"
+                                                                                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                                                data-modal-toggle="delete-rent-delivery{{$deliveries->id}}">
+                                                                                <svg aria-hidden="true" class="w-5 h-5"
+                                                                                    fill="currentColor"
+                                                                                    viewBox="0 0 20 20"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                                        clip-rule="evenodd"></path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Close modal</span>
+                                                                            </button>
+                                                                            <div class="p-6 text-center">
+                                                                                <svg aria-hidden="true"
+                                                                                    class="mx-auto mb-4 w-14 h-14 text-gray-400"
+                                                                                    fill="none" stroke="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        stroke-width="2"
+                                                                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <h3
+                                                                                    class="mb-5 text-lg font-normal text-gray-500">
+                                                                                    Apakah Anda yakin ingin menghapus
+                                                                                    delivery ini?
+                                                                                    <small>itu tidak akan dihapus
+                                                                                        sepenuhnya
+                                                                                        sampai Anda menghapus
+                                                                                        sewa</small>
+                                                                                </h3>
+                                                                                <form
+                                                                                    action="{{ route('customer.deleteDelivery', ['delivery'=>$deliveries]) }}"
+                                                                                    method="POST">
+                                                                                    @method('DELETE')
+                                                                                    @csrf
+                                                                                    <button
+                                                                                        data-modal-toggle="delete-rent-delivery{{$deliveries->id}}"
+                                                                                        type="submit"
+                                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                                                        Iya, saya yakin
+                                                                                    </button>
+                                                                                    <button
+                                                                                        data-modal-toggle="delete-rent-delivery{{$deliveries->id}}"
+                                                                                        type="button"
+                                                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Tidak,
+                                                                                        batal aja</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 @endif
-                                                                <a href="#"
-                                                                    class="font-medium text-blue-600 hover:underline">Hapus</a>
                                                             </td>
                                                         </tr>
                                                         @empty
