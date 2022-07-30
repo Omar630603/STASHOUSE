@@ -13,5 +13,6 @@ class RentStatus extends Model
     const DISAPPROVED       = 2;
     const INTRANSACTION     = 3;
     const INDELIVERY        = 4;
-    const DELETED           = 5;
+    const DONE              = 5;
+    const DELETED           = 6;
 }

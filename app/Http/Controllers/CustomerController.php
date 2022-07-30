@@ -302,7 +302,7 @@ class CustomerController extends Controller
             ['id', $selectedUnit],
             ['is_active', true],
         ])->first();
-        $rents = Rent::select('*')->where('customer_id', Auth::user()->customer->id)->groupBy('unit_id')->get();
+        $rents = Rent::where('customer_id', Auth::user()->customer->id)->groupBy('unit_id')->get();
         return view('customer.my-rents', compact('rents', 'selectedUnit'));
     }
     public function payTransaction(Request $request, Transaction $transaction)
@@ -439,5 +439,17 @@ class CustomerController extends Controller
         $delivery->status = RentDeliveryStatus::DELETED;
         $delivery->save();
         return redirect()->back()->with('success', 'Delivery has been deleted');
+    }
+    public function deleteRent(Rent $rent)
+    {
+        $rent->status = RentStatus::DELETED;
+        $unit = Unit::where('id', $rent->unit_id)->first();
+        $lastRentByUnit = Rent::where('unit_id', $unit->id)->orderBy('created_at', 'DESC')->first();
+        if ($lastRentByUnit->customer_id == $rent->customer_id && $lastRentByUnit->id == $rent->id) {
+            $unit->is_rented = false;
+            $unit->save();
+        }
+        $rent->save();
+        return redirect()->back()->with('success', 'Rent has been deleted');
     }
 }

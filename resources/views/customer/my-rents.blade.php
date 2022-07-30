@@ -120,7 +120,7 @@
                                             </svg>
                                             Sedang Delivery
                                         </span>
-                                        @elseif ($statusRent->first()->status == \App\Models\RentStatus::DELETED)
+                                        @elseif ($statusRent->first()->status == \App\Models\RentStatus::DONE)
                                         <span class="flex gap-1 items-center bg-[#E8EBFF] text-[#5B6BF8] text-xs 
                                                 font-semibold mr-2 px-2.5 py-0.5 rounded-lg"> <svg width="13"
                                                 height="13" viewBox="0 0 13 13" fill="none"
@@ -131,6 +131,20 @@
                                                     d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
                                                     stroke="#5B6BF8" />
                                             </svg> Sudah Selesai
+                                        </span>
+                                        @elseif ($statusRent->first()->status == \App\Models\RentStatus::DELETED)
+                                        <span class="flex gap-1 items-center bg-red-100 text-red-500 text-xs 
+                                                font-semibold mr-2 px-2.5 py-0.5 rounded-lg"> <svg width="13"
+                                                height="13" viewBox="0 0 13 13" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
+                                                    stroke="#ff0000 " />
+                                                <path
+                                                    d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
+                                                    stroke="#ff0000 " />
+                                            </svg>
+                                            Sudah Dihapus
                                         </span>
                                         @endif
                                         @endif
@@ -288,7 +302,7 @@
                                 </div>
                                 <div class="my-5">
                                     <span class="text-xl font-bold text-black mb-2">Masa Sewa unit ini</span>
-                                    @foreach ($selectedUnit->rents->sortBy('starts_from')->groupBy(
+                                    @foreach($selectedUnit->rents->sortByDesc('starts_from')->groupBy(
                                     'starts_from',
                                     'ends_at') as
                                     $unitRents)
@@ -380,7 +394,7 @@
                                                 </svg>
                                                 Sedang Delivery
                                             </span>
-                                            @elseif ($unitRents->first()->status == \App\Models\RentStatus::DELETED)
+                                            @elseif ($unitRents->first()->status == \App\Models\RentStatus::DONE)
                                             <span class="flex gap-1 items-center bg-[#E8EBFF] text-[#5B6BF8] text-xs 
                                                     font-semibold mr-2 px-2.5 py-0.5 rounded-lg"> <svg width="13"
                                                     height="13" viewBox="0 0 13 13" fill="none"
@@ -392,13 +406,27 @@
                                                         stroke="#5B6BF8" />
                                                 </svg> Sudah Selesai
                                             </span>
+                                            @elseif ($unitRents->first()->status == \App\Models\RentStatus::DELETED)
+                                            <span class="flex gap-1 items-center bg-red-100 text-red-500 text-xs 
+                                                font-semibold mr-2 px-2.5 py-0.5 rounded-lg"> <svg width="13"
+                                                    height="13" viewBox="0 0 13 13" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
+                                                        stroke="#ff0000" />
+                                                    <path
+                                                        d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
+                                                        stroke="#ff0000" />
+                                                </svg>
+                                                Sudah Dihapus
+                                            </span>
                                             @endif
                                             <span>{{date('d M Y', strtotime($unitRents->first()->ends_at))}}</span>
                                         </div>
                                         @if ($haveStarted && !$haveEnded)
                                         <div class="w-full bg-gray-200 rounded-full"
                                             data-tooltip-target="tooltipDate{{$unitRents->first()->id}}">
-                                            <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                                            <div class="animate-expand bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
                                                 style="width: {{$percentage}}%">{{$percentage}}%</div>
                                         </div>
                                         <div id="tooltipDate{{$unitRents->first()->id}}" role="tooltip"
@@ -437,10 +465,79 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                         @endif
-                                        <div class="flex justify-end my-2">
+                                        <div class="flex justify-between my-2">
                                             <span class="p-2 bg-green-100 text-green-500 rounded-xl text-sm "> Total
                                                 Harga :
                                                 {{"Rp." . number_format($unitRents->first()->total_price , 0, ',', '.')}}</span>
+                                            <span>
+
+                                                @if ($unitRents->first()->status != \App\Models\RentStatus::DELETED)
+                                                <button data-modal-toggle="deleteRent{{$unitRents->first()->id}}"
+                                                    class="p-2 bg-red-100 text-red-500 rounded-xl text-sm drop-shadow">Hapus
+                                                    persewaan ini</button>
+                                                <div id="deleteRent{{$unitRents->first()->id}}" tabindex="-1"
+                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                                    aria-modal="true" role="dialog">
+                                                    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                                        <div class="relative bg-white rounded-lg shadow">
+                                                            <button type="button"
+                                                                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                                data-modal-toggle="deleteRent{{$unitRents->first()->id}}">
+                                                                <svg aria-hidden="true" class="w-5 h-5"
+                                                                    fill="currentColor" viewBox="0 0 20 20"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                        clip-rule="evenodd"></path>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                            <div class="p-6 text-center">
+                                                                <svg aria-hidden="true"
+                                                                    class="mx-auto mb-4 w-14 h-14 text-gray-400"
+                                                                    fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                                    </path>
+                                                                </svg>
+                                                                <h3 class="mb-5 text-lg font-normal text-gray-500">
+                                                                    Apakah Anda yakin ingin menghapus
+                                                                    persewaan ini?
+                                                                    <small>itu tidak akan dihapus
+                                                                        sepenuhnya
+                                                                        sampai Anda menghapus
+                                                                        sewa</small>
+                                                                </h3>
+                                                                <form
+                                                                    action="{{ route('customer.deleteRent', ['rent'=>$unitRents->first()]) }}"
+                                                                    method="POST">
+                                                                    @method('DELETE')
+                                                                    @csrf
+                                                                    <button
+                                                                        data-modal-toggle="deleteRent{{$unitRents->first()->id}}"
+                                                                        type="submit"
+                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                                        Iya, saya yakin
+                                                                    </button>
+                                                                    <button
+                                                                        data-modal-toggle="deleteRent{{$unitRents->first()->id}}"
+                                                                        type="button"
+                                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Tidak,
+                                                                        batal aja</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @else
+                                                <button disabled
+                                                    class="p-2 bg-red-100 text-red-500 rounded-xl text-sm drop-shadow">Sudah
+                                                    Dihapus</button>
+                                                @endif
+                                            </span>
                                         </div>
                                         <div>
                                             <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -550,7 +647,9 @@
                                                             </td>
                                                             <td class="py-4 px-6 flex flex-col items-start gap-1">
                                                                 @if ($transaction->status ==
-                                                                \App\Models\TransactionStatus ::NOTPAID)
+                                                                \App\Models\TransactionStatus ::NOTPAID &&
+                                                                $unitRents->first()->status !=
+                                                                \App\Models\RentStatus::DELETED)
                                                                 <button data-modal-toggle="pay{{$transaction->id}}"
                                                                     class="text-sm text-blue-500 hover:text-blue-700">
                                                                     Bayar
@@ -755,7 +854,9 @@
                                                                 </div>
                                                                 @endif
                                                                 @if ($transaction->status !=
-                                                                \App\Models\TransactionStatus ::DELETED)
+                                                                \App\Models\TransactionStatus ::DELETED &&
+                                                                $unitRents->first()->status !=
+                                                                \App\Models\RentStatus::DELETED)
                                                                 <button
                                                                     data-modal-toggle="deletePayment{{$transaction->id}}"
                                                                     class="font-medium text-blue-600 hover:underline">Hapus</button>
@@ -841,7 +942,10 @@
                                         </div>
                                         <div class="my-2">
                                             <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                                                <button data-modal-toggle="addDelivery"
+                                                <button @if($unitRents->first()->status !=
+                                                    \App\Models\RentStatus::DELETED)
+                                                    data-modal-toggle="addDelivery{{$unitRents->first()->id}}"
+                                                    @else disabled @endif
                                                     class="absolute top-0 right-0 p-3 bg-gray-100 rounded-tr-lg">
                                                     <svg width="26" height="26" viewBox="0 0 32 32" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -852,7 +956,7 @@
                                                     </svg>
                                                 </button>
                                                 <!-- Main modal -->
-                                                <div id="addDelivery" tabindex="-1"
+                                                <div id="addDelivery{{$unitRents->first()->id}}" tabindex="-1"
                                                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
                                                     aria-modal="true" role="dialog" data-modal-placement="top-left">
                                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -870,7 +974,7 @@
                                                                     </h3>
                                                                     <button type="button"
                                                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                                                        data-modal-toggle="addDelivery">
+                                                                        data-modal-toggle="addDelivery{{$unitRents->first()->id}}">
                                                                         <svg aria-hidden="true" class="w-5 h-5"
                                                                             fill="currentColor" viewBox="0 0 20 20"
                                                                             xmlns="http://www.w3.org/2000/svg">
@@ -962,14 +1066,14 @@
                                                                                     @endphp
                                                                                     <li class="mb-5">
                                                                                         <input type="radio"
-                                                                                            id="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            id="delivery_service-{{$deliveryDriver->id}}-{{$unitRents->first()->id}}"
                                                                                             name="delivery_service"
-                                                                                            value="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            value="delivery_service-{{$deliveryDriver->id}}-{{$unitRents->first()->id}}"
                                                                                             class="hidden peer">
                                                                                         <input hidden
                                                                                             value="{{$deliveryDriver->price_per_km}}">
                                                                                         <label
-                                                                                            for="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            for="delivery_service-{{$deliveryDriver->id}}-{{$unitRents->first()->id}}"
                                                                                             class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white 
                                                                                             rounded-lg drop-shadow border-2 peer-checked:border-2 border-white peer-checked:border-[#72358E] peer-checked:text-[#72358E] hover:text-gray-600 hover:bg-[#FFF6E4]">
                                                                                             <div class="flex gap-10">
@@ -1043,7 +1147,8 @@
                                                                     <button type="submit"
                                                                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                                         Minta delivery</button>
-                                                                    <button data-modal-toggle="addDelivery"
+                                                                    <button
+                                                                        data-modal-toggle="addDelivery{{$unitRents->first()->id}}"
                                                                         type="button"
                                                                         class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Batal</button>
                                                                 </div>
@@ -1153,7 +1258,9 @@
                                                             </td>
                                                             <td class="py-4 px-6 flex flex-col items-start gap-1">
                                                                 @if($deliveries->status !=
-                                                                \App\Models\RentDeliveryStatus ::DELETED)
+                                                                \App\Models\RentDeliveryStatus ::DELETED &&
+                                                                $unitRents->first()->status !=
+                                                                \App\Models\RentStatus::DELETED)
                                                                 @php
                                                                 $driver_id = $deliveries->deliveryDriver->user->id;
                                                                 $chat = \App\Models\Chat::where([
@@ -1164,13 +1271,20 @@
                                                                 ['receiver_user_id', Auth::user()->id]
                                                                 ])->first();
                                                                 @endphp
-                                                                <a href="{{ route('customer.chats', ['chat_id'=>$chat->id]) }}"
+                                                                <a @if($unitRents->first()->status !=
+                                                                    \App\Models\RentStatus::DELETED)
+                                                                    href="{{ route('customer.chats',
+                                                                    ['chat_id'=>$chat->id]) }}"
+                                                                    @else href="#" @endif
                                                                     class="text-sm text-blue-500 hover:text-blue-700">
                                                                     Hubungi Pengemudi
                                                                 </a>
-                                                                <button
+                                                                <button @if($unitRents->first()->status !=
+                                                                    \App\Models\RentStatus::DELETED)
                                                                     data-modal-toggle="delete-rent-delivery{{$deliveries->id}}"
-                                                                    class="font-medium text-blue-600 hover:underline">Hapus</button>
+                                                                    @else disabled @endif
+                                                                    class="font-medium text-blue-600
+                                                                    hover:underline">Hapus</button>
                                                                 <div id="delete-rent-delivery{{$deliveries->id}}"
                                                                     tabindex="-1"
                                                                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"

@@ -48,6 +48,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
         Route::delete('/rent-deleteTransaction/{transaction}', [CustomerController::class, 'deleteTransaction'])->name('customer.deleteTransaction');
         Route::post('/rent-addDelivery/{unit}/{rent_id}', [CustomerController::class, 'addDelivery'])->name('customer.addDelivery');
         Route::delete('/rent-deleteDelivery/{delivery}', [CustomerController::class, 'deleteDelivery'])->name('customer.deleteDelivery');
+        Route::delete('/rent-deleteRent/{rent}', [CustomerController::class, 'deleteRent'])->name('customer.deleteRent');
     });
 });
 

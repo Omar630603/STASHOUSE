@@ -46,10 +46,16 @@ module.exports = {
                         transform: "translatex(0px)",
                     },
                 },
+                expand: {
+                    "0%": {
+                        width: "0%",
+                    },
+                },
             },
             animation: {
                 floatY: "floatY 3s ease-in-out infinite",
                 floatX: "floatX 3s ease-in-out infinite",
+                expand: "expand 1s ease-in-out",
             },
         },
     },
