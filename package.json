@@ -17,6 +17,7 @@
         "vite": "^2.9.11"
     },
     "dependencies": {
+        "aos": "^2.3.4",
         "daisyui": "^2.19.0",
         "flowbite-datepicker": "^1.2.2"
     }

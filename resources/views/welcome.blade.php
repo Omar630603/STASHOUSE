@@ -5,10 +5,13 @@
             <div class="lg:flex">
                 <div class="lg:mt-[80px] w-full lg:w-1/2 items-center flex">
                     <div class="max-w-fit">
-                        <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
+                        <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold"
+                            data-aos="fade-right">
                             Temukan
                             Unit Penyimpanan yang Sesuai Denganmu</h1>
-                        <p class="mt-9 lg:text-2xl text-black">Solusimu untuk menyimpan barang dengan aman</p>
+                        <p data-aos="fade-left" data-aos-duration="1500" class="mt-9 lg:text-2xl text-black">Solusimu
+                            untuk menyimpan barang
+                            dengan aman</p>
                         <div class="flex mt-9 gap-4">
                             <div class="flex gap-2 items-center">
                                 <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
@@ -26,7 +29,8 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p class="font-semibold text-base">5000+ Pengguna</p>
+                                <p data-aos="fade-in" data-aos-duration="1000" class=" font-semibold text-base">5000+
+                                    Pengguna</p>
                             </div>
                             <div class="flex gap-2 items-center">
                                 <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
@@ -44,11 +48,13 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p class="font-semibold text-base">500+ Unit Penyimpanan</p>
+                                <p data-aos="fade-in" data-aos-duration="1000" class="font-semibold text-base">500+
+                                    Unit
+                                    Penyimpanan</p>
                             </div>
                         </div>
                         <div class="mt-9">
-                            <a href="{{ route('choose_city') }}"
+                            <a data-aos="zoom-in-up" href="{{ route('choose_city') }}"
                                 class="bg-[#F8C35B] hover:drop-shadow-xl hover:bg-[#F1A613] text-[$3F1652] font-bold py-4 px-10 rounded-full">
                                 Sewa Sekarang
                             </a>
@@ -56,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
+                <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative" data-aos="fade-left">
                     <img class="lg:max-w-2xl absolute top-0 right-0 animate-floatX"
                         src="{{ asset('storage/images/stockImages/hero1-1.svg') }}" alt="">
                     <img class="lg:max-w-2xl absolute top-[250px] right-0 animate-floatY"
@@ -84,8 +90,8 @@
                         @csrf
                         <div class="flex flex-col items-center p-8 bg-white drop-shadow-2xl transition-colors 
                     duration-200 transform cursor-pointer group hover:bg-[#3F1652] rounded-xl">
-                            <img class="object-fit w-40 h-40 drop-shadow-xl	" src="{{ asset('storage/'.$item->image) }}"
-                                alt="">
+                            <img class="object-fit w-40 h-40 drop-shadow-xl	" data-aos="zoom-in"
+                                data-aos-duration="1000" src="{{ asset('storage/'.$item->image) }}" alt="">
                             <h1 class="mt-4 text-2xl font-semibold text-[#72358E] capitalize group-hover:text-white">
                                 {{$item->name}}
                             </h1>
@@ -108,7 +114,7 @@
         </div>
 
         <div class="container px-6 py-16 mx-auto">
-            <div class="lg:flex">
+            <div class="lg:flex" data-aos="fade-right">
                 <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
                     <img class="lg:max-w-2xl absolute top-[100px] right-[100px] animate-floatY"
                         src="{{ asset('storage/images/stockImages/hero2-1.svg') }}" alt="">
@@ -120,23 +126,31 @@
                         src="{{ asset('storage/images/stockImages/hero2-4.svg') }}" alt="">
                 </div>
 
-                <div class="w-full lg:w-1/2 items-center flex">
+                <div class="w-full lg:w-1/2 items-center flex" data-aos="fade-left">
                     <div class="max-w-fit">
-                        <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
+                        <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold"
+                            data-aos="zoom-in">
                             Mitra Kami</h1>
-                        <p class="mt-9 lg:text-2xl text-[#72358E] text-black">Gabung Jadi Mitra Kami Sekarang Juga</p>
+                        <p class="mt-9 lg:text-2xl text-[#72358E] text-black" data-aos="zoom-in">Gabung Jadi Mitra
+                            Kami Sekarang Juga</p>
                         <div class="mt-5">
                             <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
-                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
-                                <p class="pl-5 text-black text-lg">Bebas menentukan harga sewa unit penyimpanan</p>
+                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                    data-aos="fade-up" data-aos-duration="1000"></div>
+                                <p class="pl-5 text-black text-lg" data-aos="fade-left" data-aos-duration="1000">Bebas
+                                    menentukan harga sewa unit penyimpanan</p>
                             </div>
                             <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
-                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
-                                <p class="pl-5 text-black text-lg">Dapat mengelola unit penyewaan dengan mudah</p>
+                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                    data-aos="fade-up" data-aos-duration="1500"></div>
+                                <p class="pl-5 text-black text-lg" data-aos="fade-left" data-aos-duration="1500">Dapat
+                                    mengelola unit penyewaan dengan mudah</p>
                             </div>
                             <div class="border-solid border-l-[5px] border-[#F8C35B] flex relative">
-                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"></div>
-                                <p class="pl-5 text-black text-lg">Menjadi peluang untuk menambah penghasilan</p>
+                                <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                    data-aos="fade-up" data-aos-duration="2000"></div>
+                                <p class="pl-5 text-black text-lg" data-aos="fade-left" data-aos-duration="2000">Menjadi
+                                    peluang untuk menambah penghasilan</p>
                             </div>
                         </div>
                         <div class="mt-12">
@@ -153,32 +167,43 @@
             <div class="container px-6 py-16 mx-auto">
                 <div class="lg:flex">
                     <div class="lg:mt-[80px] w-full lg:w-1/2 items-center flex">
-                        <div class="max-w-fit">
-                            <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">
+                        <div class="max-w-fit" data-aos="fade-right">
+                            <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold"
+                                data-aos="zoom-in">
                                 Delivery Service</h1>
-                            <p class="text-lg mt-3 lg:text-2xl text-[#3F1652]">Temukan kemudahakan dengan layanan
+                            <p class="text-lg mt-3 lg:text-2xl text-[#3F1652]" data-aos="zoom-in">Temukan kemudahakan
+                                dengan layanan
                                 Delivery
                                 Service
                                 Kami</p>
-                            <div class="mt-9 max-w-fit">
+                            <div class="mt-9 max-w-fit" data-aos="fade-right">
                                 <h1 class="text-base font-semibold text-black tracking-wide lg:text-xl font-bold">Kenapa
                                     Delivery Service?</h1>
                                 <div class="mt-6">
                                     <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
-                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                            data-aos="fade-up" data-aos-duration="1000">
                                         </div>
-                                        <p class="pl-5 text-black text-lg">Garansi keamanan pengantaran barang</p>
+                                        <p class="pl-5 text-black text-lg" data-aos="fade-left"
+                                            data-aos-duration="1000">Garansi keamanan
+                                            pengantaran barang</p>
                                     </div>
                                     <div class="border-solid border-l-[5px] border-[#F8C35B] flex h-20 relative">
-                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                            data-aos="fade-up" data-aos-duration="1500">
                                         </div>
-                                        <p class="pl-5 text-black text-lg">Dapat mengelola unit penyewaan dengan mudah
+                                        <p class="pl-5 text-black text-lg" data-aos="fade-left"
+                                            data-aos-duration="1500">Dapat mengelola unit
+                                            penyewaan dengan mudah
                                         </p>
                                     </div>
                                     <div class="border-solid border-l-[5px] border-[#F8C35B] flex relative">
-                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]">
+                                        <div class="w-[20px] h-[20px] bg-[#F8C35B] rounded-full absolute -left-[12px]"
+                                            data-aos="fade-up" data-aos-duration="2000">
                                         </div>
-                                        <p class="pl-5 text-black text-lg">Bantuan untuk memindahkan barang-barang Anda
+                                        <p class="pl-5 text-black text-lg" data-aos="fade-left"
+                                            data-aos-duration="2000">Bantuan untuk
+                                            memindahkan barang-barang Anda
                                         </p>
                                     </div>
                                 </div>
@@ -186,7 +211,8 @@
                                     Mitra
                                     Delivery
                                     Servie Kami</h1>
-                                <div class="grid grid-cols-1 mt-2 gap-6 md:grid-cols-1 xl:grid-cols-3">
+                                <div class="grid grid-cols-1 mt-2 gap-6 md:grid-cols-1 xl:grid-cols-3"
+                                    data-aos="fade-right">
                                     @foreach ($deliveryCompanies as $deliveryCompany)
                                     <div class="flex justify-center p-4 drop-shadow-2xl transition-colors 
                                     duration-200 transform cursor-pointer group hover:bg-[#FFBA76] rounded-xl">
@@ -199,7 +225,7 @@
                         </div>
                     </div>
 
-                    <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative">
+                    <div class="invisible lg:visible w-full lg:mt-0 lg:w-1/2 relative" data-aos="fade-left">
                         <img class="max-w-0 lg:max-w-2xl absolute top-0 right-0 animate-floatX"
                             src="{{ asset('storage/images/stockImages/hero3-1.svg') }}" alt="">
                         <img class="max-w-0 lg:max-w-2xl absolute top-[200px] right-0 animate-floatY"
@@ -209,14 +235,14 @@
             </div>
         </div>
         <div class="flex flex-col items-center h-[350px]">
-            <div class="p-8 text-center">
+            <div class="p-8 text-center" data-aos="fade-up">
                 <h1 class="text-2xl font-semibold text-[#4E1D65] tracking-wide lg:text-5xl font-bold">Masih Bingung
                     Dengan
                     STASHOUSE?</h1>
                 <p class="text-lg mt-3 lg:text-2xl text-black">Kamu dapat mengunduh panduan penggunaan untuk tahu lebih
                     banyak tentang STASHOUSE</p>
             </div>
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-6" data-aos="fade-up" data-aos-duration="1000">
                 <a href=""
                     class="hover:bg-[#72358E] mx-2 lg:w-72 text-center bg-[#F8C35B] hover:drop-shadow-xl border-2 rounded-2xl text-[#3F1652] hover:text-white font-bold py-4 px-10">
                     Panduan Untuk Penyewa
