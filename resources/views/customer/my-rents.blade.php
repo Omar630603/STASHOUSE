@@ -551,13 +551,278 @@
                                                             <td class="py-4 px-6 flex flex-col items-start gap-1">
                                                                 @if ($transaction->status ==
                                                                 \App\Models\TransactionStatus ::NOTPAID)
-                                                                <a href=""
+                                                                <button data-modal-toggle="pay{{$transaction->id}}"
                                                                     class="text-sm text-blue-500 hover:text-blue-700">
                                                                     Bayar
-                                                                </a>
+                                                                </button>
+
+                                                                <!-- Main modal -->
+                                                                <div id="pay{{$transaction->id}}" tabindex="-1"
+                                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                                                    aria-modal="true" role="dialog"
+                                                                    data-modal-placement="top-left">
+                                                                    <div
+                                                                        class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                                                        <!-- Modal content -->
+                                                                        <form
+                                                                            action="{{ route('customer.payTransaction', ['transaction'=>$transaction]) }}"
+                                                                            enctype="multipart/form-data" method="POST">
+                                                                            @method('PUT')
+                                                                            @csrf
+                                                                            <div
+                                                                                class="relative bg-white rounded-lg shadow">
+                                                                                <!-- Modal header -->
+                                                                                <div
+                                                                                    class="flex justify-between items-start p-4 rounded-t border-b">
+                                                                                    <h3
+                                                                                        class="text-xl font-semibold text-gray-900 ">
+                                                                                        Pembayaran untuk <br>
+                                                                                        <small>{{$transaction->description}}</small>
+                                                                                    </h3>
+                                                                                    <button type="button"
+                                                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                                                        data-modal-toggle="pay{{$transaction->id}}">
+                                                                                        <svg aria-hidden="true"
+                                                                                            class="w-5 h-5"
+                                                                                            fill="currentColor"
+                                                                                            viewBox="0 0 20 20"
+                                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                                            <path fill-rule="evenodd"
+                                                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                                                clip-rule="evenodd">
+                                                                                            </path>
+                                                                                        </svg>
+                                                                                        <span class="sr-only">Close
+                                                                                            modal</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <!-- Modal body -->
+                                                                                <div class="p-6 space-y-6">
+                                                                                    <div class="mt-1">
+                                                                                        <div
+                                                                                            class="flex justify-between items-center mb-2">
+                                                                                            <label
+                                                                                                class="block text-lg font-bold text-gray-900 mb-2"
+                                                                                                for="">Memilih rekening
+                                                                                                bank</label>
+                                                                                            <span
+                                                                                                class="p-2 bg-green-100 text-green-500 rounded-xl text-sm ">
+                                                                                                Total
+                                                                                                Harga :
+                                                                                                {{"Rp." . number_format($transaction->total_price , 0, ',', '.')}}
+                                                                                            </span>
+
+                                                                                        </div>
+                                                                                        @if(!isset($selectedUnit->storageOwner->storageOwnerBank))
+                                                                                        <div
+                                                                                            class="flex flex-col items-center justify-center">
+                                                                                            <div
+                                                                                                class="w-full text-center">
+                                                                                                <div
+                                                                                                    class="text-gray-600 text-lg">
+                                                                                                    Belum ada rekening
+                                                                                                    bank
+                                                                                                    yang tersedia
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @else
+                                                                                        <ul
+                                                                                            class="grid grid-2 gap-6 w-full md:grid-cols-2">
+                                                                                            @foreach($selectedUnit->storageOwner->storageOwnerBank
+                                                                                            as $bank)
+                                                                                            @php
+                                                                                            $ind = 0;
+                                                                                            @endphp
+                                                                                            @if(!$bank->is_verified)
+                                                                                            @else
+                                                                                            @php
+                                                                                            $ind = 1;
+                                                                                            @endphp
+                                                                                            <li>
+                                                                                                <input type="radio"
+                                                                                                    id="bank_account-{{$bank->id}}-{{$transaction->id}}"
+                                                                                                    name="bank_account"
+                                                                                                    value="bank_account-{{$bank->id}}-{{$transaction->id}}"
+                                                                                                    class="hidden peer">
+                                                                                                <label
+                                                                                                    for="bank_account-{{$bank->id}}-{{$transaction->id}}"
+                                                                                                    class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white relative 
+                                                                                            rounded-lg drop-shadow border-2 peer-checked:border-2 border-white cursor-pointer peer-checked:border-[#72358E] peer-checked:text-[#72358E] hover:text-gray-600 hover:bg-[#FFF6E4]">
+                                                                                                    <div
+                                                                                                        class="w-full text-lg font-semibold flex gap-2 felx-wrap ">
+                                                                                                        <img class="rounded-full ring-2 ring-offset-2 ring-[#72358E]"
+                                                                                                            width="50"
+                                                                                                            height="50"
+                                                                                                            src="{{ asset('storage/'.$bank->bank->image) }}"
+                                                                                                            alt="bank{{$bank->bank->name}}">
+                                                                                                        <div
+                                                                                                            class="self-start flex flex-col">
+                                                                                                            <span
+                                                                                                                class="font-bold text-sm">{{$bank->bank->name}}</span>
+                                                                                                            <span
+                                                                                                                class="text-sm">{{$bank->account_number}}</span>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                    <span
+                                                                                                        class="absolute bottom-1 right-1 flex gap-1 items-center bg-[#E8F5FF] text-[#13354E] text-xs 
+                                                                                            font-semibold  px-2.5 py-0.5 rounded-lg">
+                                                                                                        <svg width="13"
+                                                                                                            height="13"
+                                                                                                            viewBox="0 0 13 13"
+                                                                                                            fill="none"
+                                                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                                                            <path
+                                                                                                                d="M4.5 6.75L6 8.25L8.5 5.25"
+                                                                                                                stroke="#13354E"
+                                                                                                                stroke-linecap="round"
+                                                                                                                stroke-linejoin="round" />
+                                                                                                            <path
+                                                                                                                d="M6.5 11.5C9.26142 11.5 11.5 9.26142 11.5 6.5C11.5 3.73858 9.26142 1.5 6.5 1.5C3.73858 1.5 1.5 3.73858 1.5 6.5C1.5 9.26142 3.73858 11.5 6.5 11.5Z"
+                                                                                                                stroke="#13354E" />
+                                                                                                        </svg> Verified
+                                                                                                    </span>
+                                                                                                    @if($bank->is_primary)
+                                                                                                    <span
+                                                                                                        class="absolute top-1 right-1 bg-blue-300 text-blue-500 text-xs font-semibold px-2.5 py-0.5 rounded-lg">Primary</span>
+                                                                                                    @endif
+                                                                                                </label>
+                                                                                            </li>
+                                                                                            @endif
+                                                                                            @endforeach
+                                                                                        </ul>
+                                                                                        @if ($ind == 0)
+                                                                                        <div
+                                                                                            class="flex flex-col items-center justify-center">
+                                                                                            <div
+                                                                                                class="w-full text-center text-gray-500">
+                                                                                                <div
+                                                                                                    class="text-xl font-bold">
+                                                                                                    Belum ada rekening
+                                                                                                    bank
+                                                                                                </div>
+                                                                                                <div class="text-sm">
+                                                                                                    Silahkan hubungi
+                                                                                                    owner
+                                                                                                    unit untuk
+                                                                                                    mengaktifkan
+                                                                                                    rekening bank
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        @endif
+                                                                                        @endif
+                                                                                        <div class="mt-2">
+                                                                                            <label
+                                                                                                class="block text-lg font-bold text-gray-900 mt-5 mb-5"
+                                                                                                for="">Unggah bukti
+                                                                                                pembayaran</label>
+                                                                                            <div
+                                                                                                class="flex flex-col gap-4">
+                                                                                                <small
+                                                                                                    class="p-2 border-l-2 border-[#F8C35B] bg-[#F8C35B50] text-black">Pilih
+                                                                                                    salah satu bank dari
+                                                                                                    daftar di atas dan
+                                                                                                    kirimkan jumlah di
+                                                                                                    bawah
+                                                                                                    ini ke rekening
+                                                                                                    tersebut.</small>
+                                                                                            </div>
+                                                                                            <input
+                                                                                                class="mt-3 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer"
+                                                                                                id="file_input"
+                                                                                                type="file" name="proof"
+                                                                                                accept="image/*">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- Modal footer -->
+                                                                                <div
+                                                                                    class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200">
+                                                                                    <button type="submit"
+                                                                                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                                                        Bayar</button>
+                                                                                    <button
+                                                                                        data-modal-toggle="pay{{$transaction->id}}"
+                                                                                        type="button"
+                                                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Batal</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+
+                                                                    </div>
+                                                                </div>
                                                                 @endif
-                                                                <a href="#"
-                                                                    class="font-medium text-blue-600 hover:underline">Hapus</a>
+                                                                @if ($transaction->status !=
+                                                                \App\Models\TransactionStatus ::DELETED)
+                                                                <button
+                                                                    data-modal-toggle="deletePayment{{$transaction->id}}"
+                                                                    class="font-medium text-blue-600 hover:underline">Hapus</button>
+                                                                <div id="deletePayment{{$transaction->id}}"
+                                                                    tabindex="-1"
+                                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                                                    aria-modal="true" role="dialog">
+                                                                    <div
+                                                                        class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                                                        <div
+                                                                            class="relative bg-white rounded-lg shadow">
+                                                                            <button type="button"
+                                                                                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                                                data-modal-toggle="deletePayment{{$transaction->id}}">
+                                                                                <svg aria-hidden="true" class="w-5 h-5"
+                                                                                    fill="currentColor"
+                                                                                    viewBox="0 0 20 20"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path fill-rule="evenodd"
+                                                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                                        clip-rule="evenodd"></path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Close modal</span>
+                                                                            </button>
+                                                                            <div class="p-6 text-center">
+                                                                                <svg aria-hidden="true"
+                                                                                    class="mx-auto mb-4 w-14 h-14 text-gray-400"
+                                                                                    fill="none" stroke="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        stroke-width="2"
+                                                                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <h3
+                                                                                    class="mb-5 text-lg font-normal text-gray-500">
+                                                                                    Apakah Anda yakin ingin menghapus
+                                                                                    transaksi ini?
+                                                                                    <small>itu tidak akan dihapus
+                                                                                        sepenuhnya
+                                                                                        sampai Anda menghapus
+                                                                                        sewa</small>
+                                                                                </h3>
+                                                                                <form
+                                                                                    action="{{ route('customer.deleteTransaction', ['transaction'=>$transaction]) }}"
+                                                                                    method="POST">
+                                                                                    @method('DELETE')
+                                                                                    @csrf
+                                                                                    <button
+                                                                                        data-modal-toggle="deletePayment{{$transaction->id}}"
+                                                                                        type="submit"
+                                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                                                        Iya, saya yakin
+                                                                                    </button>
+                                                                                    <button
+                                                                                        data-modal-toggle="deletePayment{{$transaction->id}}"
+                                                                                        type="button"
+                                                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Tidak,
+                                                                                        batal aja</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                         @endif
@@ -576,6 +841,216 @@
                                         </div>
                                         <div class="my-2">
                                             <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                                                <button data-modal-toggle="addDelivery"
+                                                    class="absolute top-0 right-0 p-3 bg-gray-100 rounded-tr-lg">
+                                                    <svg width="26" height="26" viewBox="0 0 32 32" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 6H8V2H6V6H2V8H6V12H8V8H12V6Z" fill="#5B6BF8" />
+                                                        <path
+                                                            d="M29.919 16.606L26.919 9.606C26.842 9.42608 26.7139 9.27273 26.5505 9.165C26.3871 9.05727 26.1957 8.99989 26 9H23V7C23 6.73478 22.8946 6.48043 22.7071 6.29289C22.5196 6.10536 22.2652 6 22 6H15V8H21V20.556C20.5443 20.8206 20.1456 21.1728 19.8267 21.5922C19.5078 22.0117 19.2751 22.4902 19.142 23H12.858C12.6405 22.1418 12.143 21.3806 11.4442 20.8368C10.7455 20.2931 9.88538 19.9979 9 19.9979C8.11462 19.9979 7.25452 20.2931 6.55578 20.8368C5.85703 21.3806 5.35953 22.1418 5.142 23H4V14H2V24C2 24.2652 2.10536 24.5196 2.29289 24.7071C2.48043 24.8946 2.73478 25 3 25H5.142C5.35953 25.8582 5.85703 26.6194 6.55578 27.1632C7.25452 27.7069 8.11462 28.0021 9 28.0021C9.88538 28.0021 10.7455 27.7069 11.4442 27.1632C12.143 26.6194 12.6405 25.8582 12.858 25H19.142C19.3595 25.8582 19.857 26.6194 20.5558 27.1632C21.2545 27.7069 22.1146 28.0021 23 28.0021C23.8854 28.0021 24.7455 27.7069 25.4442 27.1632C26.143 26.6194 26.6405 25.8582 26.858 25H29C29.2652 25 29.5196 24.8946 29.7071 24.7071C29.8946 24.5196 30 24.2652 30 24V17C30 16.8645 29.9725 16.7305 29.919 16.606V16.606ZM9 26C8.60444 26 8.21776 25.8827 7.88886 25.6629C7.55996 25.4432 7.30362 25.1308 7.15224 24.7654C7.00087 24.3999 6.96126 23.9978 7.03843 23.6098C7.1156 23.2219 7.30608 22.8655 7.58579 22.5858C7.86549 22.3061 8.22186 22.1156 8.60982 22.0384C8.99778 21.9613 9.39991 22.0009 9.76537 22.1522C10.1308 22.3036 10.4432 22.56 10.6629 22.8889C10.8827 23.2178 11 23.6044 11 24C10.9992 24.5302 10.7882 25.0384 10.4133 25.4133C10.0384 25.7882 9.53019 25.9992 9 26V26ZM23 11H25.34L27.484 16H23V11ZM23 26C22.6044 26 22.2178 25.8827 21.8889 25.6629C21.56 25.4432 21.3036 25.1308 21.1522 24.7654C21.0009 24.3999 20.9613 23.9978 21.0384 23.6098C21.1156 23.2219 21.3061 22.8655 21.5858 22.5858C21.8655 22.3061 22.2219 22.1156 22.6098 22.0384C22.9978 21.9613 23.3999 22.0009 23.7654 22.1522C24.1308 22.3036 24.4432 22.56 24.6629 22.8889C24.8827 23.2178 25 23.6044 25 24C24.9995 24.5303 24.7886 25.0387 24.4136 25.4136C24.0387 25.7886 23.5303 25.9995 23 26ZM28 23H26.858C26.6377 22.1434 26.1394 21.3842 25.4412 20.8413C24.743 20.2983 23.8844 20.0025 23 20V18H28V23Z"
+                                                            fill="#5B6BF8" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Main modal -->
+                                                <div id="addDelivery" tabindex="-1"
+                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+                                                    aria-modal="true" role="dialog" data-modal-placement="top-left">
+                                                    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                                        <!-- Modal content -->
+                                                        <form
+                                                            action="{{ route('customer.addDelivery', ['unit'=>$selectedUnit, 'rent_id'=>$unitRents->first()->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <div class="relative bg-white rounded-lg shadow">
+                                                                <!-- Modal header -->
+                                                                <div
+                                                                    class="flex justify-between items-start p-4 rounded-t border-b">
+                                                                    <h3 class="text-xl font-semibold text-gray-900 ">
+                                                                        Requesting new delivery
+                                                                    </h3>
+                                                                    <button type="button"
+                                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                                        data-modal-toggle="addDelivery">
+                                                                        <svg aria-hidden="true" class="w-5 h-5"
+                                                                            fill="currentColor" viewBox="0 0 20 20"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                                clip-rule="evenodd">
+                                                                            </path>
+                                                                        </svg>
+                                                                        <span class="sr-only">Close
+                                                                            modal</span>
+                                                                    </button>
+                                                                </div>
+                                                                <!-- Modal body -->
+                                                                <div class="p-6 space-y-6">
+                                                                    <div id="delivery_section" class="mt-1">
+                                                                        @if(!isset($selectedUnit->storageOwner->deliveryDrivers))
+                                                                        <div
+                                                                            class="flex flex-col items-center justify-center">
+                                                                            <div
+                                                                                class="w-full text-center text-gray-500">
+                                                                                <div class="text-xl font-bold">
+                                                                                    Belum ada delivery service
+                                                                                </div>
+                                                                                <div class="text-sm">
+                                                                                    Silahkan hubungi owner unit untuk
+                                                                                    mengaktifkan delivery service
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        @else
+                                                                        <label class="text-lg font-bold text-gray-900"
+                                                                            for="">Delivery</label>
+                                                                        <div class="flex gap-2 my-2">
+                                                                            <div
+                                                                                class="flex items-center gap-2 bg-gray-100 text-black font bold p-2 rounded-lg">
+                                                                                <input name="delivered_to_location"
+                                                                                    value="from" type="radio">Dari unit
+                                                                            </div>
+                                                                            <div
+                                                                                class="flex items-center gap-2 bg-gray-100 text-black font bold p-2 rounded-lg">
+                                                                                <input name="delivered_to_location"
+                                                                                    value="to" type="radio">Ke unit
+                                                                            </div>
+                                                                        </div>
+                                                                        <label
+                                                                            class="text-lg font-bold text-gray-900 mb-2"
+                                                                            for="">Lokasi Anda</label>
+                                                                        <div class="relative mb-6 mt-2">
+                                                                            <div
+                                                                                class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                                                                <svg width="20" height="20"
+                                                                                    viewBox="0 0 20 20" fill="none"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path
+                                                                                        d="M10 1.25C8.1773 1.25215 6.42987 1.97717 5.14102 3.26602C3.85218 4.55486 3.12716 6.3023 3.12501 8.125C3.12282 9.61452 3.60937 11.0636 4.51001 12.25C4.51001 12.25 4.69751 12.4969 4.72813 12.5325L10 18.75L15.2744 12.5294C15.3019 12.4963 15.49 12.25 15.49 12.25L15.4906 12.2481C16.3908 11.0623 16.8771 9.61383 16.875 8.125C16.8729 6.3023 16.1478 4.55486 14.859 3.26602C13.5701 1.97717 11.8227 1.25215 10 1.25V1.25ZM10 10.625C9.50555 10.625 9.0222 10.4784 8.61108 10.2037C8.19996 9.92897 7.87953 9.53852 7.69031 9.08171C7.50109 8.62489 7.45158 8.12223 7.54804 7.63727C7.64451 7.15232 7.88261 6.70686 8.23224 6.35723C8.58187 6.0076 9.02733 5.7695 9.51228 5.67304C9.99723 5.57657 10.4999 5.62608 10.9567 5.8153C11.4135 6.00452 11.804 6.32495 12.0787 6.73607C12.3534 7.1472 12.5 7.63055 12.5 8.125C12.4992 8.78779 12.2355 9.42319 11.7669 9.89185C11.2982 10.3605 10.6628 10.6242 10 10.625V10.625Z"
+                                                                                        fill="#E52878" />
+                                                                                </svg>
+                                                                            </div>
+                                                                            <input type="text" id="address_input"
+                                                                                name="picked_up_location"
+                                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                                                                                placeholder="Lokasi Anda...">
+                                                                            <div
+                                                                                class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                                                <input id="default-address"
+                                                                                    type="checkbox"
+                                                                                    class="w-4 h-4 text-blue-600 bg-[#FFF6E4] rounded border-gray-300 focus:ring-[#E52878] focus:ring-2 ">
+                                                                                <label for="default-checkbox"
+                                                                                    class="ml-2 text-sm font-medium text-gray-900">Gunakan
+                                                                                    alamat saya</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="grid gap-6 w-full md:grid-cols-1">
+                                                                            <div>
+                                                                                <label
+                                                                                    class="text-lg font-bold text-gray-900"
+                                                                                    for="">Memilih layanan
+                                                                                    pengiriman</label>
+                                                                                <ul class="mt-2">
+                                                                                    @foreach($selectedUnit->storageOwner->deliveryDrivers
+                                                                                    as $deliveryDriver)
+                                                                                    @php
+                                                                                    $ind = 0;
+                                                                                    @endphp
+                                                                                    @if(!$deliveryDriver->status &&
+                                                                                    $deliveryDriver->pivot->status)
+                                                                                    @php
+                                                                                    $ind = 1;
+                                                                                    @endphp
+                                                                                    <li class="mb-5">
+                                                                                        <input type="radio"
+                                                                                            id="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            name="delivery_service"
+                                                                                            value="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            class="hidden peer">
+                                                                                        <input hidden
+                                                                                            value="{{$deliveryDriver->price_per_km}}">
+                                                                                        <label
+                                                                                            for="delivery_service-{{$deliveryDriver->id}}"
+                                                                                            class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white 
+                                                                                            rounded-lg drop-shadow border-2 peer-checked:border-2 border-white peer-checked:border-[#72358E] peer-checked:text-[#72358E] hover:text-gray-600 hover:bg-[#FFF6E4]">
+                                                                                            <div class="flex gap-10">
+                                                                                                <div
+                                                                                                    class="relative w-1/2">
+                                                                                                    <img width="100"
+                                                                                                        height="100"
+                                                                                                        class=""
+                                                                                                        src="{{ asset('storage/'.$deliveryDriver->deliveryCompany->image) }}"
+                                                                                                        alt="">
+                                                                                                    <img width="30"
+                                                                                                        height="30"
+                                                                                                        class="absolute bottom-0 -right-5 ring-2 ring-offset-1 ring-[#72358E] rounded-full"
+                                                                                                        src="{{ asset('storage/'.$deliveryDriver->image) }}"
+                                                                                                        alt="">
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="block w-1/2">
+                                                                                                    <div
+                                                                                                        class="w-full text-lg font-semibold">
+                                                                                                        {{$deliveryDriver->deliveryCompany->name}}
+                                                                                                    </div>
+                                                                                                    <small
+                                                                                                        class="w-full">{{$deliveryDriver->driver_name}}</small>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="block">
+                                                                                                <span>
+                                                                                                    {{"Rp." . number_format($deliveryDriver->price_per_km , 0, ',', '.') . " / Km"}}
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </label>
+                                                                                    </li>
+                                                                                    @endif
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            </div>
+                                                                            <div id="delivery_section-description">
+                                                                                <label for="description"
+                                                                                    class="block mb-2 text-lg font-bold text-gray-900">Keterangan
+                                                                                    pengiriman</label>
+                                                                                <textarea name="delivery_description"
+                                                                                    id="description" cols="30" rows="10"
+                                                                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-[#72358E] focus:border-[#72358E] block w-full pr-10 p-2.5">Tulis sesuatu untuk pengemudi pengiriman</textarea>
+                                                                            </div>
+                                                                            <input id="user-address" hidden
+                                                                                value="{{Auth::user()->customer->address}}">
+
+                                                                        </div>
+                                                                        @if ($ind == 0)
+                                                                        <div
+                                                                            class="flex flex-col items-center justify-center">
+                                                                            <div
+                                                                                class="w-full text-center text-gray-500">
+                                                                                <div class="text-xl font-bold">
+                                                                                    Belum ada delivery service
+                                                                                </div>
+                                                                                <div class="text-sm">
+                                                                                    Silahkan hubungi owner unit untuk
+                                                                                    mengaktifkan delivery service
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        @endif
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Modal footer -->
+                                                                <div
+                                                                    class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200">
+                                                                    <button type="submit"
+                                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                                        Minta delivery</button>
+                                                                    <button data-modal-toggle="addDelivery"
+                                                                        type="button"
+                                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Batal</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                                 <table class="w-full text-sm text-left text-gray-500">
                                                     <caption
                                                         class="p-5 text-lg font-semibold text-left text-gray-900 bg-white">
@@ -643,7 +1118,7 @@
                                                             <td class="py-4 px-4">
                                                                 {{"Rp." . number_format($deliveries->deliveryDriver->price_per_km , 0, ',', '.')}}
                                                             </td>
-                                                            <td class="py-4 px-4 w-36">
+                                                            <td class="py-4 px-2 w-44">
                                                                 @if ($deliveries->status ==
                                                                 \App\Models\RentDeliveryStatus ::REQUESTED)
                                                                 <span
@@ -1019,6 +1494,13 @@
                 $('#open').addClass("hidden");
             }
             $("document").ready(function(){
+                $('input[type=radio][name=bank_account]').on('change', function(){
+                    if ($(this).val() == null) {
+                        $('#payment_section-uploadProof').hide('slow');
+                    }else{
+                        $('#payment_section-uploadProof').show('slow');
+                    }
+                });
                 selectedUnit = $("#selectedUnit");
                 if (selectedUnit.length > 0 && selectedUnit.offset() != null) {
                     $('#unitlist').animate({
@@ -1042,6 +1524,19 @@
                         }
                     });
                 });
+            });
+            $('#default-address').on('click', function(){
+                if ($(this).is(':checked')) {
+                    address = $('#user-address').val();
+                    if (address != '') {
+                        $('#address_input').val(address);                    
+                    }else{
+                        alert('Silahkan isi alamat terlebih dahulu di profil anda');
+                        $('#default-address').prop('checked', false);
+                    }
+                }else{
+                    $('#address_input').val('');
+                }
             });
         </script>
     </x-slot>

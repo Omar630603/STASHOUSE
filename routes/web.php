@@ -44,6 +44,9 @@ Route::middleware(['auth', 'customer'])->group(function () {
         Route::get('/rent-process/{unit}', [CustomerController::class, 'rentProcess'])->name('customer.rent-process');
         Route::get('/persewaan-saya', [CustomerController::class, 'showMyRents'])->name('customer.rents');
         Route::post('/rent-process/{unit}', [CustomerController::class, 'rent'])->name('customer.rent');
+        Route::put('/rent-payTransaction/{transaction}', [CustomerController::class, 'payTransaction'])->name('customer.payTransaction');
+        Route::delete('/rent-deleteTransaction/{transaction}', [CustomerController::class, 'deleteTransaction'])->name('customer.deleteTransaction');
+        Route::post('/rent-addDelivery/{unit}/{rent_id}', [CustomerController::class, 'addDelivery'])->name('customer.addDelivery');
     });
 });
 

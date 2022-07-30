@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\DeliveryDriver;
 use App\Models\RentDeliveryStatus;
 use App\Models\Message;
 use App\Models\Rent;
@@ -179,6 +180,9 @@ class CustomerController extends Controller
                         $request->starts_from . ' sampai ' . $request->ends_at . ' bayar sekarang. Opsi delivery: Tidak';
                 }
                 $transaction->status = TransactionStatus::PAID;
+                $rent->status = RentStatus::INTRANSACTION;
+                $rent->save();
+                $message .= '<br>Status sewa berubah menjadi dalam proses pembayaran';
                 if ($request->hasFile('proof')) {
                     $proof = $request->file('proof');
                     $proof_name = time() . '.' . $proof->getClientOriginalExtension();
@@ -241,6 +245,28 @@ class CustomerController extends Controller
                 $message .= '<br><strong>Pengiriman sudah dibuat</strong><br><strong>Sopir pengiriman:</strong> ' . $rentDelivery->deliveryDriver->driver_name .
                     '<br><strong>Jasa pengiriman:</strong> ' . $rentDelivery->deliveryDriver->deliveryCompany->name .
                     '<br>Anda akan diberi tahu saat pengiriman sudah siap, tunggu saja ya.';
+                $chat = Chat::where([
+                    ['sender_user_id', Auth::user()->id],
+                    ['receiver_user_id', $rentDelivery->deliveryDriver->user->id]
+                ])->orWhere([
+                    ['sender_user_id', $rentDelivery->deliveryDriver->user->id],
+                    ['receiver_user_id', Auth::user()->id]
+                ])->first();
+                if ($chat == null) {
+                    $chat = new Chat();
+                    $chat->sender_user_id = $rentDelivery->deliveryDriver->user->id;
+                    $chat->receiver_user_id = Auth::user()->id;
+                    $chat->save();
+                }
+                $chatMessage = new Message();
+                $chatMessage->chat_id = $chat->id;
+                $chatMessage->sender_user_id = $rentDelivery->deliveryDriver->user->id;
+                $chatMessage->receiver_user_id = Auth::user()->id;
+                $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $request->picked_up_location . '<br>' .
+                    'Silakan periksa permintaan pengiriman.';
+                $chatMessage->save();
+                $chat->updated_at = $chatMessage->updated_at;
+                $chat->save();
             }
             // send chat to customer from storage owner
             $chat = Chat::where([
@@ -278,5 +304,127 @@ class CustomerController extends Controller
         ])->first();
         $rents = Rent::select('*')->where('customer_id', Auth::user()->customer->id)->groupBy('unit_id')->get();
         return view('customer.my-rents', compact('rents', 'selectedUnit'));
+    }
+    public function payTransaction(Request $request, Transaction $transaction)
+    {
+        if ($request->bank_account == null) {
+            return redirect()->back()->with('error', 'Bank account is required');
+        }
+        $rent = Rent::where('id', $transaction->rent_id)->first();
+        $unit = Unit::where('id', $rent->unit_id)->first();
+        $transaction->status = TransactionStatus::PAID;
+        $transaction->storage_owner_bank_id = explode("-", $request->bank_account)[1];
+        if ($request->hasFile('proof')) {
+            $proof = $request->file('proof');
+            $proof_name = time() . '.' . $proof->getClientOriginalExtension();
+            $proof_path = 'images/transactions/' . $unit->id . '/';
+            $proof->storeAs($proof_path, $proof_name, 'public');
+            $transaction->proof = $proof_path . $proof_name;
+        } else {
+            return redirect()->back()->with('error', 'Proof is required');
+        }
+        $transaction->save();
+        $rent->status = RentStatus::INTRANSACTION;
+        $rent->save();
+        $chat = Chat::where([
+            ['sender_user_id', Auth::user()->id],
+            ['receiver_user_id', $unit->storageOwner->user->id]
+        ])->orWhere([
+            ['sender_user_id', $unit->storageOwner->user->id],
+            ['receiver_user_id', Auth::user()->id]
+        ])->first();
+        if ($chat == null) {
+            $chat = new Chat();
+            $chat->sender_user_id = $unit->storageOwner->user->id;
+            $chat->receiver_user_id = Auth::user()->id;
+            $chat->save();
+        }
+        $chatMessage = new Message();
+        $chatMessage->chat_id = $chat->id;
+        $chatMessage->sender_user_id = Auth::user()->id;
+        $chatMessage->receiver_user_id = $unit->storageOwner->user->id;
+        $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah melakukan pembayaran sewa ' . $unit->name . '<br>' .
+            'Silakan periksa permintaan sewa. ' . $transaction->description;
+        $chatMessage->save();
+        $chat->updated_at = $chatMessage->updated_at;
+        $chat->save();
+        return redirect()->back()->with('success', 'Transaction has been paid');
+    }
+
+    public function deleteTransaction(Transaction $transaction)
+    {
+        $transaction->status = TransactionStatus::DELETED;
+        $transaction->save();
+        return redirect()->back()->with('success', 'Transaction has been deleted');
+    }
+
+    public function addDelivery(Request $request, Unit $unit, $rent_id)
+    {
+        if ($request->picked_up_location == null) {
+            return redirect()->back()->with('error', 'Delivery address is required');
+        }
+        if ($request->delivered_to_location == null) {
+            return redirect()->back()->with('error', 'Delivery address is required');
+        }
+        if ($request->delivery_service == null) {
+            return redirect()->back()->with('error', 'Delivery service is required');
+        }
+
+        $rentDelivery = new RentDelivery();
+        $rentDelivery->rent_id = $rent_id;
+        $rentDelivery->delivery_driver_id = explode("-", $request->delivery_service)[1];
+
+        if ($request->delivery_description == 'Tulis sesuatu untuk pengemudi pengiriman') {
+            $rentDelivery->description = null;
+        } else {
+            $rentDelivery->description = $request->delivery_description ?? '';
+        }
+
+        if ($request->delivered_to_location == 'from') {
+            $rentDelivery->picked_up_location = $unit->address;
+            $rentDelivery->delivered_to_location = $request->picked_up_location;
+        } elseif ($request->delivered_to_location == 'to') {
+            $rentDelivery->picked_up_location = $request->picked_up_location;
+            $rentDelivery->delivered_to_location = $unit->address;
+        }
+
+        $rentDelivery->status = RentDeliveryStatus::REQUESTED;
+        $rentDelivery->save();
+
+        $rent = Rent::where('id', $rent_id)->first();
+        $transaction = new Transaction();
+        $transaction->rent_id = $rent_id;
+        $transaction->customer_id = $rent->customer_id;
+        $transaction->description = 'Pengiriman barang ke ' . $request->picked_up_location;
+        $transaction->total_price = DeliveryDriver::where('id', $rentDelivery->delivery_driver_id)->first()->price_per_km;
+        $transaction->status = TransactionStatus::NOTPAID;
+        $transaction->save();
+        $rent->total_price += $transaction->total_price;
+        $rent->save();
+
+        $chat = Chat::where([
+            ['sender_user_id', Auth::user()->id],
+            ['receiver_user_id', $rentDelivery->deliveryDriver->user->id]
+        ])->orWhere([
+            ['sender_user_id', $rentDelivery->deliveryDriver->user->id],
+            ['receiver_user_id', Auth::user()->id]
+        ])->first();
+        if ($chat == null) {
+            $chat = new Chat();
+            $chat->sender_user_id = $rentDelivery->deliveryDriver->user->id;
+            $chat->receiver_user_id = Auth::user()->id;
+            $chat->save();
+        }
+        $chatMessage = new Message();
+        $chatMessage->chat_id = $chat->id;
+        $chatMessage->sender_user_id = $rentDelivery->deliveryDriver->user->id;
+        $chatMessage->receiver_user_id = Auth::user()->id;
+        $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $request->picked_up_location . '<br>' .
+            'Silakan periksa permintaan pengiriman.';
+        $chatMessage->save();
+        $chat->updated_at = $chatMessage->updated_at;
+        $chat->save();
+
+        return redirect()->back()->with('success', 'Delivery has been requested');
     }
 }

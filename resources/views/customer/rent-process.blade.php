@@ -418,7 +418,7 @@
             </div>
             <div class="lg:hidden ml-3 h-12 w-24 bg-[#72358E]
             rounded-br-full rounded-bl-full"></div>
-            <input id="user-address" value="{{Auth::user()->customer->address}}">
+            <input id="user-address" value="{{Auth::user()->customer->address}}" hidden>
         </div>
         <script>
             var startdate = '';
