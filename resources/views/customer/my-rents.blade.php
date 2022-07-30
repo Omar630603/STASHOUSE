@@ -442,7 +442,7 @@
                                         @if ($haveEnded)
                                         <div class="w-full bg-gray-200 rounded-full"
                                             data-tooltip-target="tooltipDate{{$unitRents->first()->id}}">
-                                            <div class="bg-red-600 text-xs font-medium text-red-100 text-center p-0.5 leading-none rounded-full"
+                                            <div class="animate-expand bg-red-600 text-xs font-medium text-red-100 text-center p-0.5 leading-none rounded-full"
                                                 style="width: 100%">Sudah selesai</div>
                                         </div>
                                         <div id="tooltipDate{{$unitRents->first()->id}}" role="tooltip"
@@ -454,7 +454,7 @@
                                         @else
                                         <div class="w-full bg-gray-200 rounded-full"
                                             data-tooltip-target="tooltipDate{{$unitRents->first()->id}}">
-                                            <div class="bg-yellow-100 text-xs font-medium text-black text-center p-0.5 leading-none rounded-full"
+                                            <div class="animate-expand bg-yellow-100 text-xs font-medium text-black text-center p-0.5 leading-none rounded-full"
                                                 style="width: 100%">Belum mulai</div>
                                         </div>
                                         @endif
