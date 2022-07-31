@@ -78,6 +78,6 @@ class DeliveryDriverController extends Controller
         if ($chats->count() <= 0) {
             Session::flash('info', 'No chats found');
         }
-        return redirect()->view('delivery_driver.chat', compact('chats', 'selectedChat'));
+        return view('delivery_driver.chat', compact('chats', 'selectedChat'));
     }
 }
