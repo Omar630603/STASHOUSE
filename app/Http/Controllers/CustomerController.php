@@ -262,7 +262,7 @@ class CustomerController extends Controller
                 $chatMessage->chat_id = $chat->id;
                 $chatMessage->sender_user_id = $rentDelivery->deliveryDriver->user->id;
                 $chatMessage->receiver_user_id = Auth::user()->id;
-                $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $request->picked_up_location . '<br>' .
+                $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $rentDelivery->delivered_to_location . ' dari ' . $rentDelivery->picked_up_location . '<br>' .
                     'Silakan periksa permintaan pengiriman.';
                 $chatMessage->save();
                 $chat->updated_at = $chatMessage->updated_at;
@@ -401,7 +401,7 @@ class CustomerController extends Controller
         $transaction = new Transaction();
         $transaction->rent_id = $rent_id;
         $transaction->customer_id = $rent->customer_id;
-        $transaction->description = 'Pengiriman barang ke ' . $request->picked_up_location;
+        $transaction->description = 'Pengiriman barang ke ' . $rentDelivery->delivered_to_location . ' dari ' . $rentDelivery->picked_up_location;
         $transaction->total_price = DeliveryDriver::where('id', $rentDelivery->delivery_driver_id)->first()->price_per_km;
         $transaction->status = TransactionStatus::NOTPAID;
         $transaction->save();
@@ -425,7 +425,7 @@ class CustomerController extends Controller
         $chatMessage->chat_id = $chat->id;
         $chatMessage->sender_user_id = $rentDelivery->deliveryDriver->user->id;
         $chatMessage->receiver_user_id = Auth::user()->id;
-        $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $request->picked_up_location . '<br>' .
+        $chatMessage->message = '<strong>' . Auth::user()->name . '</strong> telah meminta pengiriman barang ke ' . $rentDelivery->delivered_to_location . ' dari ' . $rentDelivery->picked_up_location . '<br>' .
             'Silakan periksa permintaan pengiriman.';
         $chatMessage->save();
         $chat->updated_at = $chatMessage->updated_at;
